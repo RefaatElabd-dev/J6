@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Layout/MainLayout.cshtml";
+}
+
+<h2>Welcomt To Your Mail</h2>
+
+
+
+<h3 style="color:red">
+    @TempData["msg"]
+</h3>
+
+<form action="/Mail/SendMail" method="post" class="form-group">
+
+
+    <label>Title</label>
+    <input type="text" name="Title" class="form-control" />
+    <br />
+
+    <label>Message</label>
+    <textarea name="Message" class="form-control" rows="4"></textarea>
+    <br />
+
+    <input type="submit" value="Send" class="btn btn-primary" />
+
+</form>
+
+
+

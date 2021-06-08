@@ -1,0 +1,65 @@
+﻿@model J6.Models.EditRoleVM
+@{
+
+    ViewBag.Title = "Edit Role";
+
+}
+
+
+<!DOCTYPE html>
+<html>
+
+
+<body class="signup-page">
+    <div class="signup-box">
+
+        <a asp-controller="Admin" asp-action="Index">Back To Roles</a>
+
+        <div class="card">
+            <div class="body">
+                <form asp-controller="Admin" asp-action="EditRole" method="POST">
+                    <div class="msg">Edit Role</div>
+
+                    <div asp-validation-summary="All" class="text-danger"></div>
+
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">lock</i>
+                        </span>
+                        <div class="form-line">
+                            <input class="form-control" readonly  asp-for="Id">
+                        </div>
+                        <div class="">
+                            <span asp-validation-for="Id" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">lock</i>
+                        </span>
+                        <div class="form-line">
+                            <input class="form-control" placeholder="Enter Role Name" asp-for="RoleName">
+                        </div>
+                        <div class="">
+                            <span asp-validation-for="RoleName" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-block btn-lg bg-pink waves-effect" type="submit">Edit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Jquery Core Js -->
+    <script src="~/plugins/jquery/jquery.min.js"></script>
+
+
+    <!-- Validation Plugin Js -->
+    <script src="~/plugins/jquery-validation/jquery.validate.js"></script>
+    <script src="~/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+</body>
+
+</html>
