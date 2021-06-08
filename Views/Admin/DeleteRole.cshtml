@@ -1,0 +1,54 @@
+﻿@model J6.Models.DeleteRole
+@{
+
+    ViewBag.Title = "Delete Role";
+
+}
+
+
+<!DOCTYPE html>
+<html>
+
+
+<body class="signup-page">
+    <div class="signup-box">
+
+        <a asp-controller="Admin" asp-action="Index">Back To Roles</a>
+
+        <div class="card">
+            <div class="body">
+                <form asp-controller="Admin" asp-action="DeleteRole" method="POST">
+                    <div class="msg">Delete Role</div>
+
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">lock</i>
+                        </span>
+                        <div class="form-line">
+                            <input class="form-control" readonly asp-for="Id">
+                        </div>
+                        <div class="">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">lock</i>
+                        </span>
+                        <div class="form-line">
+                            <input class="form-control" readonly  asp-for="RoleName">
+                        </div>
+                        <div class="">
+                        </div>
+                    </div>
+
+                    <button class="btn btn-block btn-lg bg-pink waves-effect" type="submit">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
