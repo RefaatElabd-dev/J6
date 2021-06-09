@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using J6.BL.Helper;
 using J6.BL.Servises;
 using J6.DAL.Database;
 using J6.DAL.Entities;
@@ -208,21 +209,23 @@ namespace J6.Controllers
 
 
 
-        //#region FilterProducts
-        //[HttpGet]
-        //[Route("FilterProducts")]
-        //public async Task<ActionResult<IEnumerable<ProductDto>>> FilterProducts
-        //    ([FromQuery] ProductParams productParams)
-        //{
+        #region FilterProducts
+        //api/ProductsAPi/FilterProducts
+        //api/ProductsAPi/FilterProducts?size=sm&color=green&model=coton
+        [HttpGet]
+        [Route("FilterProducts")]
+        public async Task<ActionResult<IEnumerable<ProductDto>>> FilterProducts
+            ([FromQuery] ProductParams productParams)
+        {
 
-        //    var products = await _productRepository.GetProdsAsync(productParams);
-        //    Response.AddPaginationHeader(products.CurrentPage, products.PageSize, products.TotalCount
-        //        , products.TotalPage);
+            var products = await _productRepository.GetProdsAsync(productParams);
+            Response.AddPaginationHeader(products.CurrentPage, products.PageSize, products.TotalCount
+                , products.TotalPage);
 
-        //    var productToReturn = _mapper.Map<IEnumerable<ProductDto>>(products);
-        //    return Ok(productToReturn);
-        //}
-        //#endregion
+            var productToReturn = _mapper.Map<IEnumerable<ProductDto>>(products);
+            return Ok(productToReturn);
+        }
+        #endregion
 
         [HttpGet("{id:int}")]
         [Route("GetProductById/{id:int}") ]

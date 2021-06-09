@@ -8,8 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 
-namespace J6.DAL.Entities
+using J6.DAL.Entities;
+using J6.BL.Helper;
+
+namespace J6.BL.Repositry
 {
     public class ProductRepositry : IProductRepository
     {
@@ -27,11 +31,11 @@ namespace J6.DAL.Entities
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<Product>> GetProductsAsync(ProductParams parms)
+        public async Task<IEnumerable<Product>> GetProductsAsync(ProductParams productParams)
         {
             return await _context.Products.Where
-                (x => (parms.BrandName == null || x.BrandName.ToLower().
-                Contains(parms.BrandName.ToLower()))).ToListAsync();
+                (x => (productParams.Model == null || x.BrandName.ToLower().
+                Contains(productParams.Model.ToLower())) || (productParams.Color == null || x.Color.ToLower().Contains(productParams.Color))).ToListAsync();
         }
 
 
@@ -74,12 +78,9 @@ namespace J6.DAL.Entities
 
             var query = _context.Products.AsQueryable();
 
-            query = query.Where(x => (productParams.BrandName == null || x.BrandName.ToLower()
-            .Contains(productParams.BrandName.ToLower())) ||
-            (productParams.Color == null || x.Color.ToLower().Contains(productParams.Color.ToLower())));
-
-
-
+            query = query.Where(x => (productParams.Model == null || x.Model.ToLower()
+            .Contains(productParams.Model.ToLower()))|| (productParams.Size == null || x.Size.ToLower()
+            .Contains(productParams.Size.ToLower()))||(productParams.Color==null||x.Color.ToLower().Contains(productParams.Color)));
 
 
             return await PageList<ProductDto>.CreateAsync(query.ProjectTo<ProductDto>

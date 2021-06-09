@@ -24,6 +24,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using J6.Interfaces;
+using J6.BL.Repositry;
 
 namespace J6
 {
@@ -96,10 +97,13 @@ namespace J6
                     .AddNewtonsoftJson(x => 
                     x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-
+            services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             //D.I.
             services.AddTransient<IRandomProducts, ProductServices>();
-            services.AddTransient<IProductRepository, ProductRepositry>();
+
+            services.AddScoped<IProductRepository, ProductRepositry>();
+
+          
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

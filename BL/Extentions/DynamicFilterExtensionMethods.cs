@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace J6.Extentions
+namespace J6.BL.Extentions
 {
     public static class  DynamicFilterExtensionMethods
     {

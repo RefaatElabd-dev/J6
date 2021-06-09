@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace J6.Helper
+namespace J6.BL.Helper
 {
     public class ProductParams
     {
@@ -21,13 +21,11 @@ namespace J6.Helper
 
         public string CurrentUserName { get; set; }
 
-
-
-        public string ProductdName { get; set; }
-        public string BrandName { get; set; }
         public string Size { get; set; }
-        public string Gender { get; set; }
         public string Color { get; set; }
+        public string ProductName { get; set; }
+        public string Model { get; set; }
+        
 
     }
 }

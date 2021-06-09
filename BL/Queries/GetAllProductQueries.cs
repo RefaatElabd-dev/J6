@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace J6.DAL.Queries
+namespace J6.BL.Queries
 {
     public class GetAllProductQueries
     {

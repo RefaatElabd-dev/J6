@@ -1,4 +1,5 @@
-﻿using J6.DAL.Entities;
+﻿using J6.BL.Helper;
+using J6.DAL.Entities;
 using J6.Helper;
 using J6.Models;
 using System.Collections.Generic;
