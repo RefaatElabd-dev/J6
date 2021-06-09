@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using J6.Interfaces;
 
 namespace J6
 {
@@ -59,6 +60,11 @@ namespace J6
 
             services.AddScoped<ITokenServices, TokenService>();
 
+
+
+          
+
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                .AddJwtBearer(options =>
                {
@@ -71,16 +77,7 @@ namespace J6
                    };
                }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options => Configuration.Bind("CookieSettings", options));
 
-            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            //.AddCookie(o =>
-            //{
-            //    o.Cookie.Name = options.CookieName;
-            //    o.Cookie.Domain = options.CookieDomain;
-            //    o.SlidingExpiration = true;
-            //    o.ExpireTimeSpan = options.CookieLifetime;
-            //    o.TicketDataFormat = ticketFormat;
-            //    o.CookieManager = new CustomChunkingCookieManager();
-            //});
+          
 
             services.AddAutoMapper(x => x.AddProfile(new DomainProfile()));
 
@@ -102,6 +99,7 @@ namespace J6
 
             //D.I.
             services.AddTransient<IRandomProducts, ProductServices>();
+            services.AddTransient<IProductRepository, ProductRepositry>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -152,13 +150,6 @@ namespace J6
 
             app.UseAuthorization();
 
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllerRoute(
-            //      name: "areas",
-            //      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-            //    );
-            //});
 
             app.UseEndpoints(endpoints =>
             {

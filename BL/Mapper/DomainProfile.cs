@@ -19,6 +19,12 @@ namespace J6.BL.Mapper
             CreateMap<AppUser, AllUserDto>();
             CreateMap<AppUser, SellerDto>();
 
+            //---------------------------------
+            CreateMap<Product, ProductDto>();
+            CreateMap<SubCategory, SubCategoryDto>();
+
+
+
         }
 
     }
