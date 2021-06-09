@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace J6.Migrations
 {
     [DbContext(typeof(DbContainer))]
-    [Migration("20210607042349_initial")]
+    [Migration("20210609011244_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -82,7 +82,7 @@ namespace J6.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("AddressId")
+                    b.Property<int?>("AddressID")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -137,7 +137,7 @@ namespace J6.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId");
+                    b.HasIndex("AddressID");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -362,10 +362,10 @@ namespace J6.Migrations
                         .HasColumnType("varchar(50)")
                         .HasColumnName("model");
 
-                    b.Property<string>("Price")
+                    b.Property<double>("Price")
                         .HasMaxLength(50)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(50)")
+                        .HasColumnType("float")
                         .HasColumnName("price");
 
                     b.Property<string>("ProductName")
@@ -736,9 +736,7 @@ namespace J6.Migrations
                 {
                     b.HasOne("J6.DAL.Entities.Address", "Address")
                         .WithMany("AppUsers")
-                        .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AddressID");
 
                     b.Navigation("Address");
                 });
