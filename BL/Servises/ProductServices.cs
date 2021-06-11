@@ -29,15 +29,16 @@ namespace J6.BL.Servises
 
         public async Task<List<Product>> GetRandomProductsAsync()
         {
-            Random rand = new Random();
-            int toSkip = rand.Next(0, _context.Products.Count());
+            //Random rand = new Random();
+            //int toSkip = rand.Next(0, _context.Products.Count());
+            List<Product> products = await _context.Products.OrderBy(p => Guid.NewGuid()).Take(17).ToListAsync();
 
-            List<Product> products = await _context.Products.Skip(toSkip).Take(17).ToListAsync();
+            //List<Product> products = await _context.Products.Skip(toSkip).Take(17).ToListAsync();
             return products;
         }
 
         public async Task<List<Product>> GetRecomendedProductsAsync(int UserId)
-        {
+        {   
             var user = await _userManager.FindByIdAsync(UserId.ToString());
             int ProductId = await _context.Views.Where(v => v.CustomerId == UserId).Select(v => v.ProductId).FirstOrDefaultAsync();
             
@@ -55,10 +56,10 @@ namespace J6.BL.Servises
             
             if(products.Count() < 17)
             {
-                Random rand = new Random();
-                int toSkip = rand.Next(0, _context.Products.Count());
+                //Random rand = new Random();
+                //int toSkip = rand.Next(0, _context.Products.Count());
 
-                List<Product> Restproducts = await _context.Products.Skip(toSkip).Take(17 - products.Count()).ToListAsync();
+                List<Product> Restproducts = await _context.Products.OrderBy(p => Guid.NewGuid()).Take(17 - products.Count()).ToListAsync();
 
                 products.AddRange(Restproducts);
             }
