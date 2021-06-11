@@ -90,7 +90,6 @@ namespace J6
             });
 
 
-
             services.AddControllersWithViews()
                     //.AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                     //.AddDataAnnotationsLocalization()
