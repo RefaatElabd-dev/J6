@@ -33,6 +33,9 @@ namespace J6.DAL.Database
         public virtual DbSet<SubCategory> SubCategories { get; set; }
         public virtual DbSet<View> Views { get; set; }
         public virtual DbSet<Address> Addresses { get; set; }
+        public virtual DbSet<MiddleSavedProduct> ProductsBag { get; set; }
+        public virtual DbSet<SavedBag> SavedBag { get; set; }
+
 
         //public virtual DbSet<City> Cities { get; set; }
         //public virtual DbSet<Government> Addresses { get; set; }
@@ -48,6 +51,7 @@ namespace J6.DAL.Database
                 .WithOne(u => u.user)
                 .HasForeignKey(ur => ur.UserId)
                 .IsRequired();
+
             });
 
             modelBuilder.Entity<AppRole>()
@@ -455,6 +459,27 @@ namespace J6.DAL.Database
                     .HasConstraintName("FK_Views_Customer");
 
                 entity.HasKey(e => new { e.CustomerId, e.ProductId });
+            });
+
+            modelBuilder.Entity<SavedBag>(entity =>
+            {
+                entity.HasMany(B => B.ProductsBag)
+                .WithOne(P => P.Bag)
+                .HasForeignKey(P => P.SaveBagId)
+                .IsRequired();
+            });
+
+            modelBuilder.Entity<Product>(entity =>
+            {
+                entity.HasMany(P => P.ProductsBag)
+                .WithOne(P => P.Product)
+                .HasForeignKey(P => P.ProductId)
+                .IsRequired();
+            });
+
+            modelBuilder.Entity<MiddleSavedProduct>(entity =>
+            {
+                entity.HasKey("ProductId", "SaveBagId");
             });
         }
 

@@ -60,5 +60,7 @@ namespace J6.DAL.Entities
         public virtual ICollection<StoreProduct> StoreProducts { get; set; }
        // [JsonIgnore]
         public virtual ICollection<View> Views { get; set; }
+        public virtual ICollection<MiddleSavedProduct> ProductsBag { get; set; }
+
     }
 }
