@@ -20,6 +20,7 @@ namespace J6.DAL.Entities
         public virtual Cart Cart { get; set; }
         public virtual Order Order { get; set; }
         public virtual Store Store { get; set; }
+        public virtual SavedBag Bag { get; set; }
 
     }
 }

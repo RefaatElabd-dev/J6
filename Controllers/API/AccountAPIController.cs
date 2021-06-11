@@ -54,7 +54,7 @@ namespace J6.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<ActionResult<UserDto>> Login(LoginDto LoginDto)
+        public async Task<ActionResult<UserDto>> Login([FromBody]LoginDto LoginDto)
         {
             var user = await userManager.Users.SingleOrDefaultAsync(u => u.UserName == LoginDto.UserName.ToLower());
             if (user == null) return Unauthorized("This UserName is not Exist");

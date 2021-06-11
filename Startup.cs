@@ -102,6 +102,8 @@ namespace J6
 
             services.AddScoped<IProductRepository, ProductRepositry>();
 
+            services.AddTransient<IUserSavedBagServices, UserSavedBagServices>();
+
           
         }
 
