@@ -1,49 +1,33 @@
 ﻿@model J6.DAL.Entities.Category
 
-@{
-    ViewData["Title"] = "Details";
-    Layout = "~/Views/Layout/MainLayout.cshtml";
-}
+@{ ViewData["Title"] = "Details";
+    Layout = "~/Views/Layout/MainLayout.cshtml"; }
 
-<h2>Details</h2>
+<h2>Details for CategoryId @Model.CategoryId</h2>
 
-<div>
-    <h4>Category</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.CategoryName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CategoryName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.UpdatedAt)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.UpdatedAt)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Image)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Image)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Content)
-        </dt>
-        <dd>
+<div class="card border-success mb-3 col-md-6 col-12" style="font-size:larger;">
+    <div style="width:50%;">
+        <img src="~/images/@Model.Image"
+             class="card-img-top m-2"
+             asp-append-version="true" />
+    </div>
+    <div class="card-header bg-transparent border-success"> @Html.DisplayFor(model => model.CategoryName)</div>
+    <div class="card-body text-black">
+        <h5 class="card-title">
+            Content :
             @Html.DisplayFor(model => model.Content)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.CategoryId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+        </h5>
+    </div>
+    <div class="card-footer bg-transparent border-success">
+        @Html.DisplayNameFor(model => model.CreatedAt)
+        @Html.DisplayFor(model => model.CreatedAt)
+    </div>
+    <div class="card-footer bg-transparent border-success">
+        @Html.DisplayNameFor(model => model.UpdatedAt)
+        @Html.DisplayFor(model => model.UpdatedAt)
+    </div>
+    <div class="card-footer bg-transparent border-success">
+        <a asp-action="Index" class="btn btn-sm btn-primary text-uppercase m-2 mr-4 p-3"><i class="fa fa-arrow-circle-left fa-2x"></i></a>
+        <a asp-action="Edit" asp-route-id="@Model.CategoryId" class="btn btn-warning m-2 p-3"><i class="fa fa-edit fa-2x"></i></a>
+    </div>
 </div>

@@ -39,7 +39,14 @@ namespace J6.DAL.Entities
      //   [JsonIgnore]
         public virtual Promotion Promotion { get; set; }
         public string material { set; get; }
+
+        //shababn
         public string BrandName { get; set; }
+        //public virtual ICollection<Brand> Brands { get; set; }
+
+
+
+
         public string Manufacture { get; set; }
 
         [JsonIgnore]
@@ -50,7 +57,8 @@ namespace J6.DAL.Entities
         public virtual ICollection<ProdCart> ProdCarts { get; set; }
       //  [JsonIgnore]
         public virtual ICollection<ProdOrder> ProdOrders { get; set; }
-      
+        
+
 
         // [JsonIgnore]
         public virtual ICollection<ProductImage> ProductImages { get; set; }

@@ -41,7 +41,10 @@ namespace J6.Controllers
             return new UserDto
             {
                 UserName = user.UserName,
-                Token = await tokenService.CreateToken(user)
+                Token = await tokenService.CreateToken(user),
+                Email = user.Email,
+
+              
             };
         }
 
@@ -61,7 +64,11 @@ namespace J6.Controllers
             return new UserDto
             {
                 UserName = user.UserName,
-                Token = await tokenService.CreateToken(user)
+                Token = await tokenService.CreateToken(user),
+                Email = user.Email,
+                Id=user.Id
+                
+                
             };
         }
     }
