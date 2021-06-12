@@ -32,6 +32,29 @@ namespace J6.BL.Servises
             return products;
         }
 
+        public async Task<bool> DeleteSavedItemAsync(int UserId, int ProductId)
+        {
+            var user = await _userManager.FindByIdAsync(UserId.ToString());
+            if (user != null)
+            {
+                SavedBag Bag = await _context.SavedBag.FirstOrDefaultAsync(v => v.CustomerId == UserId);
+                if (Bag != null)
+                {
+                    int BagId = Bag.Id;
+                    MiddleSavedProduct ProductBagRow = await _context.ProductsBag
+                                                        .FirstOrDefaultAsync(pb => pb.ProductId == ProductId && pb.SaveBagId == BagId);
+                    if (ProductBagRow != null)
+                    {
+                        _context.ProductsBag.Remove(ProductBagRow);
+                        await _context.SaveChangesAsync();
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+
         public async Task SetItemToSavedBagAsync(int UserId, int ProductId)
         {
             var Bag = await _context.SavedBag.FirstOrDefaultAsync(C => C.CustomerId == UserId);
@@ -44,8 +67,8 @@ namespace J6.BL.Servises
                 Bag = await _context.SavedBag.FirstOrDefaultAsync(C => C.CustomerId == UserId);
             }
 
-            var ProductBag = _context.ProductsBag.FirstOrDefaultAsync(PB => PB.ProductId == ProductId && PB.SaveBagId == Bag.Id);
-            if (ProductBag == null) return;
+            var ProductBag = await _context.ProductsBag.FirstOrDefaultAsync(PB => PB.ProductId == ProductId && PB.SaveBagId == Bag.Id);
+            if(ProductBag != null) return;
 
             var NewProductBag = new MiddleSavedProduct { ProductId = ProductId, SaveBagId = Bag.Id };
 

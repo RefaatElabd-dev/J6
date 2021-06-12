@@ -8,16 +8,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace J6.Controllers.API
+namespace J6.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class UserBagApi : ControllerBase
+    public class UserBagApiController : ControllerBase
     {
         private readonly IUserSavedBagServices _userSavedBag;
 
-        public UserBagApi(IUserSavedBagServices userSavedBag)
+        public UserBagApiController(IUserSavedBagServices userSavedBag)
         {
             _userSavedBag = userSavedBag;
         }
@@ -37,6 +37,11 @@ namespace J6.Controllers.API
             return Ok(await _userSavedBag.GetSavedProductsAsync(UserId));
         }
 
-
+        [HttpPost("DeleteSavedItem/{UserId}")]
+        public async Task<ActionResult> DeleteSavedItem(int UserId, [FromBody] int ProductId)
+        {
+            return await _userSavedBag.DeleteSavedItemAsync(UserId, ProductId) ?
+                                                NoContent() : BadRequest("Check User and Product ");
+        }
     }
 }
