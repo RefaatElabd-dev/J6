@@ -37,7 +37,7 @@ namespace J6.Controllers
             return Ok(await _userSavedBag.GetSavedProductsAsync(UserId));
         }
 
-        [HttpPost("DeleteSavedItem/{UserId}")]
+        [HttpDelete("DeleteSavedItem/{UserId}")]
         public async Task<ActionResult> DeleteSavedItem(int UserId, [FromBody] int ProductId)
         {
             return await _userSavedBag.DeleteSavedItemAsync(UserId, ProductId) ?
