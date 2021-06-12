@@ -360,16 +360,20 @@ namespace J6.Controllers
         //in home
         //   api/Categories/allProductBrand/1
 
-        [HttpGet("{id}")]
-        [Route("allProductBrand/{id}")]
-        public async Task<ActionResult> GetallproductInBrand(string brandName)
-        {//id is brand id
-           
-            var products=await _context.Products.Where(a=>a.BrandName==brandName).Include(a => a.Promotion).Include(a => a.ShippingDetail).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).Include(q=>q.Subcategory).ToListAsync();
-          
-            return Ok(products);
 
-        }
+
+        // Commented By shaban because wee remove brand name and add brand table 
+
+        //[HttpGet("{id}")]
+        //[Route("allProductBrand/{id}")]
+        //public async Task<ActionResult> GetallproductInBrand(string brandName)
+        //{//id is brand id
+           
+        //    var products=await _context.Products.Where(a=>a.BrandName==brandName).Include(a => a.Promotion).Include(a => a.ShippingDetail).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).Include(q=>q.Subcategory).ToListAsync();
+          
+        //    return Ok(products);
+
+        //}
 
         /////////////////////////////////////////
 
