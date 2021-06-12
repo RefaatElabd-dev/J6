@@ -39,7 +39,10 @@ namespace J6.DAL.Entities
      //   [JsonIgnore]
         public virtual Promotion Promotion { get; set; }
         public string material { set; get; }
-        public string BrandName { get; set; }
+        // public string BrandName { get; set; }
+        public int? BrandId { get; set; }
+
+        public virtual Brand Brands { get; set; }
         public string Manufacture { get; set; }
 
         [JsonIgnore]

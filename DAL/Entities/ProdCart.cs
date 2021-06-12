@@ -9,7 +9,7 @@ namespace J6.DAL.Entities
     {
         public int CartId { get; set; }
         public int ProductId { get; set; }
-
+        public int quantity { get; set; }
         public virtual Cart Cart { get; set; }
         public virtual Product CartNavigation { get; set; }
     }

@@ -107,26 +107,26 @@ namespace J6.Controllers
         //getproducts in subcatgory in category
         //api/SubCategories/categoryproduct/1
         [HttpGet("{id}")]
-     [Route("categoryproduct/{id}")]
- 
+        [Route("categoryproduct/{id}")]
+
         public List<Product> getProductOfSubcategory(int id)
-            {//id of category
-            List<Product> products=new List<Product>();
+        {//id of category
+            List<Product> products = new List<Product>();
             //getsubcategory of id
-            var subcategory =  _context.SubCategories.FirstOrDefault(q=>q.CategoryId==id);
+            var subcategory = _context.SubCategories.FirstOrDefault(q => q.CategoryId == id);
             //all product in subcategory
             products = _context.Products.Where((a => a.SubcategoryId == subcategory.SubcategoryId)).ToList();
-            
+
             return products;
-            }
+        }
         //get all subcategory from category
         //    /categorySubcategory/1
         [HttpGet("{id}")]
         [Route("~/categorySubcategory/{id}")]
-        public  List<SubCategory> getSubcategoryofCategory(int id)
+        public List<SubCategory> getSubcategoryofCategory(int id)
         {//id is category id
-          
-            return  _context.SubCategories.Where(q => q.CategoryId == id).ToList(); ;
+
+            return _context.SubCategories.Where(q => q.CategoryId == id).ToList(); ;
 
         }
 
@@ -138,7 +138,7 @@ namespace J6.Controllers
         public async Task<ActionResult<IEnumerable<Product>>> getProductsOFSubcategory(int id)
         {
             List<Product> highproducts = new List<Product>();
-            var productss=await _context.Products.Where(q => q.SubcategoryId == id).Include(a => a.Promotion).Include(a=>a.ShippingDetail).Include(c=>c.ProdCarts).Include(p=>p.ProdOrders).Include(o=>o.ProductImages).Include(i=>i.Reviews).Include(e=>e.StoreProducts).Include(y=>y.Views).ToListAsync();
+            var productss = await _context.Products.Where(q => q.SubcategoryId == id).Include(a => a.Promotion).Include(a => a.ShippingDetail).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).ToListAsync();
 
             for (int i = 0; i < 10; i++)
             {
@@ -151,7 +151,149 @@ namespace J6.Controllers
             return highproducts;
         }
 
+        /////////////////////////////////////////////////////////////////////////
+        //all color in subcategory
+        //  api/SubCategories/allsubcolor/1
+        [HttpGet("{id}")]
 
+        [Route("allsubcolor/{id}")]
+        public async Task<IActionResult> getColorInSubcategory(int id)
+        {
+            //id is subcategory id
+            List<string> colors = new List<string>();
+            var sub = await _context.SubCategories.FindAsync(id);
+            if (sub == null)
+            {
+                return NotFound("wrong id");
+            }
+
+
+            var products = await _context.Products.Where(a => a.SubcategoryId == sub.SubcategoryId).ToListAsync();
+
+            foreach (var item in products)
+            {
+                if (!colors.Contains(item.Color))
+                {
+                    if (item.Color != null)
+                    {
+                        colors.Add(item.Color);
+                    }
+                }
+            }
+            return Ok(colors);
+
+        }
+        ////////////////////////////////////////////////////////
+        ///
+          //all price in subcategory
+        //  api/SubCategories/allsubprice/1
+        [HttpGet("{id}")]
+
+        [Route("allsubprice/{id}")]
+        public async Task<IActionResult> getpriceInSubcategory(int id)
+        {
+            //id is subcategory id
+            List<object> prices = new List<object>();
+            var sub = await _context.SubCategories.FindAsync(id);
+            if (sub == null)
+            {
+                return NotFound("wrong id");
+            }
+
+
+            var products = await _context.Products.Where(a => a.SubcategoryId == sub.SubcategoryId).ToListAsync();
+
+            foreach (var item in products)
+            {
+                if (!prices.Contains(item.Price))
+                {
+                    if (item.Price != null)
+                    {
+                        prices.Add(item.Price);
+                    }
+                }
+            }
+            return Ok(prices);
+
+        }
+        /////////////////////////////////////////////////////
+        ///
+
+        //all discount in subcategory
+        //  api/SubCategories/allsubdiscount/1
+        [HttpGet("{id}")]
+
+        [Route("allsubdiscount/{id}")]
+        public async Task<IActionResult> getdiscountInSubcategory(int id)
+        {
+            //id is subcategory id
+            List<object> discount = new List<object>();
+
+
+            var sub = await _context.SubCategories.FindAsync(id);
+            if (sub == null)
+            {
+                return NotFound("wrong id");
+            }
+
+
+            var products = await _context.Products.Where(a => a.SubcategoryId == sub.SubcategoryId).ToListAsync();
+
+            foreach (var item in products)
+            {
+                if (item.Discount != null)
+                {
+                    if (!discount.Contains(item.Discount))
+                    {
+                        if (item.Discount != null)
+                        {
+                            discount.Add(item.Discount);
+                        }
+                    }
+                }
+            }
+            return Ok(discount);
+
+        }
+        //////////////////////////////////////
+        ///
+
+        //all rating in subcategory
+        //  api/SubCategories/allsubrating/1
+        [HttpGet("{id}")]
+
+        [Route("allsubrating/{id}")]
+        public async Task<IActionResult> getratingInSubcategory(int id)
+        {
+            //id is subcategory id
+            List<object> rating = new List<object>();
+
+
+            var sub = await _context.SubCategories.FindAsync(id);
+            if (sub == null)
+            {
+                return NotFound("wrong id");
+            }
+
+
+            var products = await _context.Products.Where(a => a.SubcategoryId == sub.SubcategoryId).ToListAsync();
+
+            foreach (var item in products)
+            {
+                if (item.Rating != null)
+                {
+                    if (!rating.Contains(item.Rating))
+                    {
+                        if (item.Rating != null)
+                        {
+                            rating.Add(item.Rating);
+                        }
+                    }
+                }
+            }
+            return Ok(rating);
+
+        }
 
 
 

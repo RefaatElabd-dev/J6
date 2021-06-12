@@ -15,7 +15,7 @@ namespace J6.DAL.Database
     {
         public DbContainer() { }
         public DbContainer(DbContextOptions<DbContainer> opts) : base(opts) {}
-
+        public virtual DbSet<Brand> Brands { get; set; }
         public virtual DbSet<Cart> Carts { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Order> Orders { get; set; }

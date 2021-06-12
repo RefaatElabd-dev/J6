@@ -23,7 +23,7 @@ namespace J6.Controllers
             this.signInManager = signInManager;
             tokenService = _tokenService;
         }
-        [HttpPost("Regester")]
+        [HttpPost("Register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
             if (await UserExist(registerDto.Username)) { return BadRequest("User is taken"); }

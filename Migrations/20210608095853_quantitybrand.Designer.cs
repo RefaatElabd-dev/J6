@@ -4,14 +4,16 @@ using J6.DAL.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace J6.Migrations
 {
     [DbContext(typeof(DbContainer))]
-    partial class DbContainerModelSnapshot : ModelSnapshot
+    [Migration("20210608095853_quantitybrand")]
+    partial class quantitybrand
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -387,10 +389,10 @@ namespace J6.Migrations
                         .HasColumnType("varchar(50)")
                         .HasColumnName("model");
 
-                    b.Property<string>("Price")
+                    b.Property<double>("Price")
                         .HasMaxLength(50)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(50)")
+                        .HasColumnType("float")
                         .HasColumnName("price");
 
                     b.Property<string>("ProductName")
