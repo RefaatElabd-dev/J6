@@ -23,11 +23,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.Cookies;
-<<<<<<< HEAD
-=======
 using J6.Interfaces;
 using J6.BL.Repositry;
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
+
 
 namespace J6
 {
@@ -64,14 +62,6 @@ namespace J6
 
             services.AddScoped<ITokenServices, TokenService>();
 
-<<<<<<< HEAD
-=======
-
-
-          
-
-
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                .AddJwtBearer(options =>
                {
@@ -84,21 +74,6 @@ namespace J6
                    };
                }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options => Configuration.Bind("CookieSettings", options));
 
-<<<<<<< HEAD
-            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            //.AddCookie(o =>
-            //{
-            //    o.Cookie.Name = options.CookieName;
-            //    o.Cookie.Domain = options.CookieDomain;
-            //    o.SlidingExpiration = true;
-            //    o.ExpireTimeSpan = options.CookieLifetime;
-            //    o.TicketDataFormat = ticketFormat;
-            //    o.CookieManager = new CustomChunkingCookieManager();
-            //});
-=======
-          
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
-
             services.AddAutoMapper(x => x.AddProfile(new DomainProfile()));
 
             services.AddCors();
@@ -108,22 +83,12 @@ namespace J6
                 options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin", "Moderator"));
             });
 
-
-<<<<<<< HEAD
-
-=======
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
             services.AddControllersWithViews()
                     //.AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                     //.AddDataAnnotationsLocalization()
                     .AddNewtonsoftJson(x => 
                     x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-<<<<<<< HEAD
-
-            //D.I.
-            services.AddTransient<IRandomProducts, ProductServices>();
-=======
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             //D.I.
             services.AddTransient<IRandomProducts, ProductServices>();
@@ -133,7 +98,6 @@ namespace J6
             services.AddTransient<IUserSavedBagServices, UserSavedBagServices>();
 
           
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -181,19 +145,7 @@ namespace J6
             .AllowAnyOrigin());
 
             app.UseAuthentication();
-
             app.UseAuthorization();
-
-<<<<<<< HEAD
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllerRoute(
-            //      name: "areas",
-            //      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-            //    );
-            //});
-=======
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
 
             app.UseEndpoints(endpoints =>
             {

@@ -2,21 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-<<<<<<< HEAD
 using J6.BL.Servises;
 using J6.DAL.Database;
 using J6.DAL.Entities;
-=======
 using AutoMapper;
 using J6.BL.Helper;
-using J6.BL.Servises;
-using J6.DAL.Database;
-using J6.DAL.Entities;
 using J6.Extentions;
 using J6.Helper;
 using J6.Interfaces;
 using J6.Models;
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -32,36 +26,27 @@ namespace J6.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly IRandomProducts _products;
 
-<<<<<<< HEAD
-        public ProductsAPiController(DbContainer context, UserManager<AppUser> userManager, IRandomProducts products)
-=======
+
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
 
 
         public ProductsAPiController(DbContainer context, UserManager<AppUser> userManager, IRandomProducts products, IProductRepository productRepository, IMapper mapper)
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
         {
             _context = context;
             _userManager = userManager;
             _products = products;
-<<<<<<< HEAD
-=======
             _productRepository = productRepository;
             _mapper = mapper;
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
         }
 
         // GET: api/Products
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-<<<<<<< HEAD
+
             return await _context.Products.ToListAsync();
-=======
-          var products= await _context.Products.ToListAsync();
-           return Ok(products);
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
+
         }
 
         // GET: api/Products/5
@@ -141,12 +126,9 @@ namespace J6.Controllers
         [HttpGet]
         [Route("~/highselling")]
         public async Task<ActionResult<IEnumerable<Product>>> topSellingProduct()
-<<<<<<< HEAD
+
         { List<Product> highproducts = new List<Product>();
-=======
-        {
-            List<Product> highproducts = new List<Product>();
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
+
             var allproduct = await _context.Products.OrderByDescending(p => p.SoldQuantities).Include(a => a.ProductImages).Include(a => a.Promotion).Include(c => c.Reviews).Include(w => w.ShippingDetail).Include(q => q.ProdCarts)/*.Include(o=>o.ProductBrands)*/.Include(p => p.ProdOrders).ToListAsync();
             for (int i = 0; i < 10; i++)
             {
@@ -204,15 +186,10 @@ namespace J6.Controllers
 
         [HttpPost]
         [Route("SetView")]
-<<<<<<< HEAD
-        public async Task<IActionResult> SetView(int UserId, int ProductId)
-        {
-            await _products.AssignToViewsAsync(UserId, ProductId);
-=======
+
         public async Task<IActionResult> SetView([FromBody] CustomerProductDto input)
         {
             await _products.AssignToViewsAsync(input.UserId, input.ProductId);
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
             return NoContent();
         }
 
@@ -229,10 +206,7 @@ namespace J6.Controllers
         {
             return Ok(await _products.GetRecomendedProductsAsync(CustomerId));
         }
-<<<<<<< HEAD
-    }
-}
-=======
+
 
         [HttpDelete]
         [Route("DeleteView")]
@@ -300,4 +274,4 @@ namespace J6.Controllers
     }
 }
 
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
+

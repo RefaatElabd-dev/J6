@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-<<<<<<< HEAD
-=======
 using System.IO;
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -11,23 +8,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using J6.DAL.Database;
 using J6.DAL.Entities;
-<<<<<<< HEAD
-
-namespace J6.Controllers
-{
-    [Route("api/[controller]")]
-    public class SubCategoriesController : Controller
-    {
-        private readonly DbContainer _context;
-
-        public SubCategoriesController(DbContainer context)
-        {
-            _context = context;
-        }
-
-        // GET: SubCategories
-        
-=======
 using J6.DAL.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -45,23 +25,12 @@ namespace J6.Controllers
         }
 
         // GET: SubCategories
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
         public async Task<IActionResult> Index()
         {
             var dbContainer = _context.SubCategories.Include(s => s.Category);
             return View(await dbContainer.ToListAsync());
         }
 
-<<<<<<< HEAD
-       [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll()
-        {
-            var dbContainer = _context.SubCategories.Include(s => s.Category);
-            return Ok(await dbContainer.ToListAsync());
-        }
-
-=======
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
         // GET: SubCategories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -93,21 +62,6 @@ namespace J6.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-<<<<<<< HEAD
-        public async Task<IActionResult> Create([Bind("SubcategoryId,SubcategoryName,CategoryId,CreatedAt,UpdatedAt,Content,Image")] SubCategory subCategory)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(subCategory);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", subCategory.CategoryId);
-            return View(subCategory);
-        }
-
-        // GET: SubCategories/Edit/5
-=======
         public async Task<IActionResult> Create(SubCategoryViewModel model)
         {
             if (ModelState.IsValid)
@@ -149,7 +103,6 @@ namespace J6.Controllers
         }
 
         //GET: SubCategories/Edit/5
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -157,9 +110,6 @@ namespace J6.Controllers
                 return NotFound();
             }
 
-<<<<<<< HEAD
-            var subCategory = await _context.SubCategories.FindAsync(id);
-=======
             SubCategory subCategory = await _context.SubCategories.Where(x => x.SubcategoryId == id).FirstOrDefaultAsync();
             SubCategoryViewModel viewModel = new SubCategoryViewModel
             {
@@ -168,25 +118,12 @@ namespace J6.Controllers
                 UpdatedAt = DateTime.Now,
                 CategoryId = subCategory.CategoryId
             };
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
             if (subCategory == null)
             {
                 return NotFound();
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", subCategory.CategoryId);
             return View(subCategory);
-<<<<<<< HEAD
-        }
-
-        // POST: SubCategories/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("SubcategoryId,SubcategoryName,CategoryId,CreatedAt,UpdatedAt,Content,Image")] SubCategory subCategory)
-        {
-            if (id != subCategory.SubcategoryId)
-=======
 
         }
         [HttpPost]
@@ -195,37 +132,10 @@ namespace J6.Controllers
         {
 
             if (id != model.SubcategoryId)
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
             {
                 return NotFound();
             }
 
-<<<<<<< HEAD
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(subCategory);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SubCategoryExists(subCategory.SubcategoryId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", subCategory.CategoryId);
-            return View(subCategory);
-        }
-
-=======
 
             SubCategory subCategory = await _context.SubCategories.Where(x => x.SubcategoryId == id).FirstOrDefaultAsync();
 
@@ -295,7 +205,6 @@ namespace J6.Controllers
 
 
 
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
         // GET: SubCategories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

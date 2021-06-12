@@ -1,9 +1,4 @@
-<<<<<<< HEAD
 ﻿using Newtonsoft.Json;
-=======
-﻿using J6BackEnd.Models;
-using Newtonsoft.Json;
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
 using System;
 using System.Collections.Generic;
 
@@ -17,11 +12,6 @@ namespace J6.DAL.Entities
         {
             ProdCarts = new HashSet<ProdCart>();
             ProdOrders = new HashSet<ProdOrder>();
-<<<<<<< HEAD
-            //ProductBrands = new HashSet<ProductBrand>();
-=======
-            ProductBrands = new HashSet<ProductBrand>();
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
             ProductImages = new HashSet<ProductImage>();
             Reviews = new HashSet<Review>();
             StoreProducts = new HashSet<StoreProduct>();
@@ -48,19 +38,11 @@ namespace J6.DAL.Entities
      //   [JsonIgnore]
         public virtual Promotion Promotion { get; set; }
         public string material { set; get; }
-<<<<<<< HEAD
-        // public string BrandName { get; set; }
+
         public int? BrandId { get; set; }
 
         public virtual Brand Brands { get; set; }
-=======
 
-        //shababn
-       // public string BrandName { get; set; }
-        public virtual ICollection<ProductBrand> ProductBrands { get; set; }
-
-
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
         public string Manufacture { get; set; }
 
         [JsonIgnore]
@@ -71,12 +53,6 @@ namespace J6.DAL.Entities
         public virtual ICollection<ProdCart> ProdCarts { get; set; }
       //  [JsonIgnore]
         public virtual ICollection<ProdOrder> ProdOrders { get; set; }
-<<<<<<< HEAD
-      
-=======
-        
-
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
 
         // [JsonIgnore]
         public virtual ICollection<ProductImage> ProductImages { get; set; }
@@ -86,10 +62,7 @@ namespace J6.DAL.Entities
         public virtual ICollection<StoreProduct> StoreProducts { get; set; }
        // [JsonIgnore]
         public virtual ICollection<View> Views { get; set; }
-<<<<<<< HEAD
-=======
         public virtual ICollection<MiddleSavedProduct> ProductsBag { get; set; }
 
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
     }
 }

@@ -17,11 +17,7 @@ namespace J6.Migrations
             modelBuilder
                 .HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-<<<<<<< HEAD
                 .HasAnnotation("ProductVersion", "5.0.6")
-=======
-                .HasAnnotation("ProductVersion", "5.0.7")
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("J6.DAL.Entities.Address", b =>
@@ -84,11 +80,7 @@ namespace J6.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-<<<<<<< HEAD
-                    b.Property<int>("AddressId")
-=======
                     b.Property<int?>("AddressID")
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -143,11 +135,7 @@ namespace J6.Migrations
 
                     b.HasKey("Id");
 
-<<<<<<< HEAD
-                    b.HasIndex("AddressId");
-=======
                     b.HasIndex("AddressID");
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -180,7 +168,6 @@ namespace J6.Migrations
                     b.Property<int>("BrandId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-<<<<<<< HEAD
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("BrandName")
@@ -197,31 +184,7 @@ namespace J6.Migrations
 
                     b.HasKey("BrandId");
 
-                    b.ToTable("Brand");
-=======
-                        .HasColumnName("brandId")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("BrandName")
-                        .HasMaxLength(60)
-                        .HasColumnType("nvarchar(60)")
-                        .HasColumnName("brandName");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("date")
-                        .HasColumnName("createdAt");
-
-                    b.Property<string>("Img")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("date")
-                        .HasColumnName("updatedAt");
-
-                    b.HasKey("BrandId");
-
-                    b.ToTable("brand");
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
+                    b.ToTable("Brands");
                 });
 
             modelBuilder.Entity("J6.DAL.Entities.Cart", b =>
@@ -299,8 +262,6 @@ namespace J6.Migrations
                     b.ToTable("category");
                 });
 
-<<<<<<< HEAD
-=======
             modelBuilder.Entity("J6.DAL.Entities.MiddleSavedProduct", b =>
                 {
                     b.Property<int>("ProductId")
@@ -316,7 +277,6 @@ namespace J6.Migrations
                     b.ToTable("ProductsBag");
                 });
 
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
             modelBuilder.Entity("J6.DAL.Entities.Order", b =>
                 {
                     b.Property<int>("OrderId")
@@ -376,12 +336,9 @@ namespace J6.Migrations
                         .HasColumnType("int")
                         .HasColumnName("productId");
 
-<<<<<<< HEAD
                     b.Property<int>("quantity")
                         .HasColumnType("int");
 
-=======
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
                     b.HasKey("CartId", "ProductId");
 
                     b.ToTable("prod_Cart");
@@ -410,12 +367,9 @@ namespace J6.Migrations
                         .HasColumnType("int")
                         .HasColumnName("productId");
 
-<<<<<<< HEAD
                     b.Property<int?>("BrandId")
                         .HasColumnType("int");
 
-=======
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
                     b.Property<string>("Color")
                         .HasMaxLength(50)
                         .IsUnicode(false)
@@ -448,17 +402,10 @@ namespace J6.Migrations
                         .HasColumnType("varchar(50)")
                         .HasColumnName("model");
 
-<<<<<<< HEAD
-                    b.Property<string>("Price")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)")
-=======
                     b.Property<double>("Price")
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("float")
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
                         .HasColumnName("price");
 
                     b.Property<string>("ProductName")
@@ -507,11 +454,8 @@ namespace J6.Migrations
 
                     b.HasKey("ProductId");
 
-<<<<<<< HEAD
                     b.HasIndex("BrandId");
 
-=======
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
                     b.HasIndex("PromotionId");
 
                     b.HasIndex("SubcategoryId");
@@ -588,8 +532,6 @@ namespace J6.Migrations
                     b.ToTable("Reviews");
                 });
 
-<<<<<<< HEAD
-=======
             modelBuilder.Entity("J6.DAL.Entities.SavedBag", b =>
                 {
                     b.Property<int>("Id")
@@ -608,7 +550,6 @@ namespace J6.Migrations
                     b.ToTable("SavedBag");
                 });
 
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
             modelBuilder.Entity("J6.DAL.Entities.ShippingDetail", b =>
                 {
                     b.Property<int>("ShippingDetailsId")
@@ -753,14 +694,11 @@ namespace J6.Migrations
                         .HasColumnType("int")
                         .HasColumnName("productId");
 
-<<<<<<< HEAD
-=======
                     b.Property<DateTime>("CreationDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
                     b.Property<string>("IsFar")
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)")
@@ -773,26 +711,6 @@ namespace J6.Migrations
                     b.ToTable("Views");
                 });
 
-<<<<<<< HEAD
-=======
-            modelBuilder.Entity("J6BackEnd.Models.ProductBrand", b =>
-                {
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int")
-                        .HasColumnName("productId");
-
-                    b.Property<int>("BrandId")
-                        .HasColumnType("int")
-                        .HasColumnName("brandId");
-
-                    b.HasKey("ProductId", "BrandId");
-
-                    b.HasIndex("BrandId");
-
-                    b.ToTable("productBrand");
-                });
-
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
@@ -883,13 +801,7 @@ namespace J6.Migrations
                 {
                     b.HasOne("J6.DAL.Entities.Address", "Address")
                         .WithMany("AppUsers")
-<<<<<<< HEAD
-                        .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-=======
                         .HasForeignKey("AddressID");
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
 
                     b.Navigation("Address");
                 });
@@ -931,8 +843,6 @@ namespace J6.Migrations
                     b.Navigation("ShippingDetails");
                 });
 
-<<<<<<< HEAD
-=======
             modelBuilder.Entity("J6.DAL.Entities.MiddleSavedProduct", b =>
                 {
                     b.HasOne("J6.DAL.Entities.Product", "Product")
@@ -952,7 +862,6 @@ namespace J6.Migrations
                     b.Navigation("Product");
                 });
 
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
             modelBuilder.Entity("J6.DAL.Entities.Order", b =>
                 {
                     b.HasOne("J6.DAL.Entities.AppUser", "Customer")
@@ -1004,13 +913,10 @@ namespace J6.Migrations
 
             modelBuilder.Entity("J6.DAL.Entities.Product", b =>
                 {
-<<<<<<< HEAD
                     b.HasOne("J6.DAL.Entities.Brand", "Brands")
                         .WithMany("Products")
                         .HasForeignKey("BrandId");
 
-=======
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
                     b.HasOne("J6.DAL.Entities.Promotion", "Promotion")
                         .WithMany("Products")
                         .HasForeignKey("PromotionId")
@@ -1021,11 +927,8 @@ namespace J6.Migrations
                         .HasForeignKey("SubcategoryId")
                         .HasConstraintName("FK_product_subCategory");
 
-<<<<<<< HEAD
                     b.Navigation("Brands");
 
-=======
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
                     b.Navigation("Promotion");
 
                     b.Navigation("Subcategory");
@@ -1072,8 +975,6 @@ namespace J6.Migrations
                     b.Navigation("Product");
                 });
 
-<<<<<<< HEAD
-=======
             modelBuilder.Entity("J6.DAL.Entities.SavedBag", b =>
                 {
                     b.HasOne("J6.DAL.Entities.AppUser", "Customer")
@@ -1085,7 +986,6 @@ namespace J6.Migrations
                     b.Navigation("Customer");
                 });
 
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
             modelBuilder.Entity("J6.DAL.Entities.ShippingDetail", b =>
                 {
                     b.HasOne("J6.DAL.Entities.Payment", "Payment")
@@ -1163,28 +1063,6 @@ namespace J6.Migrations
                     b.Navigation("Product");
                 });
 
-<<<<<<< HEAD
-=======
-            modelBuilder.Entity("J6BackEnd.Models.ProductBrand", b =>
-                {
-                    b.HasOne("J6.DAL.Entities.Brand", "Brand")
-                        .WithMany("ProductBrands")
-                        .HasForeignKey("BrandId")
-                        .HasConstraintName("FK_productBrand_brand")
-                        .IsRequired();
-
-                    b.HasOne("J6.DAL.Entities.Product", "Product")
-                        .WithMany("ProductBrands")
-                        .HasForeignKey("ProductId")
-                        .HasConstraintName("FK_productBrand_product")
-                        .IsRequired();
-
-                    b.Navigation("Brand");
-
-                    b.Navigation("Product");
-                });
-
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("J6.DAL.Entities.AppRole", null)
@@ -1233,11 +1111,8 @@ namespace J6.Migrations
 
             modelBuilder.Entity("J6.DAL.Entities.AppUser", b =>
                 {
-<<<<<<< HEAD
-=======
                     b.Navigation("Bag");
 
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
                     b.Navigation("Cart");
 
                     b.Navigation("Order");
@@ -1255,11 +1130,7 @@ namespace J6.Migrations
 
             modelBuilder.Entity("J6.DAL.Entities.Brand", b =>
                 {
-<<<<<<< HEAD
                     b.Navigation("Products");
-=======
-                    b.Navigation("ProductBrands");
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
                 });
 
             modelBuilder.Entity("J6.DAL.Entities.Cart", b =>
@@ -1288,17 +1159,10 @@ namespace J6.Migrations
 
                     b.Navigation("ProdOrders");
 
-<<<<<<< HEAD
-                    b.Navigation("ProductImages");
-
-=======
-                    b.Navigation("ProductBrands");
-
                     b.Navigation("ProductImages");
 
                     b.Navigation("ProductsBag");
 
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
                     b.Navigation("Reviews");
 
                     b.Navigation("ShippingDetail");
@@ -1313,14 +1177,11 @@ namespace J6.Migrations
                     b.Navigation("Products");
                 });
 
-<<<<<<< HEAD
-=======
             modelBuilder.Entity("J6.DAL.Entities.SavedBag", b =>
                 {
                     b.Navigation("ProductsBag");
                 });
 
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
             modelBuilder.Entity("J6.DAL.Entities.ShippingDetail", b =>
                 {
                     b.Navigation("Carts");

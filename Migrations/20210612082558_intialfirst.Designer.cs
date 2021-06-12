@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace J6.Migrations
 {
     [DbContext(typeof(DbContainer))]
-    [Migration("20210612025051_AddCreationDateToViews")]
-    partial class AddCreationDateToViews
+    [Migration("20210612082558_intialfirst")]
+    partial class intialfirst
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -19,7 +19,7 @@ namespace J6.Migrations
             modelBuilder
                 .HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.7")
+                .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("J6.DAL.Entities.Address", b =>
@@ -163,6 +163,30 @@ namespace J6.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("J6.DAL.Entities.Brand", b =>
+                {
+                    b.Property<int>("BrandId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BrandName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("BrandId");
+
+                    b.ToTable("Brands");
                 });
 
             modelBuilder.Entity("J6.DAL.Entities.Cart", b =>
@@ -314,6 +338,9 @@ namespace J6.Migrations
                         .HasColumnType("int")
                         .HasColumnName("productId");
 
+                    b.Property<int>("quantity")
+                        .HasColumnType("int");
+
                     b.HasKey("CartId", "ProductId");
 
                     b.ToTable("prod_Cart");
@@ -342,8 +369,8 @@ namespace J6.Migrations
                         .HasColumnType("int")
                         .HasColumnName("productId");
 
-                    b.Property<string>("BrandName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("BrandId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Color")
                         .HasMaxLength(50)
@@ -428,6 +455,8 @@ namespace J6.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ProductId");
+
+                    b.HasIndex("BrandId");
 
                     b.HasIndex("PromotionId");
 
@@ -886,6 +915,10 @@ namespace J6.Migrations
 
             modelBuilder.Entity("J6.DAL.Entities.Product", b =>
                 {
+                    b.HasOne("J6.DAL.Entities.Brand", "Brands")
+                        .WithMany("Products")
+                        .HasForeignKey("BrandId");
+
                     b.HasOne("J6.DAL.Entities.Promotion", "Promotion")
                         .WithMany("Products")
                         .HasForeignKey("PromotionId")
@@ -895,6 +928,8 @@ namespace J6.Migrations
                         .WithMany("Products")
                         .HasForeignKey("SubcategoryId")
                         .HasConstraintName("FK_product_subCategory");
+
+                    b.Navigation("Brands");
 
                     b.Navigation("Promotion");
 
@@ -1093,6 +1128,11 @@ namespace J6.Migrations
                     b.Navigation("userRoles");
 
                     b.Navigation("Views");
+                });
+
+            modelBuilder.Entity("J6.DAL.Entities.Brand", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("J6.DAL.Entities.Cart", b =>

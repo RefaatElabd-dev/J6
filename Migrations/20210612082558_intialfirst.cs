@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace J6.Migrations
 {
-    public partial class initial : Migration
+    public partial class intialfirst : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -35,6 +35,22 @@ namespace J6.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Brands",
+                columns: table => new
+                {
+                    BrandId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BrandName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Brands", x => x.BrandId);
                 });
 
             migrationBuilder.CreateTable(
@@ -89,7 +105,7 @@ namespace J6.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AddressId = table.Column<int>(type: "int", nullable: false),
+                    AddressID = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -109,11 +125,11 @@ namespace J6.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_Addresses_AddressId",
-                        column: x => x.AddressId,
+                        name: "FK_AspNetUsers_Addresses_AddressID",
+                        column: x => x.AddressID,
                         principalTable: "Addresses",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -287,6 +303,25 @@ namespace J6.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SavedBag",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CustomerId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SavedBag", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SavedBag_AspNetUsers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Stores",
                 columns: table => new
                 {
@@ -312,7 +347,7 @@ namespace J6.Migrations
                 columns: table => new
                 {
                     productId = table.Column<int>(type: "int", nullable: false),
-                    price = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    price = table.Column<double>(type: "float", unicode: false, maxLength: 50, nullable: false),
                     soldQuantities = table.Column<int>(type: "int", nullable: true),
                     quantity = table.Column<int>(type: "int", nullable: true),
                     size = table.Column<string>(type: "nchar(10)", fixedLength: true, maxLength: 10, nullable: true),
@@ -329,12 +364,18 @@ namespace J6.Migrations
                     deletedAt = table.Column<DateTime>(type: "date", nullable: true),
                     promotionId = table.Column<int>(type: "int", nullable: true),
                     material = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BrandName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BrandId = table.Column<int>(type: "int", nullable: true),
                     Manufacture = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_product", x => x.productId);
+                    table.ForeignKey(
+                        name: "FK_product_Brands_BrandId",
+                        column: x => x.BrandId,
+                        principalTable: "Brands",
+                        principalColumn: "BrandId",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_product_Promotions",
                         column: x => x.promotionId,
@@ -390,6 +431,30 @@ namespace J6.Migrations
                         principalTable: "product",
                         principalColumn: "productId",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductsBag",
+                columns: table => new
+                {
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    SaveBagId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductsBag", x => new { x.ProductId, x.SaveBagId });
+                    table.ForeignKey(
+                        name: "FK_ProductsBag_product_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "product",
+                        principalColumn: "productId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductsBag_SavedBag_SaveBagId",
+                        column: x => x.SaveBagId,
+                        principalTable: "SavedBag",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -474,7 +539,8 @@ namespace J6.Migrations
                 {
                     productId = table.Column<int>(type: "int", nullable: false),
                     CustomerId = table.Column<int>(type: "int", nullable: false),
-                    isFar = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true)
+                    isFar = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()")
                 },
                 constraints: table =>
                 {
@@ -527,7 +593,8 @@ namespace J6.Migrations
                 columns: table => new
                 {
                     cartId = table.Column<int>(type: "int", nullable: false),
-                    productId = table.Column<int>(type: "int", nullable: false)
+                    productId = table.Column<int>(type: "int", nullable: false),
+                    quantity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -579,9 +646,9 @@ namespace J6.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_AddressId",
+                name: "IX_AspNetUsers_AddressID",
                 table: "AspNetUsers",
-                column: "AddressId");
+                column: "AddressID");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
@@ -608,6 +675,11 @@ namespace J6.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_product_BrandId",
+                table: "product",
+                column: "BrandId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_product_promotionId",
                 table: "product",
                 column: "promotionId");
@@ -618,6 +690,11 @@ namespace J6.Migrations
                 column: "subcategoryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductsBag_SaveBagId",
+                table: "ProductsBag",
+                column: "SaveBagId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Promotions_SellerId",
                 table: "Promotions",
                 column: "SellerId");
@@ -626,6 +703,12 @@ namespace J6.Migrations
                 name: "IX_Reviews_productId",
                 table: "Reviews",
                 column: "productId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SavedBag_CustomerId",
+                table: "SavedBag",
+                column: "CustomerId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_ShippingDetails_paymentId",
@@ -681,6 +764,9 @@ namespace J6.Migrations
                 name: "ProductImage");
 
             migrationBuilder.DropTable(
+                name: "ProductsBag");
+
+            migrationBuilder.DropTable(
                 name: "Reviews");
 
             migrationBuilder.DropTable(
@@ -702,6 +788,9 @@ namespace J6.Migrations
                 name: "orders");
 
             migrationBuilder.DropTable(
+                name: "SavedBag");
+
+            migrationBuilder.DropTable(
                 name: "Stores");
 
             migrationBuilder.DropTable(
@@ -712,6 +801,9 @@ namespace J6.Migrations
 
             migrationBuilder.DropTable(
                 name: "product");
+
+            migrationBuilder.DropTable(
+                name: "Brands");
 
             migrationBuilder.DropTable(
                 name: "Promotions");

@@ -7,31 +7,21 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using J6.DAL.Database;
 using J6.DAL.Entities;
-<<<<<<< HEAD
-=======
 using Microsoft.AspNetCore.Hosting;
 using J6.DAL.ViewModels;
 using System.IO;
 using Microsoft.AspNetCore.Http;
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
 
 namespace J6.Controllers
 {
     public class CategoriesController : Controller
     {
         private readonly DbContainer _context;
-<<<<<<< HEAD
-
-        public CategoriesController(DbContainer context)
-        {
-            _context = context;
-=======
         private readonly IWebHostEnvironment webHostEnvironment;
         public CategoriesController(DbContainer context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
             webHostEnvironment = hostEnvironment;
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
         }
 
         // GET: Categories
@@ -69,12 +59,6 @@ namespace J6.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-<<<<<<< HEAD
-        public async Task<IActionResult> Create([Bind("CategoryId,CategoryName,CreatedAt,UpdatedAt,Image,Content")] Category category)
-        {
-            if (ModelState.IsValid)
-            {
-=======
         public async Task<IActionResult> Create(CategoriesViewModel model)
         {
 
@@ -91,14 +75,10 @@ namespace J6.Controllers
                     Content = model.Content,
                     Image = uniqueFileName,
                 };
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
                 _context.Add(category);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-<<<<<<< HEAD
-            return View(category);
-=======
             return View();
         }
 
@@ -117,7 +97,6 @@ namespace J6.Controllers
                 }
             }
             return uniqueFileName;
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
         }
 
         // GET: Categories/Edit/5
@@ -128,9 +107,6 @@ namespace J6.Controllers
                 return NotFound();
             }
 
-<<<<<<< HEAD
-            var category = await _context.Categories.FindAsync(id);
-=======
             Category category = await _context.Categories.Where(x => x.CategoryId == id).FirstOrDefaultAsync();
             CategoriesViewModel viewModel = new CategoriesViewModel
             {
@@ -145,7 +121,6 @@ namespace J6.Controllers
             };
             // var category = await _context.Categories.FindAsync(id);
 
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
             if (category == null)
             {
                 return NotFound();
@@ -158,46 +133,14 @@ namespace J6.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-<<<<<<< HEAD
-        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,CategoryName,CreatedAt,UpdatedAt,Image,Content")] Category category)
-        {
-            if (id != category.CategoryId)
-=======
         public async Task<IActionResult> Edit(int id, CategoriesViewModel model, IFormFile file)
         {
 
             if (id != model.CategoryId)
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
             {
                 return NotFound();
             }
 
-<<<<<<< HEAD
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(category);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CategoryExists(category.CategoryId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(category);
-        }
-
-        // GET: Categories/Delete/5
-=======
 
             Category category = await _context.Categories.Where(x => x.CategoryId == id).FirstOrDefaultAsync();
 
@@ -325,7 +268,6 @@ namespace J6.Controllers
 
 
         //GET: Categories/Delete/5
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

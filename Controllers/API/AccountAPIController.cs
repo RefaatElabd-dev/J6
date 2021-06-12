@@ -23,11 +23,8 @@ namespace J6.Controllers
             this.signInManager = signInManager;
             tokenService = _tokenService;
         }
-<<<<<<< HEAD
+
         [HttpPost("Register")]
-=======
-        [HttpPost("Regester")]
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
             if (await UserExist(registerDto.Username)) { return BadRequest("User is taken"); }
@@ -45,14 +42,9 @@ namespace J6.Controllers
             return new UserDto
             {
                 UserName = user.UserName,
-<<<<<<< HEAD
-                Token = await tokenService.CreateToken(user)
-=======
                 Token = await tokenService.CreateToken(user),
                 Email = user.Email,
 
-              
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
             };
         }
 
@@ -62,11 +54,7 @@ namespace J6.Controllers
         }
 
         [HttpPost("Login")]
-<<<<<<< HEAD
-        public async Task<ActionResult<UserDto>> Login(LoginDto LoginDto)
-=======
         public async Task<ActionResult<UserDto>> Login([FromBody]LoginDto LoginDto)
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
         {
             var user = await userManager.Users.SingleOrDefaultAsync(u => u.UserName == LoginDto.UserName.ToLower());
             if (user == null) return Unauthorized("This UserName is not Exist");
@@ -76,15 +64,10 @@ namespace J6.Controllers
             return new UserDto
             {
                 UserName = user.UserName,
-<<<<<<< HEAD
-                Token = await tokenService.CreateToken(user)
-=======
                 Token = await tokenService.CreateToken(user),
                 Email = user.Email,
                 Id=user.Id
-                
-                
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
+   
             };
         }
     }

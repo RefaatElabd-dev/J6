@@ -107,7 +107,6 @@ namespace J6.Controllers
         //getproducts in subcatgory in category
         //api/SubCategories/categoryproduct/1
         [HttpGet("{id}")]
-<<<<<<< HEAD
         [Route("categoryproduct/{id}")]
 
         public List<Product> getProductOfSubcategory(int id)
@@ -120,35 +119,14 @@ namespace J6.Controllers
 
             return products;
         }
-=======
-     [Route("categoryproduct/{id}")]
- 
-        public List<Product> getProductOfSubcategory(int id)
-            {//id of category
-            List<Product> products=new List<Product>();
-            //getsubcategory of id
-            var subcategory =  _context.SubCategories.FirstOrDefault(q=>q.CategoryId==id);
-            //all product in subcategory
-            products = _context.Products.Where((a => a.SubcategoryId == subcategory.SubcategoryId)).ToList();
-            
-            return products;
-            }
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
         //get all subcategory from category
         //    /categorySubcategory/1
         [HttpGet("{id}")]
         [Route("~/categorySubcategory/{id}")]
-<<<<<<< HEAD
         public List<SubCategory> getSubcategoryofCategory(int id)
         {//id is category id
 
             return _context.SubCategories.Where(q => q.CategoryId == id).ToList(); ;
-=======
-        public  List<SubCategory> getSubcategoryofCategory(int id)
-        {//id is category id
-          
-            return  _context.SubCategories.Where(q => q.CategoryId == id).ToList(); ;
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
 
         }
 
@@ -160,11 +138,7 @@ namespace J6.Controllers
         public async Task<ActionResult<IEnumerable<Product>>> getProductsOFSubcategory(int id)
         {
             List<Product> highproducts = new List<Product>();
-<<<<<<< HEAD
             var productss = await _context.Products.Where(q => q.SubcategoryId == id).Include(a => a.Promotion).Include(a => a.ShippingDetail).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).ToListAsync();
-=======
-            var productss=await _context.Products.Where(q => q.SubcategoryId == id).Include(a => a.Promotion).Include(a=>a.ShippingDetail).Include(c=>c.ProdCarts).Include(p=>p.ProdOrders).Include(o=>o.ProductImages).Include(i=>i.Reviews).Include(e=>e.StoreProducts).Include(y=>y.Views).ToListAsync();
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
 
             for (int i = 0; i < 10; i++)
             {
@@ -177,7 +151,6 @@ namespace J6.Controllers
             return highproducts;
         }
 
-<<<<<<< HEAD
         /////////////////////////////////////////////////////////////////////////
         //all color in subcategory
         //  api/SubCategories/allsubcolor/1
@@ -234,7 +207,7 @@ namespace J6.Controllers
             {
                 if (!prices.Contains(item.Price))
                 {
-                    if (item.Price != null)
+                    if (item.Price != 0)
                     {
                         prices.Add(item.Price);
                     }
@@ -321,9 +294,6 @@ namespace J6.Controllers
             return Ok(rating);
 
         }
-=======
-
->>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
 
 
 
