@@ -133,7 +133,11 @@ namespace J6.Controllers
         //in body write    "red"
         [HttpGet("{id}")]
         [Route("color/{id}")]
+<<<<<<< HEAD
         public async Task<ActionResult> GetproductCategoryusingcolor( string color, int id)
+=======
+        public async Task<ActionResult> GetproductCategoryusingcolor([FromBody] string color, int id)
+>>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
         {
             //id is category id
             List<object> allproducts = new List<object>();
@@ -159,13 +163,21 @@ namespace J6.Controllers
 
 
         //////////////////////////////////////////
+<<<<<<< HEAD
         // get products of category using price
+=======
+        // get products of category using color
+>>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
 
         // api/Categories/price/1
         //in body write    "40"
         [HttpGet("{id}")]
         [Route("price/{id}")]
+<<<<<<< HEAD
         public async Task<ActionResult> GetproductCategoryusingprice(double price, int id)
+=======
+        public async Task<ActionResult> GetproductCategoryusingprice([FromBody] double price, int id)
+>>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
         {//id is category id
             List<object> allproducts = new List<object>();
             var category = await _context.Categories.FindAsync(id);
@@ -199,7 +211,11 @@ namespace J6.Controllers
         //20 40 60 80
         [HttpGet("{id}")]
         [Route("discount/{id}")]
+<<<<<<< HEAD
         public async Task<ActionResult> GetproductCategoryusingdiscount( int discount, int id)
+=======
+        public async Task<ActionResult> GetproductCategoryusingdiscount([FromBody] int discount, int id)
+>>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
         {//id is category id
             List<object> allproducts = new List<object>();
 
@@ -247,7 +263,11 @@ namespace J6.Controllers
         //in body write    4
         [HttpGet("{id}")]
         [Route("rating/{id}")]
+<<<<<<< HEAD
         public async Task<ActionResult> GetproductCategoryusingrating( double rating, int id)
+=======
+        public async Task<ActionResult> GetproductCategoryusingrating([FromBody] double rating, int id)
+>>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
         {//id is category id
             List<object> allproducts = new List<object>();
             var category = await _context.Categories.FindAsync(id);
@@ -293,7 +313,11 @@ namespace J6.Controllers
         //in body write    1
         [HttpGet("{id}")]
         [Route("brand/{id}")]
+<<<<<<< HEAD
         public async Task<ActionResult> GetproductCategoryusingbrand( int brand, int id)//String BrandName  insted of Brand
+=======
+        public async Task<ActionResult> GetproductCategoryusingbrand([FromBody] int brand, int id)//String BrandName  insted of Brand
+>>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
         {//id is category id
             List<object> allproducts = new List<object>();
             var category = await _context.Categories.FindAsync(id);
@@ -325,7 +349,11 @@ namespace J6.Controllers
         //in body write    "xl"
         [HttpGet("{id}")]
         [Route("size/{id}")]
+<<<<<<< HEAD
         public async Task<ActionResult> GetproductCategoryusingsize(string size, int id)
+=======
+        public async Task<ActionResult> GetproductCategoryusingsize([FromBody] string size, int id)
+>>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
         {//id is category id
             List<object> allproducts = new List<object>();
             var category = await _context.Categories.FindAsync(id);
@@ -354,11 +382,16 @@ namespace J6.Controllers
 
         /////////////////////////////////////////////////////////////////////////////
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
         //get all product in brand
 
         //in home
         //   api/Categories/allProductBrand/1
 
+<<<<<<< HEAD
         [HttpGet("{id}")]
         [Route("allProductBrand/{id}")]
         public async Task<ActionResult> GetallproductInBrand(int id)
@@ -369,6 +402,22 @@ namespace J6.Controllers
             return Ok(products);
 
         }
+=======
+
+
+        // Commented By shaban because wee remove brand name and add brand table 
+
+        //[HttpGet("{id}")]
+        //[Route("allProductBrand/{id}")]
+        //public async Task<ActionResult> GetallproductInBrand(string brandName)
+        //{//id is brand id
+           
+        //    var products=await _context.Products.Where(a=>a.BrandName==brandName).Include(a => a.Promotion).Include(a => a.ShippingDetail).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).Include(q=>q.Subcategory).ToListAsync();
+          
+        //    return Ok(products);
+
+        //}
+>>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
 
         /////////////////////////////////////////
 
@@ -377,6 +426,7 @@ namespace J6.Controllers
         //in home
         //   api/Categories/allsubcategoryBrand/1
 
+<<<<<<< HEAD
         [HttpGet("{id}")]
         [Route("allsubcategoryBrand/{id}")]
         public async Task<ActionResult> GetallsubcategoryInBrand(int id)
@@ -399,6 +449,30 @@ namespace J6.Controllers
             return Ok(sub);
 
         }
+=======
+        //[HttpGet("{id}")]
+        //[Route("allsubcategoryBrand/{id}")]
+        //public async Task<ActionResult> GetallsubcategoryInBrand(int id)
+        //{//id is brand id
+        //    List<SubCategory> sub = new List<SubCategory>();
+        //    var products = await _context.Products.Where(a => a.BrandId == id).Include(a => a.Promotion).Include(a => a.ShippingDetail).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).ToListAsync();
+        //    foreach (var item in products)
+        //    {
+        //        var subcategory = await _context.SubCategories.FirstOrDefaultAsync(a => a.SubcategoryId == item.SubcategoryId);
+        //        if(!sub.Contains(subcategory))
+        //        {
+        //            if (subcategory != null)
+        //            {
+        //                sub.Add(subcategory);
+        //            }
+        //        }
+               
+        //    }
+
+        //    return Ok(sub);
+
+        //}
+>>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
 
         //////////////////////////////////////////////////////////////
 
@@ -406,6 +480,7 @@ namespace J6.Controllers
 
         //   api/Categories/allBrandInsubcategory/1
 
+<<<<<<< HEAD
         [HttpGet("{id}")]
         [Route("allBrandInsubcategory/{id}")]
         public async Task<ActionResult> GetallBrandInsubcategory(int id)
@@ -428,6 +503,30 @@ namespace J6.Controllers
             return Ok(brand);
 
         }
+=======
+        //[HttpGet("{id}")]
+        //[Route("allBrandInsubcategory/{id}")]
+        //public async Task<ActionResult> GetallBrandInsubcategory(int id)
+        //{//id is subcategory id
+        //    List<object> brand = new List<object>();
+        //    var products = await _context.Products.Where(a => a.SubcategoryId==id).Include(a => a.Promotion).Include(a => a.ShippingDetail).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).ToListAsync();
+        //    foreach (var item in products)
+        //    {
+        //        var onebrand = await _context.Brands.FirstOrDefaultAsync(a => a.BrandId == item.BrandId);
+        //        if (!brand.Contains(onebrand))
+        //        {
+        //            if (onebrand != null)
+        //            {
+        //                brand.Add(onebrand);
+        //            }
+        //        }
+
+        //    }
+
+        //    return Ok(brand);
+
+        //}
+>>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
 
 
 
@@ -437,6 +536,7 @@ namespace J6.Controllers
         //in home
         //   api/Categories/allBrandIncategory/1
 
+<<<<<<< HEAD
         [HttpGet("{id}")]
         [Route("allBrandIncategory/{id}")]
         public async Task<ActionResult> GetallBrandIncategory(int id)
@@ -646,6 +746,39 @@ namespace J6.Controllers
         }
 
 
+=======
+        //[HttpGet("{id}")]
+        //[Route("allBrandIncategory/{id}")]
+        //public async Task<ActionResult> GetallBrandIncategory(int id)
+        //{//id is category id
+        //    List<object> brand = new List<object>();
+
+        //    var sub = await _context.SubCategories.Where(a => a.CategoryId == id).ToListAsync();
+        //    foreach (var item in sub)
+        //    {
+
+        //        var products = await _context.Products.Where(a => a.SubcategoryId == item.SubcategoryId).ToArrayAsync();
+               
+        //            foreach (var bran in products) { 
+        //            var onebrand = await _context.Brands.FirstOrDefaultAsync(a => a.BrandId == bran.BrandId);
+        //            if (!brand.Contains(onebrand)) {
+        //                if(onebrand != null) { 
+        //                brand.Add(onebrand);
+        //                }
+        //            }
+                          
+                    
+        //        }
+
+
+        //    }
+
+        //    return Ok(brand);
+
+        //}
+
+     
+>>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
 
 
 

@@ -18,7 +18,10 @@ namespace J6.BL.Mapper
             CreateMap<AppUser, UserDto>();
             CreateMap<AppUser, AllUserDto>();
             CreateMap<AppUser, SellerDto>();
+<<<<<<< HEAD
 
+=======
+>>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
         }
 
     }

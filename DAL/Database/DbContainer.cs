@@ -6,6 +6,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using J6.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
+<<<<<<< HEAD
+=======
+using J6BackEnd.Models;
+>>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
 
 namespace J6.DAL.Database
 {
@@ -15,7 +19,11 @@ namespace J6.DAL.Database
     {
         public DbContainer() { }
         public DbContainer(DbContextOptions<DbContainer> opts) : base(opts) {}
+<<<<<<< HEAD
         public virtual DbSet<Brand> Brands { get; set; }
+=======
+
+>>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
         public virtual DbSet<Cart> Carts { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
@@ -33,6 +41,19 @@ namespace J6.DAL.Database
         public virtual DbSet<SubCategory> SubCategories { get; set; }
         public virtual DbSet<View> Views { get; set; }
         public virtual DbSet<Address> Addresses { get; set; }
+<<<<<<< HEAD
+=======
+        public virtual DbSet<MiddleSavedProduct> ProductsBag { get; set; }
+        public virtual DbSet<SavedBag> SavedBag { get; set; }
+
+        //shaban
+        public virtual DbSet<Brand> Brands { get; set; }
+        public virtual DbSet<ProductBrand> ProductBrands { get; set; }
+
+
+
+
+>>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
 
         //public virtual DbSet<City> Cities { get; set; }
         //public virtual DbSet<Government> Addresses { get; set; }
@@ -48,6 +69,10 @@ namespace J6.DAL.Database
                 .WithOne(u => u.user)
                 .HasForeignKey(ur => ur.UserId)
                 .IsRequired();
+<<<<<<< HEAD
+=======
+
+>>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
             });
 
             modelBuilder.Entity<AppRole>()
@@ -434,6 +459,62 @@ namespace J6.DAL.Database
             });
 
 
+<<<<<<< HEAD
+=======
+
+
+            // Shaban
+
+            modelBuilder.Entity<Brand>(entity =>
+            {
+                entity.ToTable("brand");
+
+                entity.Property(e => e.BrandId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("brandId").ValueGeneratedOnAdd();
+
+                entity.Property(e => e.BrandName)
+                    .HasMaxLength(60)
+                    .HasColumnName("brandName");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("date")
+                    .HasColumnName("createdAt");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("date")
+                    .HasColumnName("updatedAt");
+            });
+
+
+
+
+
+            modelBuilder.Entity<ProductBrand>(entity =>
+            {
+                entity.HasKey(e => new { e.ProductId, e.BrandId });
+
+                entity.ToTable("productBrand");
+
+                entity.Property(e => e.ProductId).HasColumnName("productId");
+
+                entity.Property(e => e.BrandId).HasColumnName("brandId");
+
+                entity.HasOne(d => d.Brand)
+                    .WithMany(p => p.ProductBrands)
+                    .HasForeignKey(d => d.BrandId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_productBrand_brand");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.ProductBrands)
+                    .HasForeignKey(d => d.ProductId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_productBrand_product");
+            });
+
+
+>>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
             modelBuilder.Entity<View>(entity =>
             {
                 entity.Property(e => e.ProductId).HasColumnName("productId");
@@ -454,8 +535,40 @@ namespace J6.DAL.Database
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Views_Customer");
 
+<<<<<<< HEAD
                 entity.HasKey(e => new { e.CustomerId, e.ProductId });
             });
+=======
+                entity.Property(e=>e.CreationDate)
+                 .HasColumnType("datetime2")
+                 .HasDefaultValueSql("GETDATE()")
+                 .ValueGeneratedOnAdd();
+
+
+                entity.HasKey(e => new { e.CustomerId, e.ProductId });
+            });
+
+            modelBuilder.Entity<SavedBag>(entity =>
+            {
+                entity.HasMany(B => B.ProductsBag)
+                .WithOne(P => P.Bag)
+                .HasForeignKey(P => P.SaveBagId)
+                .IsRequired();
+            });
+
+            modelBuilder.Entity<Product>(entity =>
+            {
+                entity.HasMany(P => P.ProductsBag)
+                .WithOne(P => P.Product)
+                .HasForeignKey(P => P.ProductId)
+                .IsRequired();
+            });
+
+            modelBuilder.Entity<MiddleSavedProduct>(entity =>
+            {
+                entity.HasKey("ProductId", "SaveBagId");
+            });
+>>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
         }
 
     }

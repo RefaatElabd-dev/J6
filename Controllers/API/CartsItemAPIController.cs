@@ -1,6 +1,9 @@
 ﻿using J6.DAL.Database;
 using J6.DAL.Entities;
+<<<<<<< HEAD
 using Microsoft.AspNetCore.Http;
+=======
+>>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -8,22 +11,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+<<<<<<< HEAD
 namespace J6.Controllers.API
 {
     [Route("api/[controller]")]
     [ApiController]
     
     public class CartsItemAPIController : ControllerBase
+=======
+namespace J6.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CartsItemAPiController : ControllerBase
+>>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
     {
 
         private readonly DbContainer _context;
 
+<<<<<<< HEAD
         public CartsItemAPIController(DbContainer context)
+=======
+        public CartsItemAPiController(DbContainer context)
+>>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
         {
             _context = context;
         }
 
 
+<<<<<<< HEAD
     
     
         ////////////
@@ -85,6 +101,11 @@ namespace J6.Controllers.API
         // allproducts in cart
         // api/CartsItem/productsIncart/1
 
+=======
+        //  allproducts in cart
+       // api/CartsItem/productsIncart/1
+       
+>>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
         [HttpGet("{id}")]
         [Route("productsIncart/{id}")]
 
@@ -92,16 +113,27 @@ namespace J6.Controllers.API
         {
             //id is cart id
             //allproduvt in cart
+<<<<<<< HEAD
             var allproductincart = await _context.ProdCarts.Where(a => a.CartId == id).ToListAsync();
+=======
+            var allproductincart =await _context.ProdCarts.Where(a => a.CartId == id).ToListAsync();
+>>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
             if (allproductincart == null)
             {
                 return BadRequest();
             }
             List<object> products = new List<object>();
+<<<<<<< HEAD
 
             foreach (var item in allproductincart)
             {
                 var oneproduct = await _context.Products.Include(a => a.ProductImages)
+=======
+          
+            foreach (var item in allproductincart)
+            {
+                var oneproduct =await _context.Products.Include(a => a.ProductImages)
+>>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
                 .Include(a => a.Promotion).Include(c => c.Reviews).Include(w => w.ShippingDetail).Include(q => q.ProdCarts).Include(p => p.ProdOrders).FirstOrDefaultAsync(a => a.ProductId == item.ProductId);
                 products.Add(oneproduct);
 
@@ -110,6 +142,7 @@ namespace J6.Controllers.API
             return Ok(products);
 
         }
+<<<<<<< HEAD
 
         //////////////////////////////////////////////////////////////////////////
 
@@ -123,16 +156,35 @@ namespace J6.Controllers.API
         public async Task<ActionResult> deleteproductsInCart(int cartid, [FromBody] int productid)
         {
             ProdCart productincart = await _context.ProdCarts.FirstOrDefaultAsync(a => a.CartId == cartid && a.ProductId == productid);
+=======
+        //api/CartsItem/deleteProductsFromCart/1
+      // in body    write    1     only
+        //delete product from cart
+
+        [HttpDelete("{cartid}")]
+        [Route("deleteProductsFromCart/{cartid}")]
+        public async Task<ActionResult> deleteproductsInCart( int cartid, [FromBody] int productid)
+        {
+            ProdCart productincart =await _context.ProdCarts.FirstOrDefaultAsync(a => a.CartId == cartid && a.ProductId == productid);
+>>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
             if (productincart == null)
             {
                 return BadRequest();
             }
 
+<<<<<<< HEAD
             _context.ProdCarts.Remove(productincart);
+=======
+          
+
+            _context.ProdCarts.Remove(productincart);
+
+>>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
             _context.SaveChanges();
             return Ok(productincart);
 
         }
+<<<<<<< HEAD
         //////////////////////////////////////////////////////////////
         [HttpGet("{cartListID}")]
         [Route("priceofcart/{cartListID}")]
@@ -182,6 +234,23 @@ namespace J6.Controllers.API
         ////////////////////////////////////////////////////////////
 
         //buys
+=======
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> cda8e4c6c7f9f41f927f342ee2d1a7c051d7ae4b
 
 
 
