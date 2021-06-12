@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using J6BackEnd.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -12,7 +13,7 @@ namespace J6.DAL.Entities
         {
             ProdCarts = new HashSet<ProdCart>();
             ProdOrders = new HashSet<ProdOrder>();
-            //ProductBrands = new HashSet<ProductBrand>();
+            ProductBrands = new HashSet<ProductBrand>();
             ProductImages = new HashSet<ProductImage>();
             Reviews = new HashSet<Review>();
             StoreProducts = new HashSet<StoreProduct>();
@@ -41,10 +42,8 @@ namespace J6.DAL.Entities
         public string material { set; get; }
 
         //shababn
-        public string BrandName { get; set; }
-        //public virtual ICollection<Brand> Brands { get; set; }
-
-
+       // public string BrandName { get; set; }
+        public virtual ICollection<ProductBrand> ProductBrands { get; set; }
 
 
         public string Manufacture { get; set; }

@@ -34,9 +34,15 @@ namespace J6.BL.Repositry
         public async Task<IEnumerable<Product>> GetProductsAsync(ProductParams productParams)
         {
             return await _context.Products.Where
-                (x => (productParams.Model == null || x.BrandName.ToLower().
-                Contains(productParams.Model.ToLower())) || (productParams.Color == null || x.Color.ToLower().Contains(productParams.Color))).ToListAsync();
+                (x => (productParams.Color == null || x.Color.ToLower().Contains(productParams.Color))).ToListAsync();
         }
+
+
+        /* // filter by brandName
+        (productParams.Model == null || x.BrandName.ToLower().
+                Contains(productParams.Model.ToLower())) || 
+        */
+
 
 
         public async Task<Product> GetProductByIdAsync(int id)

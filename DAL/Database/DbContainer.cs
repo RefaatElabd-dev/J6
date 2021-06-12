@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using J6.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
+using J6BackEnd.Models;
 
 namespace J6.DAL.Database
 {
@@ -35,6 +36,13 @@ namespace J6.DAL.Database
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<MiddleSavedProduct> ProductsBag { get; set; }
         public virtual DbSet<SavedBag> SavedBag { get; set; }
+
+        //shaban
+        public virtual DbSet<Brand> Brands { get; set; }
+        public virtual DbSet<ProductBrand> ProductBrands { get; set; }
+
+
+
 
 
         //public virtual DbSet<City> Cities { get; set; }
@@ -435,6 +443,59 @@ namespace J6.DAL.Database
                     .WithMany(p => p.SubCategories)
                     .HasForeignKey(d => d.CategoryId)
                     .HasConstraintName("FK_subCategory_category");
+            });
+
+
+
+
+            // Shaban
+
+            modelBuilder.Entity<Brand>(entity =>
+            {
+                entity.ToTable("brand");
+
+                entity.Property(e => e.BrandId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("brandId").ValueGeneratedOnAdd();
+
+                entity.Property(e => e.BrandName)
+                    .HasMaxLength(60)
+                    .HasColumnName("brandName");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("date")
+                    .HasColumnName("createdAt");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("date")
+                    .HasColumnName("updatedAt");
+            });
+
+
+
+
+
+            modelBuilder.Entity<ProductBrand>(entity =>
+            {
+                entity.HasKey(e => new { e.ProductId, e.BrandId });
+
+                entity.ToTable("productBrand");
+
+                entity.Property(e => e.ProductId).HasColumnName("productId");
+
+                entity.Property(e => e.BrandId).HasColumnName("brandId");
+
+                entity.HasOne(d => d.Brand)
+                    .WithMany(p => p.ProductBrands)
+                    .HasForeignKey(d => d.BrandId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_productBrand_brand");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.ProductBrands)
+                    .HasForeignKey(d => d.ProductId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_productBrand_product");
             });
 
 
