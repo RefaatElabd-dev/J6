@@ -183,9 +183,9 @@ namespace J6.Controllers
 
         [HttpPost]
         [Route("SetView")]
-        public async Task<IActionResult> SetView(int UserId, int ProductId)
+        public async Task<IActionResult> SetView([FromBody] CustomerProductDto input)
         {
-            await _products.AssignToViewsAsync(UserId, ProductId);
+            await _products.AssignToViewsAsync(input.UserId, input.ProductId);
             return NoContent();
         }
 
@@ -201,6 +201,25 @@ namespace J6.Controllers
         public async Task<ActionResult<List<Product>>> GetRecomendedProducts(int CustomerId)
         {
             return Ok(await _products.GetRecomendedProductsAsync(CustomerId));
+        }
+
+        [HttpDelete]
+        [Route("DeleteView")]
+        public async Task<ActionResult<List<Product>>> DeleteView([FromBody] CustomerProductDto input)
+        {
+            return await _products.DeleteViewsAsync(input.UserId, input.ProductId) ?
+                                                NoContent() : BadRequest("Check User and Product ");
+        }
+
+        [HttpGet]
+        [Route("GetAllView/{UserId}")]
+        public async Task<ActionResult<List<Product>>> GetAllView(int UserId)
+        {
+            if(await _products.GetViewsByDateAsync(UserId) == null)
+            {
+                return BadRequest("Bad User Id");
+            }
+            return Ok(await _products.GetViewsByDateAsync(UserId));
         }
 
 

@@ -16,6 +16,8 @@ namespace J6.DAL.Entities
         public int CustomerId { get; set; }
         public string IsFar { get; set; }
 
+        public DateTime CreationDate { get; private set; }
+
         public virtual Product Product { get; set; }
         public virtual AppUser Customer { get; set; }
     }

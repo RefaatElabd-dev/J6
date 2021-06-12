@@ -458,6 +458,12 @@ namespace J6.DAL.Database
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Views_Customer");
 
+                entity.Property(e=>e.CreationDate)
+                 .HasColumnType("datetime2")
+                 .HasDefaultValueSql("GETDATE()")
+                 .ValueGeneratedOnAdd();
+
+
                 entity.HasKey(e => new { e.CustomerId, e.ProductId });
             });
 

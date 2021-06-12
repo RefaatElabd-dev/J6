@@ -1,5 +1,6 @@
 ﻿using J6.DAL.Database;
 using J6.DAL.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -20,11 +21,28 @@ namespace J6.BL.Servises
             _userManager = userManager;
         }
 
-
+        [Authorize]
         public async Task AssignToViewsAsync(int UserId, int ProductId)
         {
             await _context.Views.AddAsync(new View { CustomerId = UserId, ProductId = ProductId });
             await _context.SaveChangesAsync();
+        }
+
+        [Authorize]
+        public async Task<bool> DeleteViewsAsync(int UserId, int ProductId)
+        {
+            var user = await _userManager.FindByIdAsync(UserId.ToString());
+            if(user != null)
+            {
+                View ViewRow = await _context.Views.FirstOrDefaultAsync(v => v.CustomerId == UserId && v.ProductId == ProductId);
+                if(ViewRow != null)
+                {
+                   _context.Views.Remove(ViewRow);
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
+            }
+            return false;
         }
 
         public async Task<List<Product>> GetRandomProductsAsync()
@@ -65,6 +83,20 @@ namespace J6.BL.Servises
             }
 
             return products;
+        }
+
+        [Authorize]
+        public async Task<List<Product>> GetViewsByDateAsync(int UserId)
+        {
+            var user = await _userManager.FindByIdAsync(UserId.ToString());
+            if(user != null)
+            {
+                //var date = await _context.Views.Select(v => v.CreationDate).ToListAsync();
+                List<Product> products = await _context.Products.Where(p=> p.Views.Any( v=>v.CustomerId==UserId && v.ProductId == p.ProductId)).OrderByDescending(p => p.Views.OrderBy(v=>p.ProductId).First().CreationDate).Take(50).ToListAsync();
+                return products;
+            }
+
+            return null;
         }
     }
 }
