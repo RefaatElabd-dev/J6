@@ -7,22 +7,28 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using J6.DAL.Database;
 using J6.DAL.Entities;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace J6.Controllers
 {
     public class ProductsController : Controller
     {
         private readonly DbContainer _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ProductsController(DbContainer context)
+        public ProductsController(DbContainer context
+            , IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            var dbContainer = _context.Products.Include(p => p.Promotion).Include(p => p.Subcategory);
+            var dbContainer = _context.Products.Include(p => p.Promotion).Include(p => p.Subcategory).Include(p=>p.Brands);
             return View(await dbContainer.ToListAsync());
 
             
@@ -39,6 +45,7 @@ namespace J6.Controllers
             var product = await _context.Products
                 .Include(p => p.Promotion)
                 .Include(p => p.Subcategory)
+                .Include(p => p.Brands)
                 .FirstOrDefaultAsync(m => m.ProductId == id);
             if (product == null)
             {
@@ -51,7 +58,7 @@ namespace J6.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            //ViewData["BrandId"] = new SelectList(_context.Brands, "BrandId", "BrandName");
+            ViewData["BrandId"] = new SelectList(_context.Brands, "BrandId", "BrandName");
             ViewData["PromotionId"] = new SelectList(_context.Promotions, "Id", "Id");
             ViewData["SubcategoryId"] = new SelectList(_context.SubCategories, "SubcategoryId", "SubcategoryName");
             return View();
@@ -62,7 +69,7 @@ namespace J6.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,Price,SoldQuantities,Quantity,Size,Color,ProductName,Model,SubcategoryId,Rating,Discount,Description,Ship,CreatedAt,UpdatedAt,DeletedAt,PromotionId,material,BrandName,Manufacture")] Product product)
+        public async Task<IActionResult> Create([Bind("ProductId,Price,SoldQuantities,Quantity,Size,Color,ProductName,Model,SubcategoryId,BrandId,Rating,Discount,Description,Ship,CreatedAt,UpdatedAt,DeletedAt,PromotionId,material,Manufacture")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -70,7 +77,7 @@ namespace J6.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            //ViewData["BrandId"] = new SelectList(_context.Brands, "BrandId", "BrandId", product.BrandId);
+            ViewData["BrandId"] = new SelectList(_context.Brands, "BrandId", "BrandId", product.BrandId);
             ViewData["PromotionId"] = new SelectList(_context.Promotions, "Id", "Id", product.PromotionId);
             ViewData["SubcategoryId"] = new SelectList(_context.SubCategories, "SubcategoryId", "SubcategoryId", product.SubcategoryId);
             return View(product);
@@ -89,7 +96,7 @@ namespace J6.Controllers
             {
                 return NotFound();
             }
-            //ViewData["BrandId"] = new SelectList(_context.Brands, "BrandId", "BrandId", product.BrandId);
+            ViewData["BrandId"] = new SelectList(_context.Brands, "BrandId", "BrandId", product.BrandId);
             ViewData["PromotionId"] = new SelectList(_context.Promotions, "Id", "Id", product.PromotionId);
             ViewData["SubcategoryId"] = new SelectList(_context.SubCategories, "SubcategoryId", "SubcategoryId", product.SubcategoryId);
             return View(product);
@@ -100,7 +107,7 @@ namespace J6.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,Price,SoldQuantities,Quantity,Size,Color,ProductName,Model,SubcategoryId,Rating,Discount,Description,Ship,CreatedAt,UpdatedAt,DeletedAt,PromotionId,material,BrandName,Manufacture")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductId,Price,SoldQuantities,Quantity,Size,Color,ProductName,Model,SubcategoryId,Rating,Discount,Description,Ship,CreatedAt,UpdatedAt,DeletedAt,PromotionId,material,BrandId,Manufacture")] Product product)
         {
             if (id != product.ProductId)
             {
@@ -127,7 +134,7 @@ namespace J6.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            //ViewData["BrandId"] = new SelectList(_context.Brands, "BrandId", "BrandId", product.BrandId);
+            ViewData["BrandId"] = new SelectList(_context.Brands, "BrandId", "BrandId", product.BrandId);
             ViewData["PromotionId"] = new SelectList(_context.Promotions, "Id", "Id", product.PromotionId);
             ViewData["SubcategoryId"] = new SelectList(_context.SubCategories, "SubcategoryId", "SubcategoryId", product.SubcategoryId);
             return View(product);
@@ -168,6 +175,18 @@ namespace J6.Controllers
         private bool ProductExists(int id)
         {
             return _context.Products.Any(e => e.ProductId == id);
+        }
+
+         private async Task<string> UploadImage(string folderPath, IFormFile file)
+        {
+
+            folderPath += Guid.NewGuid().ToString() + "_" + file.FileName;
+
+            string serverFolder = Path.Combine(_webHostEnvironment.WebRootPath, folderPath);
+
+            await file.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
+
+            return "/" + folderPath;
         }
     }
 }
