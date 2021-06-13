@@ -1,0 +1,56 @@
+﻿@model IEnumerable<J6.DAL.Entities.Brand>
+
+
+@{ ViewData["Title"] = "Index";
+    Layout = "~/Views/Layout/MainLayout.cshtml"; }
+<section class="mt-2 container">
+
+    <div class="container mt-4">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h2 class="text-center text-uppercase">List of Brands</h2>
+            </div>
+            <div class="card-body">
+                <div class="mb-2">
+                    <a asp-action="Create" class="btn btn-sm btn-primary text-uppercase p-3"><i class="fas fa-plus-circle fa-2x"></i></a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Image)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.BrandName)
+                                </th>
+                                <th>Operations</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <img width="80" height="80" src="~/images/@item.Image"
+                                             class="rounded-circle" alt="">
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.BrandName)
+                                    </td>
+                                    <td class="">
+                                        <a asp-action="Details" asp-route-id="@item.BrandId" class="btn btn-info m-2 p-3"><i class="fa fa-info-circle fa-2x"></i></a>
+                                        <a asp-action="Edit" asp-route-id="@item.BrandId" class="btn btn-warning m-2 p-3"><i class="fa fa-edit fa-2x"></i></a>
+                                        <a asp-action="Delete" asp-route-id="@item.BrandId" class="btn btn-danger m-2 p-3"><i class="fa fa-trash fa-2x"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -99,6 +99,10 @@ namespace J6.Controllers
                     model.Image.CopyTo(fileStream);
                 }
             }
+            else
+            {
+                uniqueFileName = "100c4b49-f8ab-4272-988e-1739500fc52e_No-Photo-Available.jpg";
+            }
             return uniqueFileName;
         }
 
