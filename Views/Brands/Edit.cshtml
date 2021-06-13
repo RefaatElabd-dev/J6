@@ -39,6 +39,14 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
+                            <label asp-for="CreatedAt" class="control-label"></label>
+                            <input asp-for="CreatedAt" class="form-control" />
+                            <span asp-validation-for="CreatedAt" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
                             <label asp-for="UpdatedAt" class="control-label"></label>
                             <input asp-for="UpdatedAt" class="form-control" />
                             <span asp-validation-for="UpdatedAt" class="text-danger"></span>

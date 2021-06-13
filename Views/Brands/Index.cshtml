@@ -24,6 +24,9 @@
                                 <th>
                                     @Html.DisplayNameFor(model => model.BrandName)
                                 </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CreatedAt)
+                                </th>
                                 <th>Operations</th>
                             </tr>
                         </thead>
@@ -39,6 +42,9 @@
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.BrandName)
+                                    </td>
+                                    <td style="min-width: 100px; max-width: 300px; overflow: hidden; text-overflow: ellipsis;">
+                                        @Html.DisplayFor(momodelItemdel => item.Image)
                                     </td>
                                     <td class="">
                                         <a asp-action="Details" asp-route-id="@item.BrandId" class="btn btn-info m-2 p-3"><i class="fa fa-info-circle fa-2x"></i></a>
