@@ -44,7 +44,7 @@ namespace J6.Controllers
                 UserName = user.UserName,
                 Token = await tokenService.CreateToken(user),
                 Email = user.Email,
-
+                Id = user.Id,
             };
         }
 
