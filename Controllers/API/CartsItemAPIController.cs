@@ -67,7 +67,7 @@ namespace J6.Controllers.API
 
             item.quantity++;
             item.ProductId = productid;
-            item.CartId = ShoppingCard.Cartid;
+            item.CartId = ShoppingCard.Id;
 
             var additem = await _context.ProdCarts.AddAsync(item);
             await _context.SaveChangesAsync();

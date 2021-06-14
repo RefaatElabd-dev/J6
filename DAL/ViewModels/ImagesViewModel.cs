@@ -9,12 +9,13 @@ namespace J6.DAL.ViewModels
 {
     public class ImagesViewModel
     {
+
         public int ProductId { get; set; }
         public int ImageId { get; set; }
 
-      
-        public List<IFormFile> Images { get; set; }
-    
+
+        public List<IFormFile> ImageUrl { get; set; }
+
         public virtual Product Product { get; set; }
     }
 }

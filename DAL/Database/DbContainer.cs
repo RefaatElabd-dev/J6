@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using J6.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
-
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace J6.DAL.Database
 {
@@ -57,6 +57,7 @@ namespace J6.DAL.Database
 
             });
 
+
             modelBuilder.Entity<AppRole>()
                 .HasMany(ur => ur.userRoles)
                 .WithOne(u => u.Role)
@@ -64,13 +65,31 @@ namespace J6.DAL.Database
                 .IsRequired();
 
 
+            //modelBuilder.Entity<ProductImage>(entity =>
+            //{
+            //   entity.HasKey(e => new { e.ProductId, e.ImageId });
+
+            //    entity.ToTable("ProductImage");
+
+            //    entity.Property(e => e.ProductId).HasColumnName("productId");
+
+            //    entity.Property(e => e.ImageId).HasColumnName("imageId");
+            //    ////shabab
+            //    entity.Property(e => e.ImageUrl).HasColumnName("ImageUrl");
+
+            //    entity.HasOne(d => d.Product)
+            //         .WithMany(p => p.ProductImages)
+            //         .HasForeignKey(d => d.ProductId)
+            //         .OnDelete(DeleteBehavior.ClientSetNull)
+            //         .HasConstraintName("FK_ProductImage_product");
+            //});
+
+
+
             modelBuilder.Entity<Cart>(entity =>
             {
                 entity.ToTable("cart");
 
-                entity.Property(e => e.Cartid)
-                    .ValueGeneratedNever()
-                    .HasColumnName("cartid");
 
                 entity.Property(e => e.Cost).HasColumnName("cost");
 
@@ -92,6 +111,10 @@ namespace J6.DAL.Database
                     .WithMany(p => p.Carts)
                     .HasForeignKey(d => d.ShippingDetailsId)
                     .HasConstraintName("FK_cart_ShippingDetails");
+
+                
+
+
             });
 
             modelBuilder.Entity<Category>(entity =>
@@ -274,24 +297,9 @@ namespace J6.DAL.Database
                     .HasConstraintName("FK_product_subCategory");
             });
 
-            modelBuilder.Entity<ProductImage>(entity =>
-            {
-                entity.HasKey(e => new { e.ProductId, e.ImageId });
 
-                entity.ToTable("ProductImage");
 
-                entity.Property(e => e.ProductId).HasColumnName("productId");
-
-                entity.Property(e => e.ImageId).HasColumnName("imageId");
-
-                entity.Property(e => e.Image).HasColumnName("image");
-
-                entity.HasOne(d => d.Product)
-                    .WithMany(p => p.ProductImages)
-                    .HasForeignKey(d => d.ProductId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ProductImage_product");
-            });
+ 
                 modelBuilder.Entity<Promotion>(entity =>
                     {
                         entity.Property(e => e.Id)

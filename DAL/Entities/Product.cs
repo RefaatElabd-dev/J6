@@ -55,7 +55,7 @@ namespace J6.DAL.Entities
         public virtual ICollection<ProdOrder> ProdOrders { get; set; }
 
         // [JsonIgnore]
-        public virtual ICollection<ProductImage> ProductImages { get; set; }
+        public  ICollection<ProductImage> ProductImages { get; set; }
       //  [JsonIgnore]
         public virtual ICollection<Review> Reviews { get; set; }
        // [JsonIgnore]

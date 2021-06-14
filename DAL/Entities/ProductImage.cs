@@ -9,9 +9,13 @@ namespace J6.DAL.Entities
 {
     public class ProductImage
     {
+      
+        [Key]
+        public int ImId { get; set; }
+        public string ImageUrl { get; set; }
+
+       
         public int ProductId { get; set; }
-        public int ImageId { get; set; }
-        public string Image { get; set; }
 
         public virtual Product Product { get; set; }
     }

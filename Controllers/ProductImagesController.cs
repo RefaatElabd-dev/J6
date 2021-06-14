@@ -43,7 +43,7 @@ namespace J6.Controllers
 
             var productImage = await _context.ProductImages
                 .Include(p => p.Product)
-                .FirstOrDefaultAsync(m => m.ProductId == id);
+                .FirstOrDefaultAsync(m => m.ImId == id);
             if (productImage == null)
             {
                 return NotFound();
@@ -56,6 +56,7 @@ namespace J6.Controllers
         public IActionResult Create()
         {
             ImagesViewModel vm = new ImagesViewModel();
+
             ViewData["ProductId"] = new SelectList(_context.Products, "ProductId", "ProductId");
             return View(vm);
         }
@@ -67,22 +68,21 @@ namespace J6.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ImagesViewModel vm)
         {
-            foreach (var item in vm.Images)
+            foreach (var item in vm.ImageUrl)
             {
                 string stringFileName = uploadfile(item);
                 var productImage = new ProductImage
                 {
-                    Image = stringFileName,
+                    //ImageId=vm.ImageId,
+                    ImageUrl = stringFileName,
                     Product = vm.Product
                 };
                 _context.ProductImages.Add(productImage);
-             
             }
             _context.SaveChanges();
 
             return RedirectToAction("Index");
         }
-
 
         private string uploadfile(IFormFile file)
         {
@@ -101,44 +101,31 @@ namespace J6.Controllers
             return fileName;
         }
 
+        // GET: ProductImages/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(productImage);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["ProductId"] = new SelectList(_context.Products, "ProductId", "ProductId", productImage.ProductId);
-        //    return View(productImage);
-        //}
-
-        //// GET: ProductImages/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var productImage = await _context.ProductImages.FindAsync(id);
-        //    if (productImage == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    ViewData["ProductId"] = new SelectList(_context.Products, "ProductId", "ProductId", productImage.ProductId);
-        //    return View(productImage);
-        //}
+            var productImage = await _context.ProductImages.FindAsync(id);
+            if (productImage == null)
+            {
+                return NotFound();
+            }
+            ViewData["ProductId"] = new SelectList(_context.Products, "ProductId", "ProductId", productImage.ProductId);
+            return View(productImage);
+        }
 
         // POST: ProductImages/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ImageId,Image")] ProductImage productImage)
+        public async Task<IActionResult> Edit(int id, [Bind("ImageId,ImageUrl,ProductId")] ProductImage productImage)
         {
-            if (id != productImage.ProductId)
+            if (id != productImage.ImId)
             {
                 return NotFound();
             }
@@ -152,7 +139,7 @@ namespace J6.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductImageExists(productImage.ProductId))
+                    if (!ProductImageExists(productImage.ImId))
                     {
                         return NotFound();
                     }
@@ -177,7 +164,7 @@ namespace J6.Controllers
 
             var productImage = await _context.ProductImages
                 .Include(p => p.Product)
-                .FirstOrDefaultAsync(m => m.ProductId == id);
+                .FirstOrDefaultAsync(m => m.ImId == id);
             if (productImage == null)
             {
                 return NotFound();
@@ -199,7 +186,7 @@ namespace J6.Controllers
 
         private bool ProductImageExists(int id)
         {
-            return _context.ProductImages.Any(e => e.ProductId == id);
+            return _context.ProductImages.Any(e => e.ImId == id);
         }
     }
 }
