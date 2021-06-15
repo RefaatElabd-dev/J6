@@ -60,12 +60,12 @@ namespace J6.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(BrandsViewModel model)
+        public async Task<IActionResult> Create(BrandsViewModel model, HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
             {
 
-                string uniqueFileName = UploadedFile(model);
+                string uniqueFileName = UploadedFile(model, file);
                 Brand brand = new Brand
                 {
                     BrandName = model.BrandName,
@@ -82,15 +82,15 @@ namespace J6.Controllers
 
 
 
-        private string UploadedFile(BrandsViewModel model)
+        private string UploadedFile(BrandsViewModel model, HttpPostedFileBase file)
         {
             string uniqueFileName = null;
-
+            string filePath = null;
+            string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
             if (model.Image != null)
             {
-                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
                 uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Image.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                filePath = Path.Combine(uploadsFolder, uniqueFileName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
                     model.Image.CopyTo(fileStream);
@@ -98,9 +98,9 @@ namespace J6.Controllers
             }
             else
             {
-                uniqueFileName = "100c4b49-f8ab-4272-988e-1739500fc52e_No-Photo-Available.jpg";
+                filePath = Path.Combine(uploadsFolder, "100c4b49-f8ab-4272-988e-1739500fc52e_No-Photo-Available.jpg");
             }
-            return uniqueFileName;
+            return filePath;
         }
 
 
@@ -140,7 +140,7 @@ namespace J6.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, IFormFile file, BrandsViewModel model)
+        public async Task<IActionResult> Edit(int? id, IFormFile File, BrandsViewModel model, HttpPostedFileBase file)
         {
             if (id == null)
             {
@@ -154,7 +154,7 @@ namespace J6.Controllers
             brand.BrandName = model.BrandName;
             brand.CreatedAt = model.CreatedAt;
             brand.UpdatedAt = DateTime.Now;
-            brand.Image = UploadedFile(model);
+            brand.Image = UploadedFile(model, file);
 
             if (brand.Image == null)
             {
@@ -164,13 +164,13 @@ namespace J6.Controllers
             _context.Update(brand);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-            if (file != null || file.Length != 0)
+            if (File != null || File.Length != 0)
             {
                 string filename = System.Guid.NewGuid().ToString() + ".jpg";
                 var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", filename);
                 using (var stream = new FileStream(path, FileMode.Create))
                 {
-                    await file.CopyToAsync(stream);
+                    await File.CopyToAsync(stream);
                 }
                 brand.Image = filename;
             }

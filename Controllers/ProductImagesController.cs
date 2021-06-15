@@ -77,9 +77,9 @@ namespace J6.Controllers
                     ImageUrl = stringFileName,
                     Product = vm.Product
                 };
-                _context.ProductImages.Add(productImage);
+                await _context.ProductImages.AddAsync(productImage);
             }
-            _context.SaveChanges();
+           await _context.SaveChangesAsync();
 
             return RedirectToAction("Index");
         }
