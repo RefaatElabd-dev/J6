@@ -13,9 +13,6 @@ namespace J6.DAL.Entities
         {
             ProdCarts = new HashSet<ProdCart>();
         }
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-
        
         [Key]
         public int Id { get; set; }

@@ -90,7 +90,7 @@ namespace J6.DAL.Database
             {
                 entity.ToTable("cart");
 
-                entity.Property(e => e.Cartid)
+                entity.Property(e => e.Id)
                     .ValueGeneratedNever()
                     .HasColumnName("cartid");
 
