@@ -29,6 +29,7 @@ namespace J6.Controllers
 
         // GET: api/Categories/5
         [HttpGet("{id}")]
+        [Route("category/{id}")]
         public async Task<ActionResult<Category>> GetCategory(int id)
         {
             var category = await _context.Categories.FindAsync(id);
@@ -129,7 +130,7 @@ namespace J6.Controllers
         //filters
         // get products of category using color
 
-        // api/Categories/color/1
+        // api/Categories/color/1?color=red
         //in body write    "red"
         [HttpGet("{id}")]
         [Route("color/{id}")]
@@ -146,13 +147,20 @@ namespace J6.Controllers
                 return NotFound();
             }
 
-            var allSubInCategory = _context.SubCategories.Where(a => a.CategoryId == category.CategoryId);
+            var allSubInCategory =await _context.SubCategories.Where(a => a.CategoryId == category.CategoryId).ToListAsync();
             foreach (var item in allSubInCategory)
             {
 
-                var products = _context.Products.Where(a => a.SubcategoryId == item.SubcategoryId && a.Color == color).Include(a => a.Promotion).Include(a => a.ShippingDetail).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).Include(q => q.StoreProducts);
+                var products = await _context.Products.Where(a => a.SubcategoryId == item.SubcategoryId && a.Color == color).Include(a => a.Promotion).Include(a => a.ShippingDetail).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).Include(q => q.StoreProducts).ToArrayAsync();
 
-                allproducts.Add(products);
+                if (products != null)
+                {
+                    foreach(var oitem in products) 
+                    {
+                        if (oitem!=null){ 
+                    allproducts.Add(oitem); }
+                    }
+                }
 
             }
 
@@ -187,9 +195,14 @@ namespace J6.Controllers
                 var products = await _context.Products.Where(a => a.SubcategoryId == item.SubcategoryId && a.Price == price).Include(a => a.Promotion).Include(a => a.ShippingDetail).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).Include(q => q.StoreProducts).ToListAsync();
 
                 if (products != null)
-                {
+                {foreach(var oitem in products)
+                    {
+                        if (oitem != null) { 
+                        allproducts.Add(oitem);
+                        }
+                    }
 
-                    allproducts.Add(products);
+                    
                 }
 
             }
@@ -318,16 +331,17 @@ namespace J6.Controllers
             var allSubInCategory = await _context.SubCategories.Where(a => a.CategoryId == category.CategoryId).ToListAsync();
             foreach (var item in allSubInCategory)
             {
-                var products = await _context.Products.Where(a => a.SubcategoryId == item.SubcategoryId /*&& a.BrandId == brand*/).Include(a => a.Promotion).Include(a => a.ShippingDetail).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).Include(q => q.StoreProducts).ToListAsync();
-
-                if (products != null)
+                var products = await _context.Products.Where(a => a.SubcategoryId == item.SubcategoryId && a.BrandId == brand).Include(o => o.ProductImages).ToListAsync();
+                if (products != null) { 
+                foreach (var oitem in products)
                 {
-
-                    allproducts.Add(products);
+                    if (oitem != null)
+                    {
+                        allproducts.Add(oitem);
+                    }
                 }
-
             }
-
+            }
             return Ok(allproducts);
         }
 
@@ -356,8 +370,9 @@ namespace J6.Controllers
 
                 if (products != null)
                 {
-
-                    allproducts.Add(products);
+                    foreach(var oitem in products) {
+                        if (oitem != null) { allproducts.Add(oitem); }
+                    }
                 }
 
             }
@@ -473,6 +488,7 @@ namespace J6.Controllers
                 foreach (var bran in products)
                 {
                     var onebrand = await _context.Brands.FirstOrDefaultAsync(a => a.BrandId == bran.BrandId);
+
                     if (!brand.Contains(onebrand))
                     {
                         if (onebrand != null)
@@ -551,7 +567,7 @@ namespace J6.Controllers
                 {
                     if (!prices.Contains(pro.Price))
                     {
-                        if (pro.Price != null)
+                        if (pro.Price != 0)
                         {
                             prices.Add(pro.Price);
                         }
@@ -652,16 +668,19 @@ namespace J6.Controllers
             {
 
                 var products = await _context.Products.Where(a => a.SubcategoryId == item.SubcategoryId).ToArrayAsync();
-                if (!allproductonly.Contains(item))
+                if (products != null) { 
+                    foreach(var oitem in products) { 
+                if (!allproductonly.Contains(oitem))
                 {
-                    if (item != null)
+                    if (oitem != null)
                     {
-                        allproductonly.Add(item.Products);
+                        allproductonly.Add(oitem);
                     }
 
                 }
             }
-
+                }
+            }
             return Ok(allproductonly);
 
         }

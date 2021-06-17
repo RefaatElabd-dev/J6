@@ -26,14 +26,6 @@ namespace J6.Controllers.API
             _context = context;
         }
 
-
-
-    
-    
-        ////////////
-       //cancal cart
-       // /buy cart
-
         //////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////
         //To create uniqe cart list for every user
@@ -46,29 +38,21 @@ namespace J6.Controllers.API
             _context.SaveChanges();
         }
 
-
-
         ///////////////////////////////////////////////////////////////////////////
         //add product to cart
 
         [HttpPost]
         [Route("~/addproducttoCART/{custID}")]
         public async Task<ActionResult> AddToCart([FromBody] Product product, int custID)
-
         {
             var allproduct = await _context.ProdCarts.ToListAsync();
-
-            // var cartItem = _context.ProdCarts.SingleOrDefault(c => c.CartId == ShoppingCartId && c.ProductId == id);
             var ShoppingCard = await _context.Carts.FirstOrDefaultAsync(a => a.CustimerId == custID);
             if (ShoppingCard == null)
             { return NotFound("not exsit"); }
             ProdCart item = new ProdCart();
-            // if (!product.Equals(allproduct)) { return BadRequest("is already "); }
-
             item.quantity++;
             item.ProductId = product.ProductId;
             item.CartId = ShoppingCard.Cartid;
-
             var additem = await _context.ProdCarts.AddAsync(item);
             await _context.SaveChangesAsync();
             return Ok("added");
@@ -85,6 +69,7 @@ namespace J6.Controllers.API
             _context.ProdCarts.RemoveRange(cartItems);
             _context.SaveChanges();
         }
+        /////////////////////////////////////////////////////
         /////////////////////////////////////////////////////
         // allproducts in cart
         // api/CartsItem/productsIncart/1
@@ -104,23 +89,11 @@ namespace J6.Controllers.API
             {
                 return BadRequest();
             }
-            List<object> products = new List<object>();
 
 
-            foreach (var item in allproductincart)
-            {
-                var oneproduct = await _context.Products.Include(a => a.ProductImages)
-
-                .Include(a => a.Promotion).Include(c => c.Reviews).Include(w => w.ShippingDetail).Include(q => q.ProdCarts).Include(p => p.ProdOrders).FirstOrDefaultAsync(a => a.ProductId == item.ProductId);
-                products.Add(oneproduct);
-
-            }
-
-            return Ok(products);
+            return Ok(allproductincart);
 
         }
-
-
         //////////////////////////////////////////////////////////////////////////
 
         //api/CartsItem/deleteProductsFromCart/1
@@ -194,9 +167,33 @@ namespace J6.Controllers.API
         }
 
         ////////////////////////////////////////////////////////////
+        // increase quantity
+        [HttpPut("{prodId}/{cartid}")]
+        [Route("~/increaseQuantity/{prodId}/{cartid}")]
 
-        //buys
+        public async Task<ActionResult> increaseQuantity(int prodId, int cartid)
+        {
 
+            ProdCart productincart = await _context.ProdCarts.FirstOrDefaultAsync(a => a.CartId == cartid && a.ProductId == prodId);
+            productincart.quantity++;
+            await _context.SaveChangesAsync();
+
+            return Ok(productincart);
+        }
+        //////////////////////////////////////////////////////////////////////////
+        ///// decrease quantity
+        [HttpPut("{prodId}/{cartid}")]
+        [Route("~/decreaseQuantity/{prodId}/{cartid}")]
+
+        public async Task<ActionResult> decreaseQuantity(int prodId, int cartid)
+        {
+
+            ProdCart productincart = await _context.ProdCarts.FirstOrDefaultAsync(a => a.CartId == cartid && a.ProductId == prodId);
+            productincart.quantity--;
+            await _context.SaveChangesAsync();
+
+            return Ok(productincart);
+        }
 
 
 

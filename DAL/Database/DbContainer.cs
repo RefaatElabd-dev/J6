@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using J6.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
-
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace J6.DAL.Database
 {
@@ -18,7 +18,7 @@ namespace J6.DAL.Database
         public DbContainer(DbContextOptions<DbContainer> opts) : base(opts) {}
 
         public virtual DbSet<Brand> Brands { get; set; }
-
+        public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<Cart> Carts { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
@@ -70,7 +70,8 @@ namespace J6.DAL.Database
 
                 entity.Property(e => e.Cartid)
                     .ValueGeneratedNever()
-                    .HasColumnName("cartid");
+                    .HasColumnName("cartid")
+                ;
 
                 entity.Property(e => e.Cost).HasColumnName("cost");
 

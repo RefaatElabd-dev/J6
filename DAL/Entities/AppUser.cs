@@ -10,6 +10,11 @@ namespace J6.DAL.Entities
 {
     public class AppUser : IdentityUser<int>
     {
+        public AppUser()
+        {
+            Messages = new HashSet<Message>();
+        }
+
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public Address Address { get; set; }
@@ -21,6 +26,11 @@ namespace J6.DAL.Entities
         public virtual Order Order { get; set; }
         public virtual Store Store { get; set; }
         public virtual SavedBag Bag { get; set; }
+        ///////
+        public virtual ICollection<Message> Messages { get; set; }
+
+
+
 
     }
 }

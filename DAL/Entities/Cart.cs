@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
@@ -12,6 +13,8 @@ namespace J6.DAL.Entities
         {
             ProdCarts = new HashSet<ProdCart>();
         }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 
         public int Cartid { get; set; }
         public string Paymentid { get; set; }

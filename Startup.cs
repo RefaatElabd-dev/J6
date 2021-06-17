@@ -25,7 +25,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using J6.Interfaces;
 using J6.BL.Repositry;
-
+using J6.Hubs;
 
 namespace J6
 {
@@ -59,6 +59,10 @@ namespace J6
            .AddSignInManager<SignInManager<AppUser>>()
            .AddRoleValidator<RoleValidator<AppRole>>()
            .AddEntityFrameworkStores<DbContainer>();
+
+            services.AddSignalR();
+
+
 
             services.AddScoped<ITokenServices, TokenService>();
 
@@ -133,7 +137,7 @@ namespace J6
             });
 
 
-
+            
 
             app.UseStaticFiles();
 
@@ -152,6 +156,7 @@ namespace J6
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Account}/{action=Login}/{id?}");
+                endpoints.MapHub<ChatHub>("/ChatHubs");
             });
         }
     }

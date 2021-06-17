@@ -129,18 +129,31 @@ namespace J6.Controllers
 
         { List<Product> highproducts = new List<Product>();
 
-            var allproduct = await _context.Products.OrderByDescending(p => p.SoldQuantities).Include(a => a.ProductImages).Include(a => a.Promotion).Include(c => c.Reviews).Include(w => w.ShippingDetail).Include(q => q.ProdCarts)/*.Include(o=>o.ProductBrands)*/.Include(p => p.ProdOrders).ToListAsync();
-            for (int i = 0; i < 10; i++)
+            var allproduct = await _context.Products.OrderByDescending(p => p.SoldQuantities).Include(a => a.ProductImages).Include(a => a.Promotion).Include(c => c.Reviews).Include(w => w.ShippingDetail).Include(q => q.ProdCarts).Include(p => p.ProdOrders).Take(10).ToListAsync();
+           foreach(var item in allproduct)
             {
-
-
-                highproducts.Add(allproduct[i]);
-
-
+                if(item!=null)
+                {
+                    highproducts.Add(item);
+                }
             }
 
             return highproducts;
 
+        }
+        //////////////////////////////////////////////////////////////////////////////////////////////
+        //increase soldquantity
+        //api/ProductsAPi/inceaseSOLD/1
+        [HttpPut("{id}")]
+        [Route("inceaseSOLD/{id}")]
+        public async Task<ActionResult> increaseSoldQuantity(int id)
+        {
+            //id is poduct id
+
+            var product = await _context.Products.FirstOrDefaultAsync(q => q.ProductId == id);
+            product.SoldQuantities++;
+            _context.SaveChanges();
+            return Ok("soldquantities is increased");
         }
 
 

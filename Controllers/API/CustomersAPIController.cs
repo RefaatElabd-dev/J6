@@ -1,5 +1,10 @@
 ﻿
+using AutoMapper;
+using J6.DAL.Database;
+using J6.DAL.Entities;
+using J6.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,11 +18,88 @@ namespace J6.Controllers
     [ApiController]
     public class CustomersApiController : ControllerBase
     {
-        //private readonly DataContext _jumia1Context;
-        //public CustomersController(DataContext jumia1context)
+         private readonly UserManager<AppUser> userManager;
+        private readonly IMapper mapper;
+        private readonly DbContainer _context;
+
+        public CustomersApiController(UserManager<AppUser> userManager, IMapper mapper, DbContainer context)
+        {
+            _context = context;
+            this.userManager = userManager;
+            this.mapper = mapper;
+        }
+        //////////////////////////////////////////////////////////////
+        //edit customer
+        //api/CustomersApi/1
+        [HttpPut("{id}")]
+        public async Task<ActionResult> editcustomer(int id ,AppUser user)
+        {//id is customer id
+          var Cusromers = await userManager.GetUsersInRoleAsync("Customer");
+          var Cusromer = Cusromers.SingleOrDefault(S => S.Id == id);
+          if (Cusromer == null) return NotFound("No customer Matched");
+            Cusromer.LastName = user.LastName;
+            Cusromer.FirstName = user.FirstName;
+            Cusromer.Email = user.Email;
+            Cusromer.PhoneNumber = user.PhoneNumber;
+            await _context.SaveChangesAsync();
+            return Ok(Cusromer);
+        }
+
+
+        /////////////////////////
+      //  getcustomerById     //return information about customer 
+       // api/CustomersApi/9
+        [HttpGet("{id}")]
+
+        public async Task<ActionResult> GetcustomerById(int id)
+        {
+            var Cusromers = await userManager.GetUsersInRoleAsync("Customer");
+            var Cusromer = Cusromers.SingleOrDefault(S => S.Id == id);
+            if (Cusromer == null) return NotFound("No customer Matched");
+          //  var customerToReturn = mapper.Map<CustomerDto>(Cusromer);
+            return Ok(Cusromer);
+        }
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        /////change user password
+        ///api/CustomersApi/
+        //[HttpPost("{id}/{oldpassword}")]
+        //public async Task<ActionResult> ChangePasswordAsync(int id,[FromBody]string newpassword, string oldpassword)
         //{
-        //    _jumia1Context = jumia1context;
+        //    var hasoldpassword = BCrypt.Net.BCrypt.HashPassword(oldpassword);
+
+        //    var userr= await _context.Users.FirstOrDefaultAsync(A=>A.Id==id&&A.PasswordHash== hasoldpassword);
+        //    if (userr == null) { return NotFound("can't find user"); }
+        //    var result = await userManager.RemovePasswordAsync(userr);
+        //    if (result.Succeeded)
+        //    {
+        //        result = await userManager.AddPasswordAsync(userr, newpassword);
+        //        await _context.SaveChangesAsync();
+        //        return Ok(userr);
+        //    }
+        //    return NotFound("password not changed");
         //}
+        /////change user password
+        ///api/CustomersApi/
+        [HttpPost("{id}")]
+        public async Task<ActionResult> ChangePasswordAsync(int id, [FromBody] string newpassword)
+        {
+
+            var userr = await _context.Users.FirstOrDefaultAsync(A => A.Id == id);
+            var result = await userManager.RemovePasswordAsync(userr);
+            if (result.Succeeded)
+            {
+                result = await userManager.AddPasswordAsync(userr, newpassword);
+                await _context.SaveChangesAsync();
+                return Ok(userr);
+            }
+            return NotFound("password not changed");
+
+
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
         ////getAllSeller
         ////api/Customers
         //[HttpGet]
@@ -120,7 +202,7 @@ namespace J6.Controllers
         //public async Task<ActionResult> GetsaveditemToCustomer(int id)
         //{ //id is customer id
         //    List<object> allsavedproduct = new List<object>();
-           
+
         //    var customer = await _jumia1Context.Customers.FirstOrDefaultAsync(a=>a.CustomerId==id);
         //    if(customer==null)
         //    {
@@ -145,7 +227,7 @@ namespace J6.Controllers
         //public async Task<ActionResult> GetrecentlyviewedToCustomer(int id)
         //{ //id is customer id
         //    List<object> allviewedproduct = new List<object>();
-         
+
         //    var customer = await _jumia1Context.Customers.FirstOrDefaultAsync(a => a.CustomerId == id);
         //    if (customer == null)
         //    {
