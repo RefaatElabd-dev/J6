@@ -189,9 +189,10 @@ namespace J6.Migrations
 
             modelBuilder.Entity("J6.DAL.Entities.Cart", b =>
                 {
-                    b.Property<int>("Cartid")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("cartid");
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("Cost")
                         .HasColumnType("int")
@@ -217,7 +218,7 @@ namespace J6.Migrations
                         .HasColumnType("int")
                         .HasColumnName("shippingDetailsId");
 
-                    b.HasKey("Cartid");
+                    b.HasKey("Id");
 
                     b.HasIndex("CustimerId")
                         .IsUnique();
@@ -498,21 +499,22 @@ namespace J6.Migrations
 
             modelBuilder.Entity("J6.DAL.Entities.ProductImage", b =>
                 {
+                    b.Property<int>("ImId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("ProductId")
-                        .HasColumnType("int")
-                        .HasColumnName("productId");
+                        .HasColumnType("int");
 
-                    b.Property<int>("ImageId")
-                        .HasColumnType("int")
-                        .HasColumnName("imageId");
+                    b.HasKey("ImId");
 
-                    b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("image");
+                    b.HasIndex("ProductId");
 
-                    b.HasKey("ProductId", "ImageId");
-
-                    b.ToTable("ProductImage");
+                    b.ToTable("ProductImages");
                 });
 
             modelBuilder.Entity("J6.DAL.Entities.Promotion", b =>
@@ -981,7 +983,7 @@ namespace J6.Migrations
                     b.HasOne("J6.DAL.Entities.Product", "Product")
                         .WithMany("ProductImages")
                         .HasForeignKey("ProductId")
-                        .HasConstraintName("FK_ProductImage_product")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Product");

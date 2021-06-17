@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using J6.DAL.Entities;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,7 @@ namespace J6.DAL.ViewModels
         public DateTime? UpdatedAt { get; set; }
         public string Content { get; set; }
         public IFormFile Image { get; set; }
+        public virtual Category Category { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

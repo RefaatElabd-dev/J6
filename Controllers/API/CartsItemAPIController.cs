@@ -30,7 +30,7 @@ namespace J6.Controllers.API
         //////////////////////////////////////////////////////////////////////
         //To create uniqe cart list for every user
         [HttpPost]
-        [Route("~/createcart")]
+        [Route("createcart")]
         public void CreatCartList(Cart shoppingCart)
 
         {
@@ -44,6 +44,7 @@ namespace J6.Controllers.API
         [HttpPost]
         [Route("~/addproducttoCART/{custID}")]
         public async Task<ActionResult> AddToCart([FromBody] Product product, int custID)
+
         {
             var allproduct = await _context.ProdCarts.ToListAsync();
             var ShoppingCard = await _context.Carts.FirstOrDefaultAsync(a => a.CustimerId == custID);
@@ -61,7 +62,7 @@ namespace J6.Controllers.API
 
         // clear specific  cart remove all peoduct in cart
         [HttpDelete("{cartListID}")]
-        [Route("~/deleteCART/{cartListID}")]
+        [Route("deleteCART/{cartListID}")]
         public void ClearCart(int cartListID)
         {
             var cartItems = _context.ProdCarts.Where(cart => cart.CartId == cartListID).ToList();
@@ -103,7 +104,7 @@ namespace J6.Controllers.API
         [HttpDelete("{cartid}")]
         [Route("deleteProductsFromCart/{cartid}")]
 
-        public async Task<ActionResult> deleteproductsInCart(int cartid, [FromBody] int productid)
+        public async Task<ActionResult> deleteproductsInCart(int cartid, int productid)
         {
             ProdCart productincart = await _context.ProdCarts.FirstOrDefaultAsync(a => a.CartId == cartid && a.ProductId == productid);
 
@@ -144,7 +145,7 @@ namespace J6.Controllers.API
         //////////////////////////////////////////////////////////
         // to get  cart for specific customer
         [HttpGet("{id}")]
-        [Route("~/getcartforCustomer/{id}")]
+        [Route("getcartforCustomer/{id}")]
         public async Task<ActionResult<Cart>> GetShoppingCart(int id)
         {// customer id
             Cart shoppingCart = await _context.Carts.FirstOrDefaultAsync(l => l.CustimerId == id);
@@ -154,9 +155,9 @@ namespace J6.Controllers.API
         ////////////////////////////////////////////////////////////////////////
         //edit in cart edit quantity
         [HttpPut("{prodId}/{cartid}")]
-        [Route("~/editQuantity/{prodId}/{cartid}")]
+        [Route("editQuantity/{prodId}/{cartid}")]
 
-        public async Task<ActionResult> editQuantity([FromBody] int quantity, int prodId, int cartid)
+        public async Task<ActionResult> editQuantity(int quantity, int prodId, int cartid)
         {
 
             ProdCart productincart = await _context.ProdCarts.FirstOrDefaultAsync(a => a.CartId == cartid && a.ProductId == prodId);

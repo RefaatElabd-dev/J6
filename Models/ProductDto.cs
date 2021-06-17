@@ -1,6 +1,8 @@
 ﻿using J6.DAL.Entities;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,26 +30,37 @@ namespace J6.Models
         //   [JsonIgnore]
         public virtual Promotion Promotion { get; set; }
         public string material { set; get; }
-        public string BrandName { get; set; }
         public string Manufacture { get; set; }
 
-     
+
+        //shaban
+        // public string BrandName { get; set; }
+        [Display(Name = "Choose the cover photo of your book")]
+        [Required]
+        public IFormFile CoverPhoto { get; set; }
+        public string CoverImageUrl { get; set; }
+
+        [Display(Name = "Choose the gallery images of your book")]
+        [Required]
+        public IFormFileCollection GalleryFiles { get; set; }
+        public List<GalleryDto> Gallery { get; set; }
+
+
+
+
         public SubCategory Subcategory { get; set; }
-   
+        public Brand Brand { get; set; }
         public  ShippingDetail ShippingDetail { get; set; }
- 
         public ICollection<ProdCart> ProdCarts { get; set; }
-       
         public  ICollection<ProdOrder> ProdOrders { get; set; }
-
-
-        
-        public ICollection<ProductImage> ProductImages { get; set; }
     
         public  ICollection<Review> Reviews { get; set; }
      
         public  ICollection<StoreProduct> StoreProducts { get; set; }
        
         public  ICollection<View> Views { get; set; }
+        //shaban
+        public ICollection<ProductImage> ProductImages { get; set; }
+
     }
 }

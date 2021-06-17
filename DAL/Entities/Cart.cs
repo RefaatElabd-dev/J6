@@ -16,17 +16,19 @@ namespace J6.DAL.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 
-        public int Cartid { get; set; }
+       
+        [Key]
+        public int Id { get; set; }
         public string Paymentid { get; set; }
         public DateTime? OrderDate { get; set; }
         public DateTime? ShippingDate { get; set; }
         public int? Cost { get; set; }
         public int? ShippingDetailsId { get; set; }
-        [ForeignKey("Customer")]
+        
         public int CustimerId { get; set; }
         public virtual ShippingDetail ShippingDetails { get; set; }
         public virtual ICollection<ProdCart> ProdCarts { get; set; }
-
+        [ForeignKey("CustimerId")]
         public virtual AppUser Customer { get; set; }
     }
 }

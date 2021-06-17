@@ -18,10 +18,14 @@ namespace J6.Controllers
     {
         private readonly DbContainer _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public SubCategoriesController(DbContainer context, IWebHostEnvironment hostEnvironment)
+        private readonly IHostingEnvironment _hostingEnvironment;
+
+        public SubCategoriesController(DbContainer context, IWebHostEnvironment hostEnvironment, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
             _webHostEnvironment = hostEnvironment;
+            _hostingEnvironment = hostingEnvironment;
+
         }
 
         // GET: SubCategories
@@ -62,7 +66,7 @@ namespace J6.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(SubCategoryViewModel model)
+        public async Task<IActionResult> Create(SubCategoryEditViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -70,10 +74,9 @@ namespace J6.Controllers
 
                 SubCategory subcategory = new SubCategory
                 {
-                    //  Id = model.Id,
                     SubcategoryName = model.SubcategoryName,
-                    CreatedAt = model.CreatedAt,
-                    UpdatedAt = model.UpdatedAt,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now,
                     Image = uniqueFileName,
                     Content = model.Content,
                     CategoryId = model.CategoryId
@@ -82,10 +85,10 @@ namespace J6.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", model.CategoryId);
-            return View(model);
+            return View();
         }
-        private string UploadedFile(SubCategoryViewModel model)
+
+        private string UploadedFile(SubCategoryEditViewModel model)
         {
             string uniqueFileName = null;
 
@@ -99,6 +102,10 @@ namespace J6.Controllers
                     model.Image.CopyTo(fileStream);
                 }
             }
+            else
+            {
+                uniqueFileName = "100c4b49-f8ab-4272-988e-1739500fc52e_No-Photo-Available.jpg";
+            }
             return uniqueFileName;
         }
 
@@ -111,99 +118,57 @@ namespace J6.Controllers
             }
 
             SubCategory subCategory = await _context.SubCategories.Where(x => x.SubcategoryId == id).FirstOrDefaultAsync();
-            SubCategoryViewModel viewModel = new SubCategoryViewModel
+
+            SubCategoryEditViewModel viewModel = new SubCategoryEditViewModel
             {
+
                 SubcategoryName = subCategory.SubcategoryName,
                 CreatedAt = subCategory.CreatedAt,
                 UpdatedAt = DateTime.Now,
-                CategoryId = subCategory.CategoryId
+                CategoryId = subCategory.CategoryId,
+                SubcategoryId = subCategory.SubcategoryId,
+
             };
-            if (subCategory == null)
-            {
-                return NotFound();
-            }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", subCategory.CategoryId);
-            return View(subCategory);
+
+          //  ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", subCategory.CategoryId);
+            return View(viewModel);
 
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, SubCategoryViewModel model, IFormFile file)
+        public async Task<IActionResult> Edit(int id, SubCategoryEditViewModel model, IFormFile file)
         {
-
-            if (id != model.SubcategoryId)
+            if (ModelState.IsValid)
             {
-                return NotFound();
-            }
 
-
-            SubCategory subCategory = await _context.SubCategories.Where(x => x.SubcategoryId == id).FirstOrDefaultAsync();
-
-            if (subCategory == null)
-            {
-                return NotFound();
-            }
-
-
-
-            subCategory.SubcategoryName = model.SubcategoryName;
-            subCategory.CreatedAt = model.CreatedAt;
-            subCategory.UpdatedAt = DateTime.Now;
-            subCategory.Content = model.Content;
-            subCategory.CategoryId = model.CategoryId;
-
-
-            subCategory.Image = UploadedFile(model);
-
-            if (subCategory.Image == null)
-            {
-                // model.Image = file;
-                //category.Image = model.Image.Name;
-            }
-
-
-
-            _context.Update(subCategory);
-            await _context.SaveChangesAsync();
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", subCategory.CategoryId);
-
-            return RedirectToAction(nameof(Index));
-
-
-
-            if (file != null || file.Length != 0)
-
-            {
-                string filename = System.Guid.NewGuid().ToString() + ".jpg";
-
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", filename);
-
-                using (var stream = new FileStream(path, FileMode.Create))
-
+                if (id != model.SubcategoryId)
                 {
-                    await file.CopyToAsync(stream);
+                    return NotFound();
                 }
-                subCategory.Image = filename;
+                SubCategory subCategory = await _context.SubCategories.Where(x => x.SubcategoryId == id).FirstOrDefaultAsync();
+                subCategory.SubcategoryName = model.SubcategoryName;
+                subCategory.CreatedAt = model.CreatedAt;
+                subCategory.UpdatedAt = DateTime.Now;
+                subCategory.Content = model.Content;
+                subCategory.CategoryId = model.CategoryId;
+
+                if (model.Image != null)
+                {
+                    if (model.Image != null)
+                    {
+                        string filepath = Path.Combine(_hostingEnvironment.WebRootPath, "images", model.Image.ToString());
+                        System.IO.File.Delete(filepath);
+                    }
+                    subCategory.Image = UploadedFile(model);
+                }
+                _context.Update(subCategory);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-
-
-
+            return View();
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
 
         // GET: SubCategories/Delete/5
         public async Task<IActionResult> Delete(int? id)
