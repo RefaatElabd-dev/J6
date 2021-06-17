@@ -18,11 +18,15 @@ namespace J6.Controllers
     {
         private readonly DbContainer _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public BrandsController(DbContainer context, IWebHostEnvironment hostEnvironment)
+
+        public BrandsController(DbContainer context, IWebHostEnvironment hostEnvironment, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
             _webHostEnvironment = hostEnvironment;
+            _hostingEnvironment = hostingEnvironment;
+
         }
 
         // GET: Brands
@@ -60,12 +64,12 @@ namespace J6.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(BrandsViewModel model, HttpPostedFileBase file)
+        public async Task<IActionResult> Create(BrandsViewModel model)
         {
             if (ModelState.IsValid)
             {
 
-                string uniqueFileName = UploadedFile(model, file);
+                string uniqueFileName = UploadedFile(model);
                 Brand brand = new Brand
                 {
                     BrandName = model.BrandName,
@@ -80,17 +84,15 @@ namespace J6.Controllers
             return View();
         }
 
-
-
-        private string UploadedFile(BrandsViewModel model, HttpPostedFileBase file)
+        private string UploadedFile(BrandsViewModel model)
         {
             string uniqueFileName = null;
-            string filePath = null;
-            string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+
             if (model.Image != null)
             {
+                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
                 uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Image.FileName;
-                filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
                     model.Image.CopyTo(fileStream);
@@ -98,15 +100,10 @@ namespace J6.Controllers
             }
             else
             {
-                filePath = Path.Combine(uploadsFolder, "100c4b49-f8ab-4272-988e-1739500fc52e_No-Photo-Available.jpg");
+                uniqueFileName = "100c4b49-f8ab-4272-988e-1739500fc52e_No-Photo-Available.jpg";
             }
-            return filePath;
+            return uniqueFileName;
         }
-
-
-
-
-
 
 
         // GET: brands/Edit/5
@@ -118,62 +115,52 @@ namespace J6.Controllers
             }
 
             Brand brand = await _context.Brands.Where(x => x.BrandId == id).FirstOrDefaultAsync();
-            BrandsViewModel viewModel = new BrandsViewModel
+            BranEditViewModel branEditViewModel = new BranEditViewModel
             {
+                BrandId = brand.BrandId,
                 BrandName = brand.BrandName,
                 CreatedAt = brand.CreatedAt,
                 UpdatedAt = DateTime.Now,
-                //Image = CategoriesVi.Image;
-
+                Image = brand.Image,
             };
-            // var category = await _context.Categories.FindAsync(id);
-
-            if (brand == null)
-            {
-                return NotFound();
-            }
-            return View(brand);
+            return View(branEditViewModel);
         }
 
-        // POST: brands/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+    // POST: brands/Edit/5
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+    [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, IFormFile File, BrandsViewModel model, HttpPostedFileBase file)
+        public async Task<IActionResult> Edit( IFormFile File, BranEditViewModel model)
         {
-            if (id == null)
+            if (ModelState.IsValid)
             {
-                return NotFound();
-            }
-            var brand = await _context.Brands.FindAsync(id);
-            if (brand == null)
-            {
-                return NotFound();
-            }
-            brand.BrandName = model.BrandName;
-            brand.CreatedAt = model.CreatedAt;
-            brand.UpdatedAt = DateTime.Now;
-            brand.Image = UploadedFile(model, file);
-
-            if (brand.Image == null)
-            {
-                // model.Image = file;
-                //category.Image = model.Image.Name;
-            }
-            _context.Update(brand);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-            if (File != null || File.Length != 0)
-            {
-                string filename = System.Guid.NewGuid().ToString() + ".jpg";
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", filename);
-                using (var stream = new FileStream(path, FileMode.Create))
+                Brand brand = await _context.Brands
+                    .FirstOrDefaultAsync(m => m.BrandId == model.BrandId);
+                brand.BrandName = model.BrandName;
+                brand.CreatedAt = model.CreatedAt;
+                brand.UpdatedAt = model.UpdatedAt;
+                if (model.Image != null)
                 {
-                    await File.CopyToAsync(stream);
+                    if (model.Image != null)
+                    {
+                        string filepath = Path.Combine(_hostingEnvironment.WebRootPath, "images", model.Image.ToString());
+                        System.IO.File.Delete(filepath);
+                    }
+                   
+                    brand.Image = UploadedFile(model);
                 }
-                brand.Image = filename;
+
+                _context.Update(brand);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
+            return View();
+        }
+
+        private string UploadedFile(BranEditViewModel model)
+        {
+            throw new NotImplementedException();
         }
 
         // GET: Brands/Delete/5

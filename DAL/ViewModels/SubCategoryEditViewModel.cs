@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace J6.DAL.ViewModels
 {
-    public class SubCategoryViewModel
+    public class SubCategoryEditViewModel
     {
-
         public int SubcategoryId { get; set; }
         public string SubcategoryName { get; set; }
         public int? CategoryId { get; set; }
@@ -17,7 +16,10 @@ namespace J6.DAL.ViewModels
         public DateTime? UpdatedAt { get; set; }
         public string Content { get; set; }
         public IFormFile Image { get; set; }
+
         public virtual Category Category { get; set; }
         public virtual ICollection<Product> Products { get; set; }
+
+        
     }
 }

@@ -17,11 +17,14 @@ namespace J6.Controllers
     public class CategoriesController : Controller
     {
         private readonly DbContainer _context;
+        private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IWebHostEnvironment webHostEnvironment;
-        public CategoriesController(DbContainer context, IWebHostEnvironment hostEnvironment)
+        public CategoriesController(DbContainer context, IWebHostEnvironment hostEnvironment, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
             webHostEnvironment = hostEnvironment;
+            _hostingEnvironment = hostingEnvironment;
+
         }
 
         // GET: Categories
@@ -59,7 +62,7 @@ namespace J6.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CategoriesViewModel model)
+        public async Task<IActionResult> Create(CategoriesEditViewModel model)
         {
 
             if (ModelState.IsValid)
@@ -82,7 +85,7 @@ namespace J6.Controllers
             return View();
         }
 
-        private string UploadedFile(CategoriesViewModel model)
+        private string UploadedFile(CategoriesEditViewModel model)
         {
             string uniqueFileName = null;
 
@@ -112,24 +115,14 @@ namespace J6.Controllers
             }
 
             Category category = await _context.Categories.Where(x => x.CategoryId == id).FirstOrDefaultAsync();
-            CategoriesViewModel viewModel = new CategoriesViewModel
+            CategoriesEditViewModel viewModel = new CategoriesEditViewModel
             {
                 CategoryName = category.CategoryName,
                 CreatedAt = category.CreatedAt,
                 UpdatedAt = DateTime.Now,
-                //Image = CategoriesVi.Image;
-
-
-
-
+                CategoryId=category.CategoryId,
             };
-            // var category = await _context.Categories.FindAsync(id);
-
-            if (category == null)
-            {
-                return NotFound();
-            }
-            return View(category);
+            return View(viewModel);
         }
 
         // POST: Categories/Edit/5
@@ -137,139 +130,36 @@ namespace J6.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, CategoriesViewModel model, IFormFile file)
+        public async Task<IActionResult> Edit(int id, CategoriesEditViewModel model, IFormFile file)
         {
-
-            if (id != model.CategoryId)
+            if (ModelState.IsValid)
             {
-                return NotFound();
-            }
-
-
-            Category category = await _context.Categories.Where(x => x.CategoryId == id).FirstOrDefaultAsync();
-
-            if (category == null)
-            {
-                return NotFound();
-            }
-
-
-
-            category.CategoryName = model.CategoryName;
-            category.CreatedAt = model.CreatedAt;
-            category.UpdatedAt = DateTime.Now;
-            category.Content = model.Content;
-
-            category.Image = UploadedFile(model);
-
-            if (category.Image == null)
-            {
-                // model.Image = file;
-                //category.Image = model.Image.Name;
-            }
-
-
-
-            _context.Update(category);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-
-
-
-            if (file != null || file.Length != 0)
-
-            {
-                string filename = System.Guid.NewGuid().ToString() + ".jpg";
-
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", filename);
-
-                using (var stream = new FileStream(path, FileMode.Create))
-
+                if (id != model.CategoryId)
                 {
-                    await file.CopyToAsync(stream);
+                    return NotFound();
                 }
-                category.Image = filename;
+                Category category = await _context.Categories.Where(x => x.CategoryId == id).FirstOrDefaultAsync();
+                category.CategoryName = model.CategoryName;
+                category.CreatedAt = model.CreatedAt;
+                category.UpdatedAt = DateTime.Now;
+                category.Content = model.Content;
+                category.CategoryId = model.CategoryId;
+
+                if (model.Image != null)
+                {
+                    if (model.Image != null)
+                    {
+                        string filepath = Path.Combine(_hostingEnvironment.WebRootPath, "images", model.Image.ToString());
+                        System.IO.File.Delete(filepath);
+                    }
+                    category.Image = UploadedFile(model);
+                }
+                _context.Update(category);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-
-
-
-
-
-
-            //    //llllllll
-
-            //    if (id != category.CategoryId)
-            //    {
-            //        return NotFound();
-            //    }
-
-            //    Category u = await _context.Categories.Where(x => x.CategoryId == id).FirstOrDefaultAsync();
-
-            //    if (u == null)
-            //    {
-            //        return NotFound();
-            //    }
-
-            //    if (file != null )
-
-            //    {
-
-            //        string filename = System.Guid.NewGuid().ToString() + ".jpg";
-            //        //Path.Combine(webHostEnvironment.WebRootPath, "images");
-            //        var path = Path.Combine( Directory.GetCurrentDirectory(), "wwwroot", "img", filename);
-            //        using (var stream = new FileStream(path, FileMode.Create))
-            //        {
-            //            await file.CopyToAsync(stream);
-            //        }
-            //        u.Image = filename;
-            //    }
-
-
-            //    u.CategoryName = model.CategoryName;
-            //    u.CreatedAt = model.CreatedAt;
-            //    u.UpdatedAt = DateTime.Now;
-            //    u.Content = model.Content;
-
-
-            //    u.Image = UploadedFile(model);
-
-            //    await _context.SaveChangesAsync();
-
-            //    return RedirectToAction(nameof(Index));
-
-            //}
-
-
-            //lllllllll
-
-            //    if (id != category.CategoryId)
-            //    {
-            //        return NotFound();
-            //    }
-
-            //    if (ModelState.IsValid)
-            //    {
-            //        try
-            //        {
-            //            _context.Update(category);
-            //            await _context.SaveChangesAsync();
-            //        }
-            //        catch (DbUpdateConcurrencyException)
-            //        {
-            //            if (!CategoryExists(category.CategoryId))
-            //            {
-            //                return NotFound();
-            //            }
-            //            else
-            //            {
-            //                throw;
-            //            }
-            //        }
-            //        return RedirectToAction(nameof(Index));
-            //    }
-            //    return View(category);
+            return View();
         }
-
 
         //GET: Categories/Delete/5
         public async Task<IActionResult> Delete(int? id)
