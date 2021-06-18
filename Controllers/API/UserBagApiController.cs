@@ -38,7 +38,7 @@ namespace J6.Controllers
         }
 
         [HttpDelete("DeleteSavedItem/{UserId}")]
-        public async Task<ActionResult> DeleteSavedItem(int UserId, [FromBody] int ProductId)
+        public async Task<ActionResult> DeleteSavedItem(int UserId,int ProductId)
         {
             return await _userSavedBag.DeleteSavedItemAsync(UserId, ProductId) ?
                                                 NoContent() : BadRequest("Check User and Product ");

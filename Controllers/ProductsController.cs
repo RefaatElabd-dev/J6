@@ -46,7 +46,7 @@ namespace J6.Controllers
                 .Include(p => p.Promotion)
                 .Include(p => p.Subcategory)
                 .Include(p => p.Brands)
-                .FirstOrDefaultAsync(m => m.ProductId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
                 return NotFound();
@@ -69,7 +69,7 @@ namespace J6.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,Price,SoldQuantities,Quantity,Size,Color,ProductName,Model,SubcategoryId,BrandId,Rating,Discount,Description,Ship,CreatedAt,UpdatedAt,DeletedAt,PromotionId,material,Manufacture")] Product product)
+        public async Task<IActionResult> Create([Bind("Id,Price,SoldQuantities,Quantity,Size,Color,ProductName,Model,SubcategoryId,BrandId,Rating,Discount,Description,Ship,CreatedAt,UpdatedAt,DeletedAt,PromotionId,material,Manufacture")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -107,9 +107,9 @@ namespace J6.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,Price,SoldQuantities,Quantity,Size,Color,ProductName,Model,SubcategoryId,Rating,Discount,Description,Ship,CreatedAt,UpdatedAt,DeletedAt,PromotionId,material,BrandId,Manufacture")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Price,SoldQuantities,Quantity,Size,Color,ProductName,Model,SubcategoryId,Rating,Discount,Description,Ship,CreatedAt,UpdatedAt,DeletedAt,PromotionId,material,BrandId,Manufacture")] Product product)
         {
-            if (id != product.ProductId)
+            if (id != product.Id)
             {
                 return NotFound();
             }
@@ -123,7 +123,7 @@ namespace J6.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(product.ProductId))
+                    if (!ProductExists(product.Id))
                     {
                         return NotFound();
                     }
@@ -152,7 +152,7 @@ namespace J6.Controllers
                 
                 .Include(p => p.Promotion)
                 .Include(p => p.Subcategory)
-                .FirstOrDefaultAsync(m => m.ProductId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
                 return NotFound();
@@ -174,7 +174,7 @@ namespace J6.Controllers
 
         private bool ProductExists(int id)
         {
-            return _context.Products.Any(e => e.ProductId == id);
+            return _context.Products.Any(e => e.Id == id);
         }
 
         // private async Task<string> UploadImage(string folderPath, IFormFile file)

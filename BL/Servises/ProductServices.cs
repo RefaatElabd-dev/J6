@@ -70,7 +70,7 @@ namespace J6.BL.Servises
                 return products;
             }
 
-            products = await _context.Products.Where(p => p.ProductId == ProductId).Include(p => p.ProductImages).Include(p => p.Promotion).Take(17).ToListAsync();
+            products = await _context.Products.Where(p => p.Id == ProductId).Include(p => p.ProductImages).Include(p => p.Promotion).Take(17).ToListAsync();
 
             if (products.Count() < 17)
             {
@@ -92,7 +92,7 @@ namespace J6.BL.Servises
             if (user != null)
             {
                 //var date = await _context.Views.Select(v => v.CreationDate).ToListAsync();
-                List<Product> products = await _context.Products.Where(p => p.Views.Any(v => v.CustomerId == UserId && v.ProductId == p.ProductId)).OrderByDescending(p => p.Views.OrderBy(v => p.ProductId).First().CreationDate).Take(50).ToListAsync();
+                List<Product> products = await _context.Products.Where(p => p.Views.Any(v => v.CustomerId == UserId && v.ProductId == p.Id)).OrderByDescending(p => p.Views.OrderBy(v => p.Id).First().CreationDate).Take(50).ToListAsync();
                 return products;
             }
 

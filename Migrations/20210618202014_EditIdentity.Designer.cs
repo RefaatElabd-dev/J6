@@ -4,14 +4,16 @@ using J6.DAL.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace J6.Migrations
 {
     [DbContext(typeof(DbContainer))]
-    partial class DbContainerModelSnapshot : ModelSnapshot
+    [Migration("20210618202014_EditIdentity")]
+    partial class EditIdentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -321,6 +323,9 @@ namespace J6.Migrations
                     b.Property<int>("CustimerId")
                         .HasColumnType("int");
 
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("Rating")
                         .HasColumnType("int")
                         .HasColumnName("rating");
@@ -350,6 +355,9 @@ namespace J6.Migrations
                     b.Property<DateTime?>("Date")
                         .HasColumnType("date")
                         .HasColumnName("date");
+
+                    b.Property<int>("PaymentId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Paymenttype")
                         .HasMaxLength(50)
@@ -447,6 +455,9 @@ namespace J6.Migrations
                         .HasColumnType("float")
                         .HasColumnName("price");
 
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ProductName")
                         .HasMaxLength(50)
                         .IsUnicode(false)
@@ -537,6 +548,9 @@ namespace J6.Migrations
                         .HasColumnType("int")
                         .HasColumnName("discount");
 
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
                     b.Property<int>("SellerId")
                         .HasColumnType("int");
 
@@ -594,23 +608,28 @@ namespace J6.Migrations
             modelBuilder.Entity("J6.DAL.Entities.ShippingDetail", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("PaymentId")
                         .HasColumnType("int")
                         .HasColumnName("paymentId");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
 
                     b.Property<string>("PurshesCost")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("purshesCost");
 
+                    b.Property<int>("ShippingDetailsId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PaymentId");
+
+                    b.HasIndex("ShippingDetailsId")
+                        .IsUnique();
 
                     b.ToTable("ShippingDetails");
                 });
@@ -625,6 +644,9 @@ namespace J6.Migrations
                     b.Property<int?>("OrderId")
                         .HasColumnType("int")
                         .HasColumnName("orderId");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("int");
 
                     b.Property<string>("StatusName")
                         .HasMaxLength(50)
@@ -654,6 +676,9 @@ namespace J6.Migrations
                         .HasColumnName("city");
 
                     b.Property<int>("SellerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StoreId")
                         .HasColumnType("int");
 
                     b.Property<string>("Street")
@@ -1042,20 +1067,20 @@ namespace J6.Migrations
 
             modelBuilder.Entity("J6.DAL.Entities.ShippingDetail", b =>
                 {
-                    b.HasOne("J6.DAL.Entities.Product", "Product")
-                        .WithOne("ShippingDetail")
-                        .HasForeignKey("J6.DAL.Entities.ShippingDetail", "Id")
-                        .HasConstraintName("FK_ShippingDetails_product")
-                        .IsRequired();
-
                     b.HasOne("J6.DAL.Entities.Payment", "Payment")
                         .WithMany("ShippingDetails")
                         .HasForeignKey("PaymentId")
                         .HasConstraintName("FK_ShippingDetails_payment");
 
+                    b.HasOne("J6.DAL.Entities.Product", "ShippingDetails")
+                        .WithOne("ShippingDetail")
+                        .HasForeignKey("J6.DAL.Entities.ShippingDetail", "ShippingDetailsId")
+                        .HasConstraintName("FK_ShippingDetails_product")
+                        .IsRequired();
+
                     b.Navigation("Payment");
 
-                    b.Navigation("Product");
+                    b.Navigation("ShippingDetails");
                 });
 
             modelBuilder.Entity("J6.DAL.Entities.Store", b =>

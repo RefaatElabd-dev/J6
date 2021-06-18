@@ -99,7 +99,7 @@
             @Html.DisplayNameFor(model => model.Promotion)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Promotion.Id)
+            @Html.DisplayFor(model => model.Promotion.PromotionId)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Subcategory)
@@ -128,6 +128,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ProductId">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

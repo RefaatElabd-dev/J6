@@ -100,7 +100,7 @@
             @Html.DisplayNameFor(model => model.Promotion)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Promotion.Id)
+            @Html.DisplayFor(model => model.Promotion.PromotionId)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Subcategory)
@@ -129,7 +129,7 @@
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="ProductId" />
+        <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-default" /> |
         <a asp-action="Index">Back to List</a>
     </form>

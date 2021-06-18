@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
@@ -8,17 +10,11 @@ namespace J6.DAL.Entities
 {
     public class Product
     {
-        public Product()
-        {
-            ProdCarts = new HashSet<ProdCart>();
-            ProdOrders = new HashSet<ProdOrder>();
-            ProductImages = new HashSet<ProductImage>();
-            Reviews = new HashSet<Review>();
-            StoreProducts = new HashSet<StoreProduct>();
-            Views = new HashSet<View>();
-        }
+      
 
-        public int ProductId { get; set; }
+
+        [Key]
+        public int Id { get; set; }
         public double Price { get; set; }
         public int? SoldQuantities { get; set; }
         public int? Quantity { get; set; }
@@ -27,7 +23,6 @@ namespace J6.DAL.Entities
         public Size size { get; set; }
         public string ProductName { get; set; }
         public string Model { get; set; }
-        public int? SubcategoryId { get; set; }
         public double? Rating { get; set; }
         public double? Discount { get; set; }
         public string Description { get; set; }
@@ -35,33 +30,28 @@ namespace J6.DAL.Entities
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
-        public int? PromotionId { get; set; }
-     //   [JsonIgnore]
-        public virtual Promotion Promotion { get; set; }
         public string material { set; get; }
 
+        [ForeignKey("Brands")]
         public int? BrandId { get; set; }
-
         public virtual Brand Brands { get; set; }
 
-        public string Manufacture { get; set; }
+        [ForeignKey("Promotion")]
+        public int? PromotionId { get; set; }
+        public virtual Promotion Promotion { get; set; }
 
-        [JsonIgnore]
+        [ForeignKey("Subcategory")]
+        public int? SubcategoryId { get; set; }
         public virtual SubCategory Subcategory { get; set; }
-       // [JsonIgnore]
+
+        public string Manufacture { get; set; }
         public virtual ShippingDetail ShippingDetail { get; set; }
-      //  [JsonIgnore]
         public virtual ICollection<ProdCart> ProdCarts { get; set; }
-      //  [JsonIgnore]
         public virtual ICollection<ProdOrder> ProdOrders { get; set; }
 
-        // [JsonIgnore]
         public  ICollection<ProductImage> ProductImages { get; set; }
-      //  [JsonIgnore]
         public virtual ICollection<Review> Reviews { get; set; }
-       // [JsonIgnore]
         public virtual ICollection<StoreProduct> StoreProducts { get; set; }
-       // [JsonIgnore]
         public virtual ICollection<View> Views { get; set; }
         public virtual ICollection<MiddleSavedProduct> ProductsBag { get; set; }
 

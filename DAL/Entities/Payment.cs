@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -12,7 +13,8 @@ namespace J6.DAL.Entities
             ShippingDetails = new HashSet<ShippingDetail>();
         }
 
-        public int PaymentId { get; set; }
+        [Key]
+        public int Id { get; set; }
         public string Paymenttype { get; set; }
         public DateTime? Date { get; set; }
         public int? Amount { get; set; }

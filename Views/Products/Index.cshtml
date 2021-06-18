@@ -145,7 +145,7 @@
                                             @Html.DisplayFor(modelItem => item.DeletedAt)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Promotion.Id)
+                                            @Html.DisplayFor(modelItem => item.Promotion.PromotionId)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Subcategory.SubcategoryId)
@@ -160,9 +160,9 @@
                                             @Html.DisplayFor(modelItem => item.Manufacture)
                                         </td>
                                         <td>
-                                            <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
-                                            <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
-                                            <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
+                                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                                         </td>
                                     </tr>
                                 }

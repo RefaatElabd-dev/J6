@@ -55,7 +55,7 @@ namespace J6.Controllers
         {
             // var product = await _context.Products.FindAsync(id);
 
-            var product = await _context.Products.Include(a => a.Promotion).Include(a => a.ShippingDetail).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).FirstOrDefaultAsync(q => q.ProductId == id);
+            var product = await _context.Products.Include(a => a.Promotion).Include(a => a.ShippingDetail).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).FirstOrDefaultAsync(q => q.Id == id);
 
             if (product == null)
             {
@@ -70,7 +70,7 @@ namespace J6.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProduct(int id, Product product)
         {
-            if (id != product.ProductId)
+            if (id != product.Id)
             {
                 return BadRequest();
             }
@@ -108,7 +108,7 @@ namespace J6.Controllers
             }
             catch (DbUpdateException)
             {
-                if (ProductExists(product.ProductId))
+                if (ProductExists(product.Id))
                 {
                     return Conflict();
                 }
@@ -118,7 +118,7 @@ namespace J6.Controllers
                 }
             }
 
-            return CreatedAtAction("GetProduct", new { id = product.ProductId }, product);
+            return CreatedAtAction("GetProduct", new { id = product.Id }, product);
         }
 
         //high selling product
@@ -150,7 +150,7 @@ namespace J6.Controllers
         {
             //id is poduct id
 
-            var product = await _context.Products.FirstOrDefaultAsync(q => q.ProductId == id);
+            var product = await _context.Products.FirstOrDefaultAsync(q => q.Id == id);
             product.SoldQuantities++;
             _context.SaveChanges();
             return Ok("soldquantities is increased");
@@ -191,7 +191,7 @@ namespace J6.Controllers
 
         private bool ProductExists(int id)
         {
-            return _context.Products.Any(e => e.ProductId == id);
+            return _context.Products.Any(e => e.Id == id);
         }
 
 
