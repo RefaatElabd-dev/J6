@@ -98,7 +98,7 @@ namespace J6.BL.Repositry
         public async Task<ProductDto> GetProdByIdAsync(int id)
         {
             return await _context.Products
-            .Where(x => x.ProductId == id)
+            .Where(x => x.Id == id)
           .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
           .SingleOrDefaultAsync();
         }

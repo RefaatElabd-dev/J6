@@ -40,8 +40,6 @@ namespace J6.DAL.Database
         public virtual DbSet<MiddleSavedProduct> ProductsBag { get; set; }
         public virtual DbSet<SavedBag> SavedBag { get; set; }
 
-        //public virtual DbSet<City> Cities { get; set; }s
-        //public virtual DbSet<Government> Addresses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -64,38 +62,10 @@ namespace J6.DAL.Database
                 .HasForeignKey(ur => ur.RoleId)
                 .IsRequired();
 
-
-            //modelBuilder.Entity<ProductImage>(entity =>
-            //{
-            //   entity.HasKey(e => new { e.ProductId, e.ImageId });
-
-            //    entity.ToTable("ProductImage");
-
-            //    entity.Property(e => e.ProductId).HasColumnName("productId");
-
-            //    entity.Property(e => e.ImageId).HasColumnName("imageId");
-            //    ////shabab
-            //    entity.Property(e => e.ImageUrl).HasColumnName("ImageUrl");
-
-            //    entity.HasOne(d => d.Product)
-            //         .WithMany(p => p.ProductImages)
-            //         .HasForeignKey(d => d.ProductId)
-            //         .OnDelete(DeleteBehavior.ClientSetNull)
-            //         .HasConstraintName("FK_ProductImage_product");
-            //});
-
-
-
             modelBuilder.Entity<Cart>(entity =>
             {
                 entity.ToTable("cart");
-
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("cartid");
-
                 entity.Property(e => e.Cost).HasColumnName("cost");
-
                 entity.Property(e => e.OrderDate)
                     .HasColumnType("date")
                     .HasColumnName("orderDate");
@@ -114,10 +84,6 @@ namespace J6.DAL.Database
                     .WithMany(p => p.Carts)
                     .HasForeignKey(d => d.ShippingDetailsId)
                     .HasConstraintName("FK_cart_ShippingDetails");
-
-                
-
-
             });
 
             modelBuilder.Entity<Category>(entity =>
@@ -143,14 +109,11 @@ namespace J6.DAL.Database
                     .HasColumnType("date")
                     .HasColumnName("updatedAt");
             });
-
+            //shaban
             modelBuilder.Entity<Order>(entity =>
             {
                 entity.ToTable("orders");
 
-                entity.Property(e => e.OrderId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("orderId");
 
                 entity.Property(e => e.Rating).HasColumnName("rating");
             });
@@ -158,11 +121,6 @@ namespace J6.DAL.Database
             modelBuilder.Entity<Payment>(entity =>
             {
                 entity.ToTable("payment");
-
-                entity.Property(e => e.PaymentId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("paymentId");
-
                 entity.Property(e => e.Amount).HasColumnName("amount");
 
                 entity.Property(e => e.Date)
@@ -226,20 +184,17 @@ namespace J6.DAL.Database
 
             modelBuilder.Entity<Product>(entity =>
             {
-                entity.ToTable("product");
-
-                entity.Property(e => e.ProductId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("productId");
-
+               
                 entity.Property(e => e.Color)
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("color");
 
                 entity.Property(e => e.CreatedAt)
-                    .HasColumnType("date")
-                    .HasColumnName("createdAt");
+                       .HasColumnType("datetime2")
+                       .HasDefaultValueSql("GETDATE()")
+                       .ValueGeneratedOnAdd()
+                       .HasColumnName("createdAt");
 
                 entity.Property(e => e.DeletedAt)
                     .HasColumnType("date")
@@ -305,9 +260,6 @@ namespace J6.DAL.Database
  
                 modelBuilder.Entity<Promotion>(entity =>
                     {
-                        entity.Property(e => e.Id)
-                            .ValueGeneratedNever()
-                            .HasColumnName("id");
 
                 entity.Property(e => e.Description).HasColumnName("description");
 
@@ -342,12 +294,6 @@ namespace J6.DAL.Database
 
             modelBuilder.Entity<ShippingDetail>(entity =>
             {
-                entity.HasKey(e => e.ShippingDetailsId);
-
-                entity.Property(e => e.ShippingDetailsId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("shippingDetailsId");
-
                 entity.Property(e => e.PaymentId).HasColumnName("paymentId");
 
                 entity.Property(e => e.PurshesCost)
@@ -359,19 +305,16 @@ namespace J6.DAL.Database
                     .HasForeignKey(d => d.PaymentId)
                     .HasConstraintName("FK_ShippingDetails_payment");
 
-                entity.HasOne(d => d.ShippingDetails)
+                entity.HasOne(d => d.Product)
                     .WithOne(p => p.ShippingDetail)
-                    .HasForeignKey<ShippingDetail>(d => d.ShippingDetailsId)
+                    .HasForeignKey<ShippingDetail>(d => d.Id)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ShippingDetails_product");
             });
 
             modelBuilder.Entity<Status>(entity =>
             {
-                entity.Property(e => e.StatusId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("statusId");
-
+            
                 entity.Property(e => e.OrderId).HasColumnName("orderId");
 
                 entity.Property(e => e.StatusName)
@@ -381,10 +324,6 @@ namespace J6.DAL.Database
 
             modelBuilder.Entity<Store>(entity =>
             {
-                entity.Property(e => e.StoreId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("storeId");
-
                 entity.Property(e => e.BuildingNumber)
                     .HasMaxLength(50)
                     .HasColumnName("buildingNumber");

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
@@ -12,8 +13,8 @@ namespace J6.DAL.Entities
         {
             StoreProducts = new HashSet<StoreProduct>();
         }
-
-        public int StoreId { get; set; }
+        [Key]
+        public int Id { get; set; }
         public string City { get; set; }
         public string Street { get; set; }
         public string BuildingNumber { get; set; }

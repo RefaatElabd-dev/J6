@@ -8,7 +8,6 @@ namespace J6.DAL.ViewModels
 {
     public class BranEditViewModel
     {
-        [Key]
         public int BrandId { get; set; }
         public string BrandName { get; set; }
 

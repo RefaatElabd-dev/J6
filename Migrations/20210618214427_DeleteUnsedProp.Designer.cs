@@ -4,14 +4,16 @@ using J6.DAL.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace J6.Migrations
 {
     [DbContext(typeof(DbContainer))]
-    partial class DbContainerModelSnapshot : ModelSnapshot
+    [Migration("20210618214427_DeleteUnsedProp")]
+    partial class DeleteUnsedProp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -600,9 +602,6 @@ namespace J6.Migrations
                         .HasColumnType("int")
                         .HasColumnName("paymentId");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
                     b.Property<string>("PurshesCost")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
@@ -1042,7 +1041,7 @@ namespace J6.Migrations
 
             modelBuilder.Entity("J6.DAL.Entities.ShippingDetail", b =>
                 {
-                    b.HasOne("J6.DAL.Entities.Product", "Product")
+                    b.HasOne("J6.DAL.Entities.Product", "ShippingDetails")
                         .WithOne("ShippingDetail")
                         .HasForeignKey("J6.DAL.Entities.ShippingDetail", "Id")
                         .HasConstraintName("FK_ShippingDetails_product")
@@ -1055,7 +1054,7 @@ namespace J6.Migrations
 
                     b.Navigation("Payment");
 
-                    b.Navigation("Product");
+                    b.Navigation("ShippingDetails");
                 });
 
             modelBuilder.Entity("J6.DAL.Entities.Store", b =>

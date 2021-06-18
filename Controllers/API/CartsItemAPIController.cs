@@ -52,7 +52,7 @@ namespace J6.Controllers.API
             { return NotFound("not exsit"); }
             ProdCart item = new ProdCart();
             item.quantity++;
-            item.ProductId = product.ProductId;
+            item.ProductId = product.Id;
             item.CartId = ShoppingCard.Id;
             var additem = await _context.ProdCarts.AddAsync(item);
             await _context.SaveChangesAsync();
@@ -132,7 +132,7 @@ namespace J6.Controllers.API
 
             foreach (var item in CartItems)
             {
-                var productsincart = _context.Products.FirstOrDefault(a => a.ProductId == item.ProductId);
+                var productsincart = _context.Products.FirstOrDefault(a => a.Id == item.ProductId);
                 for (int i = 0; i < item.quantity; i++)
                 {
                     totalPrice += productsincart.Price;

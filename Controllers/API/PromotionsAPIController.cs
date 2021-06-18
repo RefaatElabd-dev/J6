@@ -47,7 +47,7 @@ namespace J6.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPromotion(int id, Promotion promotion)
         {
-            if (id != promotion.Id)
+            if (id != promotion.PromotionId)
             {
                 return BadRequest();
             }
@@ -85,7 +85,7 @@ namespace J6.Controllers
             }
             catch (DbUpdateException)
             {
-                if (PromotionExists(promotion.Id))
+                if (PromotionExists(promotion.PromotionId))
                 {
                     return Conflict();
                 }
@@ -95,7 +95,7 @@ namespace J6.Controllers
                 }
             }
 
-            return CreatedAtAction("GetPromotion", new { id = promotion.Id }, promotion);
+            return CreatedAtAction("GetPromotion", new { id = promotion.PromotionId }, promotion);
         }
 
         // DELETE: api/Promotions/5
@@ -116,7 +116,7 @@ namespace J6.Controllers
 
         private bool PromotionExists(int id)
         {
-            return _context.Promotions.Any(e => e.Id == id);
+            return _context.Promotions.Any(e => e.PromotionId == id);
         }
     }
 }

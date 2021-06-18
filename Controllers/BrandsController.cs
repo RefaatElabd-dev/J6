@@ -126,12 +126,12 @@ namespace J6.Controllers
             return View(branEditViewModel);
         }
 
-    // POST: brands/Edit/5
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-    [HttpPost]
+        // POST: brands/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit( IFormFile File, BranEditViewModel model)
+        public async Task<IActionResult> Edit(IFormFile File, BranEditViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -147,7 +147,7 @@ namespace J6.Controllers
                         string filepath = Path.Combine(_hostingEnvironment.WebRootPath, "images", model.Image.ToString());
                         System.IO.File.Delete(filepath);
                     }
-                   
+
                     brand.Image = UploadedFile(model);
                 }
 
