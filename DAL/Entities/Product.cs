@@ -24,6 +24,7 @@ namespace J6.DAL.Entities
         public int? Quantity { get; set; }
         public string Size { get; set; }
         public string Color { get; set; }
+        public Size size { get; set; }
         public string ProductName { get; set; }
         public string Model { get; set; }
         public int? SubcategoryId { get; set; }

@@ -655,7 +655,7 @@ namespace J6.Controllers
 
         //get all product in category
 
-        //   api/Categories/allproductonlyIncategory/1
+        //   api/Categoriesapi/allproductonlyIncategory/1
 
         [HttpGet("{id}")]
         [Route("allproductonlyIncategory/{id}")]
@@ -666,19 +666,9 @@ namespace J6.Controllers
             var sub = await _context.SubCategories.Where(a => a.CategoryId == id).ToListAsync();
             foreach (var item in sub)
             {
-
                 var products = await _context.Products.Where(a => a.SubcategoryId == item.SubcategoryId).ToArrayAsync();
-                if (products != null) { 
-                    foreach(var oitem in products) { 
-                if (!allproductonly.Contains(oitem))
-                {
-                    if (oitem != null)
-                    {
-                        allproductonly.Add(oitem);
-                    }
-
-                }
-            }
+                if (products != null) {
+                    allproductonly.AddRange(products);
                 }
             }
             return Ok(allproductonly);
