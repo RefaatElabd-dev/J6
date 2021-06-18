@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using J6.DAL.Database;
 using J6.DAL.Entities;
+using Microsoft.AspNetCore.Hosting;
 
 namespace J6.Controllers
 {
@@ -13,17 +14,31 @@ namespace J6.Controllers
     public class BrandsAPiController : ControllerBase
     {
         private readonly DbContainer _context;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public BrandsAPiController(DbContainer context)
+
+        public BrandsAPiController(DbContainer context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            this._hostEnvironment = hostEnvironment;
+
         }
 
         // GET: api/Brands
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Brand>>> GetBrands()
         {
-            return await _context.Brands.ToListAsync();
+            //return await _context.Brands.ToListAsync();
+            return await _context.Brands
+                .Select(x => new Brand()
+                {
+                    BrandId = x.BrandId,
+                    BrandName = x.BrandName,
+                    CreatedAt = x.CreatedAt,
+                    UpdatedAt = x.UpdatedAt,
+                    Image = "wwwroot/images/" + x.Image,
+                }).ToListAsync();
+
         }
 
         // GET: api/Brands/5
