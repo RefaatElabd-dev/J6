@@ -64,7 +64,7 @@ namespace J6.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(BrandsViewModel model)
+        public async Task<IActionResult> Create(BranEditViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -84,7 +84,7 @@ namespace J6.Controllers
             return View();
         }
 
-        private string UploadedFile(BrandsViewModel model)
+        private string UploadedFile(BranEditViewModel model)
         {
             string uniqueFileName = null;
 
@@ -121,7 +121,7 @@ namespace J6.Controllers
                 BrandName = brand.BrandName,
                 CreatedAt = brand.CreatedAt,
                 UpdatedAt = DateTime.Now,
-                Image = brand.Image,
+                //Image = brand.Image,
             };
             return View(branEditViewModel);
         }
@@ -156,11 +156,6 @@ namespace J6.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View();
-        }
-
-        private string UploadedFile(BranEditViewModel model)
-        {
-            throw new NotImplementedException();
         }
 
         // GET: Brands/Delete/5

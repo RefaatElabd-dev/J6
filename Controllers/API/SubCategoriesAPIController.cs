@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using J6.DAL.Database;
 using J6.DAL.Entities;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,17 +15,33 @@ namespace J6.Controllers
     public class SubCategoriesAPIController : ControllerBase
     {
         private readonly DbContainer _context;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public SubCategoriesAPIController(DbContainer context)
+
+        public SubCategoriesAPIController(DbContainer context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            this._hostEnvironment = hostEnvironment;
         }
 
         // GET: api/SubCategories
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SubCategory>>> GetSubCategories()
         {
-            return await _context.SubCategories.ToListAsync();
+            return await _context.SubCategories
+                .Select(x => new SubCategory()
+                {
+                    SubcategoryId = x.SubcategoryId,
+                    SubcategoryName = x.SubcategoryName,
+                    CreatedAt = x.CreatedAt,
+                    UpdatedAt = x.UpdatedAt,
+                    Content = x.Content,
+                    Category = x.Category,
+                    CategoryId = x.CategoryId,
+                    Products = x.Products,
+                    Image = "images/" + x.Image,
+                }).ToListAsync();
+            // return await _context.SubCategories.ToListAsync();
         }
 
         // GET: api/SubCategories/5
