@@ -28,7 +28,6 @@ namespace J6.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Brand>>> GetBrands()
         {
-            //return await _context.Brands.ToListAsync();
             return await _context.Brands
                 .Select(x => new Brand()
                 {
@@ -36,7 +35,7 @@ namespace J6.Controllers
                     BrandName = x.BrandName,
                     CreatedAt = x.CreatedAt,
                     UpdatedAt = x.UpdatedAt,
-                    Image = "wwwroot/images/" + x.Image,
+                    Image = "images/" + x.Image,
                 }).ToListAsync();
 
         }
