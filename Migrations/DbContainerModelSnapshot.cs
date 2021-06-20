@@ -448,6 +448,9 @@ namespace J6.Migrations
                     b.Property<double?>("Rating")
                         .HasColumnType("float");
 
+                    b.Property<int?>("SellerId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Ship")
                         .HasMaxLength(50)
                         .HasColumnType("int")
@@ -476,6 +479,8 @@ namespace J6.Migrations
                     b.HasIndex("BrandId");
 
                     b.HasIndex("PromotionId");
+
+                    b.HasIndex("SellerId");
 
                     b.HasIndex("SubcategoryId");
 
@@ -562,51 +567,6 @@ namespace J6.Migrations
                         .IsUnique();
 
                     b.ToTable("SavedBag");
-                });
-
-            modelBuilder.Entity("J6.DAL.Entities.Store", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("BuildingNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("SellerId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Street")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SellerId")
-                        .IsUnique();
-
-                    b.ToTable("Stores");
-                });
-
-            modelBuilder.Entity("J6.DAL.Entities.StoreProduct", b =>
-                {
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StoreId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Quantities")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProductId", "StoreId");
-
-                    b.HasIndex("StoreId");
-
-                    b.ToTable("StoreProducts");
                 });
 
             modelBuilder.Entity("J6.DAL.Entities.SubCategory", b =>
@@ -879,7 +839,7 @@ namespace J6.Migrations
 
             modelBuilder.Entity("J6.DAL.Entities.Product", b =>
                 {
-                    b.HasOne("J6.DAL.Entities.Brand", "Brands")
+                    b.HasOne("J6.DAL.Entities.Brand", "Brand")
                         .WithMany("Products")
                         .HasForeignKey("BrandId");
 
@@ -888,14 +848,20 @@ namespace J6.Migrations
                         .HasForeignKey("PromotionId")
                         .HasConstraintName("FK_product_Promotions");
 
+                    b.HasOne("J6.DAL.Entities.AppUser", "Seller")
+                        .WithMany("Products")
+                        .HasForeignKey("SellerId");
+
                     b.HasOne("J6.DAL.Entities.SubCategory", "Subcategory")
                         .WithMany("Products")
                         .HasForeignKey("SubcategoryId")
                         .HasConstraintName("FK_product_subCategory");
 
-                    b.Navigation("Brands");
+                    b.Navigation("Brand");
 
                     b.Navigation("Promotion");
+
+                    b.Navigation("Seller");
 
                     b.Navigation("Subcategory");
                 });
@@ -950,36 +916,6 @@ namespace J6.Migrations
                         .IsRequired();
 
                     b.Navigation("Customer");
-                });
-
-            modelBuilder.Entity("J6.DAL.Entities.Store", b =>
-                {
-                    b.HasOne("J6.DAL.Entities.AppUser", "Seller")
-                        .WithOne("Store")
-                        .HasForeignKey("J6.DAL.Entities.Store", "SellerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Seller");
-                });
-
-            modelBuilder.Entity("J6.DAL.Entities.StoreProduct", b =>
-                {
-                    b.HasOne("J6.DAL.Entities.Product", "Product")
-                        .WithMany("StoreProducts")
-                        .HasForeignKey("ProductId")
-                        .HasConstraintName("FK_StoreProducts_product")
-                        .IsRequired();
-
-                    b.HasOne("J6.DAL.Entities.Store", "Store")
-                        .WithMany("StoreProducts")
-                        .HasForeignKey("StoreId")
-                        .HasConstraintName("FK_StoreProducts_Stores")
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("Store");
                 });
 
             modelBuilder.Entity("J6.DAL.Entities.SubCategory", b =>
@@ -1067,11 +1003,11 @@ namespace J6.Migrations
 
                     b.Navigation("Order");
 
+                    b.Navigation("Products");
+
                     b.Navigation("Promotions");
 
                     b.Navigation("Reviews");
-
-                    b.Navigation("Store");
 
                     b.Navigation("userRoles");
 
@@ -1112,8 +1048,6 @@ namespace J6.Migrations
 
                     b.Navigation("Reviews");
 
-                    b.Navigation("StoreProducts");
-
                     b.Navigation("Views");
                 });
 
@@ -1125,11 +1059,6 @@ namespace J6.Migrations
             modelBuilder.Entity("J6.DAL.Entities.SavedBag", b =>
                 {
                     b.Navigation("ProductsBag");
-                });
-
-            modelBuilder.Entity("J6.DAL.Entities.Store", b =>
-                {
-                    b.Navigation("StoreProducts");
                 });
 
             modelBuilder.Entity("J6.DAL.Entities.SubCategory", b =>

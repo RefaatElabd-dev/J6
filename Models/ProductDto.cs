@@ -53,8 +53,6 @@ namespace J6.Models
         public  ICollection<ProdOrder> ProdOrders { get; set; }
     
         public  ICollection<Review> Reviews { get; set; }
-     
-        public  ICollection<StoreProduct> StoreProducts { get; set; }
        
         public  ICollection<View> Views { get; set; }
         //shaban

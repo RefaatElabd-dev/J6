@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using J6.DAL.Entities;
 using J6.Models;
+using J6.DAL.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace J6.Controllers
 {
@@ -13,11 +15,13 @@ namespace J6.Controllers
     [ApiController]
     public class SellersAPIController : ControllerBase
     {
+        private readonly DbContainer _context;
         private readonly UserManager<AppUser> userManager;
         private readonly IMapper mapper;
 
-        public SellersAPIController(UserManager<AppUser> userManager, IMapper mapper)
+        public SellersAPIController(UserManager<AppUser> userManager, IMapper mapper, DbContainer context)
         {
+            _context = context;
             this.userManager = userManager;
             this.mapper = mapper;
         }
@@ -37,9 +41,6 @@ namespace J6.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<SellerDto>> GetSellerById(int id)
         {
-            //var user = await userManager.FindByIdAsync(id.ToString());
-            //if (user == null) return NotFound("This Password Is Not Exist");
-
             var Sellers = await userManager.GetUsersInRoleAsync("Seller");
             var Seller = Sellers.SingleOrDefault(S => S.Id == id);
             if (Seller == null) return NotFound("No Seller Matched");
@@ -48,75 +49,92 @@ namespace J6.Controllers
 
             return Ok(SellerToRetuen);
         }
+        //////////////////////////////////////////////////////////////////////
+        //seller add product
+        [HttpPost("{id}")]
+        public async Task<ActionResult> sellerAddProduct(Product prod)
+        {
 
+            _context.Products.Add(prod);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (ProductExists(prod.Id))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
+            return CreatedAtAction("GetProduct", new { id = prod.Id }, prod);
+        }
 
+        private bool ProductExists(int id)
+        {
+            return _context.Products.Any(e => e.Id == id);
+        }
+        ///////////////////////////////////////////////////////////////
+        //get all seller products
+        // api/SellersAPI/sellerproducts/1
+        [HttpGet("{id}")]
+        [Route("sellerproducts/{id}")]
+        public async Task<ActionResult> GetSellerProduct(int id)
+        {
+            //seller id
+            var Sellers = await userManager.GetUsersInRoleAsync("Seller");
+            var Seller = Sellers.SingleOrDefault(S => S.Id == id);
+            if (Seller == null) return NotFound("No Seller Matched");
 
-        ////editsellerdata
-        //[HttpPut("{id}")]
-        //public async Task<ActionResult<User>> PutSeller(int id, [FromBody] User user)
-        //{
+            var product = await _context.Products.Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(y => y.Views).FirstOrDefaultAsync(q => q.SellerId == Seller.Id);
 
+            if (product == null)
+            {
+                return NotFound();
+            }
 
-        //    if (!SellerExists(id)) { return NotFound(); }
-        //    if (!UserExists(id))
-        //    {
-        //        return NotFound();
-        //    }
-        //    var seller = await _jumia1Context.Sellers.FirstOrDefaultAsync(s => s.Id == id);
-        //    var userSeller = await _jumia1Context.Users.FirstOrDefaultAsync(s => s.Userid == seller.Id);
-        //    userSeller.FirstName = user.FirstName;
-        //    userSeller.LastName = user.LastName;
-        //    userSeller.Gender = user.Gender;
-        //    userSeller.Email = user.Email;
-        //    userSeller.Password = user.Password;
-        //    // userSeller.RoleId = user.RoleId;
-        //    userSeller.UserAddresses = user.UserAddresses;
+            return Ok(product);
+        }
+        ////////////////////////////////////////////////////
+        // seller edit in his product
 
-        //    await _jumia1Context.SaveChangesAsync();
-        //    return userSeller;
-        //}
+        [HttpPut("{id}/{sellerid}")]
+        public async Task<IActionResult> PutSellerProduct(int id, Product product, int sellerid)
+        {// id is product id
+            if (id != product.Id)
+            {
+                return BadRequest();
+            }
+            if (sellerid != product.SellerId)
+            {
+                return BadRequest("not allawed to use to edit this product you aren't the seller");
+            }
 
+            _context.Entry(product).State = EntityState.Modified;
 
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ProductExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
-
-
-
-        ////delete  
-        ////api/Sellers/3
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteSeller(int id)
-        //{
-        //    var seller = await _jumia1Context.Sellers.FindAsync(id);
-        //    var sellerInUser = await _jumia1Context.Users.FindAsync(seller.Id);
-        //    if (seller == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _jumia1Context.Sellers.Remove(seller);
-        //    _jumia1Context.Users.Remove(sellerInUser);
-        //    await _jumia1Context.SaveChangesAsync();
-
-        //    return NoContent();
-        //}
-
-
-        //check if seller exist
-
-        //private bool SellerExists(int id)
-        //{
-        //    return _jumia1Context.Sellers.Any(e => e.Id == id);
-        //}
-        ////check if user exsist
-        //private bool UserExists(int id)
-        //{
-        //    return _jumia1Context.Users.Any(e => e.Userid == id);
-        //}
-
-
-
-
+            return NoContent();
+        }
 
     }
 

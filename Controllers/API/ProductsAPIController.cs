@@ -55,7 +55,7 @@ namespace J6.Controllers
         {
             // var product = await _context.Products.FindAsync(id);
 
-            var product = await _context.Products.Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).FirstOrDefaultAsync(q => q.Id == id);
+            var product = await _context.Products.Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(y => y.Views).FirstOrDefaultAsync(q => q.Id == id);
 
             if (product == null)
             {

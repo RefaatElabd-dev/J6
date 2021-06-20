@@ -25,9 +25,9 @@ namespace J6.DAL.Entities
         public ICollection<Promotion> Promotions { get; set; }
         public virtual Cart Cart { get; set; }
         public virtual Order Order { get; set; }
-        public virtual Store Store { get; set; }
         public virtual SavedBag Bag { get; set; }
         ///////
+        public virtual ICollection<Product> Products { get; set; }
         public virtual ICollection<Message> Messages { get; set; }
 
     }

@@ -30,9 +30,14 @@ namespace J6.DAL.Entities
         public DateTime? DeletedAt { get; set; }
         public string material { set; get; }
 
+        public int? SellerId { get; set; }
+        [ForeignKey("SellerId")]
+        public virtual AppUser Seller { get; set; }
+
+
         [ForeignKey("Brands")]
         public int? BrandId { get; set; }
-        public virtual Brand Brands { get; set; }
+        public virtual Brand Brand { get; set; }
 
         [ForeignKey("Promotion")]
         public int? PromotionId { get; set; }
@@ -48,7 +53,7 @@ namespace J6.DAL.Entities
 
         public  ICollection<ProductImage> ProductImages { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
-        public virtual ICollection<StoreProduct> StoreProducts { get; set; }
+       
         public virtual ICollection<View> Views { get; set; }
         public virtual ICollection<MiddleSavedProduct> ProductsBag { get; set; }
 

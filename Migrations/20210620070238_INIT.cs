@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace J6.Migrations
 {
-    public partial class ShabanAllEditingV1 : Migration
+    public partial class INIT : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -343,28 +343,6 @@ namespace J6.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Stores",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Street = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BuildingNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SellerId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Stores", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Stores_AspNetUsers_SellerId",
-                        column: x => x.SellerId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Payments",
                 columns: table => new
                 {
@@ -408,6 +386,7 @@ namespace J6.Migrations
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     material = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SellerId = table.Column<int>(type: "int", nullable: true),
                     BrandId = table.Column<int>(type: "int", nullable: true),
                     PromotionId = table.Column<int>(type: "int", nullable: true),
                     SubcategoryId = table.Column<int>(type: "int", nullable: true),
@@ -427,6 +406,12 @@ namespace J6.Migrations
                         column: x => x.SubcategoryId,
                         principalTable: "SubCategories",
                         principalColumn: "SubcategoryId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Products_AspNetUsers_SellerId",
+                        column: x => x.SellerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Products_Brands_BrandId",
@@ -557,31 +542,6 @@ namespace J6.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "StoreProducts",
-                columns: table => new
-                {
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    StoreId = table.Column<int>(type: "int", nullable: false),
-                    Quantities = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StoreProducts", x => new { x.ProductId, x.StoreId });
-                    table.ForeignKey(
-                        name: "FK_StoreProducts_product",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_StoreProducts_Stores",
-                        column: x => x.StoreId,
-                        principalTable: "Stores",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Views",
                 columns: table => new
                 {
@@ -689,6 +649,11 @@ namespace J6.Migrations
                 column: "PromotionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Products_SellerId",
+                table: "Products",
+                column: "SellerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Products_SubcategoryId",
                 table: "Products",
                 column: "SubcategoryId");
@@ -712,17 +677,6 @@ namespace J6.Migrations
                 name: "IX_SavedBag_CustomerId",
                 table: "SavedBag",
                 column: "CustomerId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StoreProducts_StoreId",
-                table: "StoreProducts",
-                column: "StoreId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Stores_SellerId",
-                table: "Stores",
-                column: "SellerId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -775,9 +729,6 @@ namespace J6.Migrations
                 name: "Reviews");
 
             migrationBuilder.DropTable(
-                name: "StoreProducts");
-
-            migrationBuilder.DropTable(
                 name: "Views");
 
             migrationBuilder.DropTable(
@@ -791,9 +742,6 @@ namespace J6.Migrations
 
             migrationBuilder.DropTable(
                 name: "SavedBag");
-
-            migrationBuilder.DropTable(
-                name: "Stores");
 
             migrationBuilder.DropTable(
                 name: "Products");

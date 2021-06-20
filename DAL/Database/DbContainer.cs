@@ -29,9 +29,6 @@ namespace J6.DAL.Database
         public virtual DbSet<ProductImage> ProductImages { get; set; }
         public virtual DbSet<Promotion> Promotions { get; set; }
         public virtual DbSet<Review> Reviews { get; set; }
-       
-        public virtual DbSet<Store> Stores { get; set; }
-        public virtual DbSet<StoreProduct> StoreProducts { get; set; }
         public virtual DbSet<SubCategory> SubCategories { get; set; }
         public virtual DbSet<View> Views { get; set; }
         public virtual DbSet<Address> Addresses { get; set; }
@@ -207,23 +204,7 @@ namespace J6.DAL.Database
                     .HasConstraintName("FK_Reviews_Customer");
 
             });
-
-            builder.Entity<StoreProduct>(entity =>
-            {
-                entity.HasKey(e => new { e.ProductId, e.StoreId });
-
-                entity.HasOne(d => d.Product)
-                    .WithMany(p => p.StoreProducts)
-                    .HasForeignKey(d => d.ProductId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_StoreProducts_product");
-
-                entity.HasOne(d => d.Store)
-                    .WithMany(p => p.StoreProducts)
-                    .HasForeignKey(d => d.StoreId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_StoreProducts_Stores");
-            });
+          
 
             builder.Entity<SubCategory>(entity =>
             {
