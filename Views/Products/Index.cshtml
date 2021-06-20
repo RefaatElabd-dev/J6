@@ -5,146 +5,96 @@
     Layout = "~/Views/Layout/MainLayout.cshtml";
 }
 
-<h2>Index</h2>
+<section class="mt-2 container">
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SoldQuantities)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Quantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Image)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Color)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Size)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Model)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rating)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Discount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ship)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdatedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DeletedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.material)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Brand)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Promotion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Subcategory)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Manufacture)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SoldQuantities)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Image)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Color)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Size)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Model)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rating)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Discount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ship)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdatedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeletedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.material)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Brand.BrandId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Promotion.PromotionId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subcategory.SubcategoryId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Manufacture)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+    <div class="container mt-4">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h2 class="text-center text-uppercase">List of Products</h2>
+            </div>
+            <div class="card-body">
+                <div class="mb-2">
+                    <a asp-action="Create" class="btn btn-sm btn-primary text-uppercase p-3"><i class="fas fa-plus-circle fa-2x"></i></a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Image)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ProductName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Price)
+                                </th>
+                                @*<th>
+                                    @Html.DisplayNameFor(model => model.Description)
+                                </th>*@
+                                <th>
+                                    @Html.DisplayNameFor(model => model.material)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Model)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Subcategory.SubcategoryName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Brand.BrandName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Seller.UserName)
+                                </th>
+                                <th>Operations</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+                                <td>
+                                    <img width="80" height="80" src="~/images/@item.Image"
+                                         class="rounded-circle" alt="">
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ProductName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Price)
+                                </td>
+                                @*<td style="min-width: 100px; max-width: 300px; overflow: hidden; text-overflow: ellipsis;">
+                                    @Html.DisplayFor(momodelItemdel => item.Description)
+                                </td>*@
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.material)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Model)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Subcategory.SubcategoryName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Brand.BrandName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Seller.UserName)
+                                </td>
+                                <td class="">
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info m-2 p-3"><i class="fa fa-info-circle fa-2x"></i></a>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning m-2 p-3"><i class="fa fa-edit fa-2x"></i></a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger m-2 p-3"><i class="fa fa-trash fa-2x"></i></a>
+                                </td>
+                            </tr>
 }
-    </tbody>
-</table>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
