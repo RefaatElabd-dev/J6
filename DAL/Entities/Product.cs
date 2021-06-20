@@ -22,6 +22,7 @@ namespace J6.DAL.Entities
         public string ProductName { get; set; }
         public string Model { get; set; }
         public double? Rating { get; set; }
+        [Range(0.0, 0.99)]
         public double? Discount { get; set; }
         public string Description { get; set; }
         public ShappedType Ship { get; set; }
@@ -32,6 +33,7 @@ namespace J6.DAL.Entities
 
         public int? SellerId { get; set; }
         [ForeignKey("SellerId")]
+        [JsonIgnore]
         public virtual AppUser Seller { get; set; }
 
 

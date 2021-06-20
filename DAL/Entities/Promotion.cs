@@ -15,7 +15,8 @@ namespace J6.DAL.Entities
         }
         [Key]
         public int PromotionId { get; set; }
-        public int? Discount { get; set; }
+        [Range(0.0,0.99)]
+        public double? Discount { get; set; }
         public string Description { get; set; }
         [ForeignKey("Seller")]
         public int SellerId { get; set; }

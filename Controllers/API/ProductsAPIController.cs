@@ -65,9 +65,10 @@ namespace J6.Controllers
             return Ok(product);
         }
 
-        // PUT: api/Products/5
+        // PUT: api/ProductsAPi/edit/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Route("edit/{id}")]
         public async Task<IActionResult> PutProduct(int id, Product product)
         {
             if (id != product.Id)
