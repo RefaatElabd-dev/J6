@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace J6.Migrations
 {
     [DbContext(typeof(DbContainer))]
-    [Migration("20210612184205_sellerinchat")]
-    partial class sellerinchat
+    [Migration("20210620050500_ShabanAllEditingV1")]
+    partial class ShabanAllEditingV1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -191,9 +191,10 @@ namespace J6.Migrations
 
             modelBuilder.Entity("J6.DAL.Entities.Cart", b =>
                 {
-                    b.Property<int>("Cartid")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("cartid");
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("Cost")
                         .HasColumnType("int")
@@ -215,16 +216,10 @@ namespace J6.Migrations
                         .HasColumnType("date")
                         .HasColumnName("shippingDate");
 
-                    b.Property<int?>("ShippingDetailsId")
-                        .HasColumnType("int")
-                        .HasColumnName("shippingDetailsId");
-
-                    b.HasKey("Cartid");
+                    b.HasKey("Id");
 
                     b.HasIndex("CustimerId")
                         .IsUnique();
-
-                    b.HasIndex("ShippingDetailsId");
 
                     b.ToTable("cart");
                 });
@@ -248,8 +243,10 @@ namespace J6.Migrations
                         .HasColumnName("content");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("date")
-                        .HasColumnName("createdAt");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("createdAt")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)")
@@ -282,7 +279,6 @@ namespace J6.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UserName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("When")
@@ -315,51 +311,57 @@ namespace J6.Migrations
 
             modelBuilder.Entity("J6.DAL.Entities.Order", b =>
                 {
-                    b.Property<int>("OrderId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("orderId");
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("CustimerId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Rating")
-                        .HasColumnType("int")
-                        .HasColumnName("rating");
+                    b.Property<double>("OrderCost")
+                        .HasColumnType("float");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.HasKey("OrderId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CustimerId")
                         .IsUnique();
 
-                    b.ToTable("orders");
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("J6.DAL.Entities.Payment", b =>
                 {
-                    b.Property<int>("PaymentId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("paymentId");
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("Amount")
-                        .HasColumnType("int")
-                        .HasColumnName("amount");
+                    b.Property<double>("Cost")
+                        .HasColumnType("float");
 
                     b.Property<DateTime?>("Date")
-                        .HasColumnType("date")
-                        .HasColumnName("date");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Paymenttype")
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(50)
                         .HasColumnType("nchar(50)")
+                        .HasDefaultValue("PayPal")
                         .HasColumnName("paymenttype")
                         .IsFixedLength(true);
 
-                    b.HasKey("PaymentId");
+                    b.HasKey("Id");
 
-                    b.ToTable("payment");
+                    b.HasIndex("OrderId")
+                        .IsUnique();
+
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("J6.DAL.Entities.ProdCart", b =>
@@ -383,112 +385,95 @@ namespace J6.Migrations
             modelBuilder.Entity("J6.DAL.Entities.ProdOrder", b =>
                 {
                     b.Property<int>("OrderId")
-                        .HasColumnType("int")
-                        .HasColumnName("orderId");
+                        .HasColumnType("int");
 
                     b.Property<int>("ProductId")
-                        .HasMaxLength(10)
-                        .HasColumnType("int")
-                        .HasColumnName("productId")
-                        .IsFixedLength(true);
+                        .HasColumnType("int");
+
+                    b.Property<int>("quantity")
+                        .HasColumnType("int");
 
                     b.HasKey("OrderId", "ProductId");
 
-                    b.ToTable("prod_order");
+                    b.ToTable("ProdOrders");
                 });
 
             modelBuilder.Entity("J6.DAL.Entities.Product", b =>
                 {
-                    b.Property<int>("ProductId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("productId");
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("BrandId")
                         .HasColumnType("int");
 
                     b.Property<string>("Color")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("color");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("date")
-                        .HasColumnName("createdAt");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("createdAt")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("date")
-                        .HasColumnName("deletedAt");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("description");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double?>("Discount")
-                        .HasMaxLength(50)
-                        .HasColumnType("float")
-                        .HasColumnName("discount");
+                        .HasColumnType("float");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Manufacture")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Model")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("model");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Price")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("float")
-                        .HasColumnName("price");
+                        .HasColumnType("float");
 
                     b.Property<string>("ProductName")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("productName");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("PromotionId")
-                        .HasColumnType("int")
-                        .HasColumnName("promotionId");
+                        .HasColumnType("int");
 
                     b.Property<int?>("Quantity")
-                        .HasColumnType("int")
-                        .HasColumnName("quantity");
+                        .HasColumnType("int");
 
                     b.Property<double?>("Rating")
-                        .HasColumnType("float")
-                        .HasColumnName("rating");
+                        .HasColumnType("float");
 
                     b.Property<int>("Ship")
                         .HasMaxLength(50)
                         .HasColumnType("int")
                         .HasColumnName("ship");
 
-                    b.Property<string>("Size")
+                    b.Property<int>("Size")
                         .HasMaxLength(10)
-                        .HasColumnType("nchar(10)")
+                        .HasColumnType("int")
                         .HasColumnName("size")
                         .IsFixedLength(true);
 
                     b.Property<int?>("SoldQuantities")
-                        .HasColumnType("int")
-                        .HasColumnName("soldQuantities");
+                        .HasColumnType("int");
 
                     b.Property<int?>("SubcategoryId")
-                        .HasColumnType("int")
-                        .HasColumnName("subcategoryId");
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("date")
-                        .HasColumnName("updatedAt");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("material")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ProductId");
+                    b.HasKey("Id");
 
                     b.HasIndex("BrandId");
 
@@ -496,46 +481,46 @@ namespace J6.Migrations
 
                     b.HasIndex("SubcategoryId");
 
-                    b.ToTable("product");
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("J6.DAL.Entities.ProductImage", b =>
                 {
+                    b.Property<int>("ImId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("ProductId")
-                        .HasColumnType("int")
-                        .HasColumnName("productId");
+                        .HasColumnType("int");
 
-                    b.Property<int>("ImageId")
-                        .HasColumnType("int")
-                        .HasColumnName("imageId");
+                    b.HasKey("ImId");
 
-                    b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("image");
+                    b.HasIndex("ProductId");
 
-                    b.HasKey("ProductId", "ImageId");
-
-                    b.ToTable("ProductImage");
+                    b.ToTable("ProductImages");
                 });
 
             modelBuilder.Entity("J6.DAL.Entities.Promotion", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("PromotionId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("description");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Discount")
-                        .HasColumnType("int")
-                        .HasColumnName("discount");
+                        .HasColumnType("int");
 
                     b.Property<int>("SellerId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("PromotionId");
 
                     b.HasIndex("SellerId");
 
@@ -545,21 +530,16 @@ namespace J6.Migrations
             modelBuilder.Entity("J6.DAL.Entities.Review", b =>
                 {
                     b.Property<int>("CustomerId")
-                        .HasColumnType("int")
-                        .HasColumnName("customerId");
+                        .HasColumnType("int");
 
                     b.Property<int>("ProductId")
-                        .HasColumnType("int")
-                        .HasColumnName("productId");
+                        .HasColumnType("int");
 
                     b.Property<string>("Comment")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("comment");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Rating")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnName("rating");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CustomerId", "ProductId");
 
@@ -586,73 +566,26 @@ namespace J6.Migrations
                     b.ToTable("SavedBag");
                 });
 
-            modelBuilder.Entity("J6.DAL.Entities.ShippingDetail", b =>
-                {
-                    b.Property<int>("ShippingDetailsId")
-                        .HasColumnType("int")
-                        .HasColumnName("shippingDetailsId");
-
-                    b.Property<int?>("PaymentId")
-                        .HasColumnType("int")
-                        .HasColumnName("paymentId");
-
-                    b.Property<string>("PurshesCost")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnName("purshesCost");
-
-                    b.HasKey("ShippingDetailsId");
-
-                    b.HasIndex("PaymentId");
-
-                    b.ToTable("ShippingDetails");
-                });
-
-            modelBuilder.Entity("J6.DAL.Entities.Status", b =>
-                {
-                    b.Property<int>("StatusId")
-                        .HasColumnType("int")
-                        .HasColumnName("statusId");
-
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int")
-                        .HasColumnName("orderId");
-
-                    b.Property<string>("StatusName")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnName("statusName");
-
-                    b.HasKey("StatusId");
-
-                    b.ToTable("Statuses");
-                });
-
             modelBuilder.Entity("J6.DAL.Entities.Store", b =>
                 {
-                    b.Property<int>("StoreId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("storeId");
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("BuildingNumber")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnName("buildingNumber");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("City")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnName("city");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SellerId")
                         .HasColumnType("int");
 
                     b.Property<string>("Street")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnName("street");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("StoreId");
+                    b.HasKey("Id");
 
                     b.HasIndex("SellerId")
                         .IsUnique();
@@ -663,16 +596,13 @@ namespace J6.Migrations
             modelBuilder.Entity("J6.DAL.Entities.StoreProduct", b =>
                 {
                     b.Property<int>("ProductId")
-                        .HasColumnType("int")
-                        .HasColumnName("productId");
+                        .HasColumnType("int");
 
                     b.Property<int>("StoreId")
-                        .HasColumnType("int")
-                        .HasColumnName("storeId");
+                        .HasColumnType("int");
 
                     b.Property<int?>("Quantities")
-                        .HasColumnType("int")
-                        .HasColumnName("quantities");
+                        .HasColumnType("int");
 
                     b.HasKey("ProductId", "StoreId");
 
@@ -686,39 +616,34 @@ namespace J6.Migrations
                     b.Property<int>("SubcategoryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("subcategoryId")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("CategoryId")
-                        .HasColumnType("int")
-                        .HasColumnName("categoryId");
+                        .HasColumnType("int");
 
                     b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("content");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("date")
-                        .HasColumnName("createdAt");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("createdAt")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("image");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SubcategoryName")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnName("subcategoryName");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("date")
-                        .HasColumnName("updatedAt");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("SubcategoryId");
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("subCategory");
+                    b.ToTable("SubCategories");
                 });
 
             modelBuilder.Entity("J6.DAL.Entities.View", b =>
@@ -727,18 +652,12 @@ namespace J6.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("ProductId")
-                        .HasColumnType("int")
-                        .HasColumnName("productId");
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreationDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<string>("IsFar")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)")
-                        .HasColumnName("isFar");
 
                     b.HasKey("CustomerId", "ProductId");
 
@@ -869,14 +788,7 @@ namespace J6.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("J6.DAL.Entities.ShippingDetail", "ShippingDetails")
-                        .WithMany("Carts")
-                        .HasForeignKey("ShippingDetailsId")
-                        .HasConstraintName("FK_cart_ShippingDetails");
-
                     b.Navigation("Customer");
-
-                    b.Navigation("ShippingDetails");
                 });
 
             modelBuilder.Entity("J6.DAL.Entities.Message", b =>
@@ -918,6 +830,17 @@ namespace J6.Migrations
                     b.Navigation("Customer");
                 });
 
+            modelBuilder.Entity("J6.DAL.Entities.Payment", b =>
+                {
+                    b.HasOne("J6.DAL.Entities.Order", "Order")
+                        .WithOne("Payment")
+                        .HasForeignKey("J6.DAL.Entities.Payment", "OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+                });
+
             modelBuilder.Entity("J6.DAL.Entities.ProdCart", b =>
                 {
                     b.HasOne("J6.DAL.Entities.Cart", "Cart")
@@ -945,7 +868,7 @@ namespace J6.Migrations
                         .HasConstraintName("FK_prod_order_Orders")
                         .IsRequired();
 
-                    b.HasOne("J6.DAL.Entities.Product", "OrderNavigation")
+                    b.HasOne("J6.DAL.Entities.Product", "Product")
                         .WithMany("ProdOrders")
                         .HasForeignKey("OrderId")
                         .HasConstraintName("FK_prod_order_product")
@@ -953,7 +876,7 @@ namespace J6.Migrations
 
                     b.Navigation("Order");
 
-                    b.Navigation("OrderNavigation");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("J6.DAL.Entities.Product", b =>
@@ -984,7 +907,7 @@ namespace J6.Migrations
                     b.HasOne("J6.DAL.Entities.Product", "Product")
                         .WithMany("ProductImages")
                         .HasForeignKey("ProductId")
-                        .HasConstraintName("FK_ProductImage_product")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Product");
@@ -1029,24 +952,6 @@ namespace J6.Migrations
                         .IsRequired();
 
                     b.Navigation("Customer");
-                });
-
-            modelBuilder.Entity("J6.DAL.Entities.ShippingDetail", b =>
-                {
-                    b.HasOne("J6.DAL.Entities.Payment", "Payment")
-                        .WithMany("ShippingDetails")
-                        .HasForeignKey("PaymentId")
-                        .HasConstraintName("FK_ShippingDetails_payment");
-
-                    b.HasOne("J6.DAL.Entities.Product", "ShippingDetails")
-                        .WithOne("ShippingDetail")
-                        .HasForeignKey("J6.DAL.Entities.ShippingDetail", "ShippingDetailsId")
-                        .HasConstraintName("FK_ShippingDetails_product")
-                        .IsRequired();
-
-                    b.Navigation("Payment");
-
-                    b.Navigation("ShippingDetails");
                 });
 
             modelBuilder.Entity("J6.DAL.Entities.Store", b =>
@@ -1192,12 +1097,9 @@ namespace J6.Migrations
 
             modelBuilder.Entity("J6.DAL.Entities.Order", b =>
                 {
-                    b.Navigation("ProdOrders");
-                });
+                    b.Navigation("Payment");
 
-            modelBuilder.Entity("J6.DAL.Entities.Payment", b =>
-                {
-                    b.Navigation("ShippingDetails");
+                    b.Navigation("ProdOrders");
                 });
 
             modelBuilder.Entity("J6.DAL.Entities.Product", b =>
@@ -1212,8 +1114,6 @@ namespace J6.Migrations
 
                     b.Navigation("Reviews");
 
-                    b.Navigation("ShippingDetail");
-
                     b.Navigation("StoreProducts");
 
                     b.Navigation("Views");
@@ -1227,11 +1127,6 @@ namespace J6.Migrations
             modelBuilder.Entity("J6.DAL.Entities.SavedBag", b =>
                 {
                     b.Navigation("ProductsBag");
-                });
-
-            modelBuilder.Entity("J6.DAL.Entities.ShippingDetail", b =>
-                {
-                    b.Navigation("Carts");
                 });
 
             modelBuilder.Entity("J6.DAL.Entities.Store", b =>

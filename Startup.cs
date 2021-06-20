@@ -100,9 +100,11 @@ namespace J6
             services.AddScoped<IProductRepository, ProductRepositry>();
 
             services.AddTransient<IUserSavedBagServices, UserSavedBagServices>();
+
             services.AddTransient<IAdminStatisticsService, AdminStatisticsService>();
 
-          
+            services.AddTransient<IOrderServices, OrderServices>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

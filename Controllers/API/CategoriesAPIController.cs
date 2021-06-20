@@ -165,7 +165,7 @@ namespace J6.Controllers
             foreach (var item in allSubInCategory)
             {
 
-                var products = await _context.Products.Where(a => a.SubcategoryId == item.SubcategoryId && a.Color == color).Include(a => a.Promotion).Include(a => a.ShippingDetail).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).Include(q => q.StoreProducts).ToArrayAsync();
+                var products = await _context.Products.Where(a => a.SubcategoryId == item.SubcategoryId && a.Color == color).Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).Include(q => q.StoreProducts).ToArrayAsync();
 
                 if (products != null)
                 {
@@ -208,7 +208,7 @@ namespace J6.Controllers
             var allSubInCategory = await _context.SubCategories.Where(a => a.CategoryId == category.CategoryId).ToListAsync();
             foreach (var item in allSubInCategory)
             {
-                var products = await _context.Products.Where(a => a.SubcategoryId == item.SubcategoryId && a.Price == price).Include(a => a.Promotion).Include(a => a.ShippingDetail).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).Include(q => q.StoreProducts).ToListAsync();
+                var products = await _context.Products.Where(a => a.SubcategoryId == item.SubcategoryId && a.Price == price).Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).Include(q => q.StoreProducts).ToListAsync();
 
                 if (products != null)
                 {
@@ -253,7 +253,7 @@ namespace J6.Controllers
             foreach (var item in allSubInCategory)
             {
 
-                var products = await _context.Products.Where(a => a.SubcategoryId == item.SubcategoryId).Include(a => a.Promotion).Include(a => a.ShippingDetail).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).Include(q => q.StoreProducts).ToListAsync();
+                var products = await _context.Products.Where(a => a.SubcategoryId == item.SubcategoryId).Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).Include(q => q.StoreProducts).ToListAsync();
 
                 if (products != null)
                 {
@@ -302,7 +302,7 @@ namespace J6.Controllers
             foreach (var item in allSubInCategory)
             {
 
-                var products = await _context.Products.Where(a => a.SubcategoryId == item.SubcategoryId).Include(a => a.Promotion).Include(a => a.ShippingDetail).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).Include(q => q.StoreProducts).ToListAsync();
+                var products = await _context.Products.Where(a => a.SubcategoryId == item.SubcategoryId).Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).Include(q => q.StoreProducts).ToListAsync();
 
                 if (products != null)
                 {
@@ -371,7 +371,7 @@ namespace J6.Controllers
         [HttpGet("{id}")]
         [Route("size/{id}")]
 
-        public async Task<ActionResult> GetproductCategoryusingsize(string size, int id)
+        public async Task<ActionResult> GetproductCategoryusingsize(Size size, int id)
 
         {//id is category id
             List<object> allproducts = new List<object>();
@@ -385,7 +385,7 @@ namespace J6.Controllers
             var allSubInCategory = await _context.SubCategories.Where(a => a.CategoryId == category.CategoryId).ToListAsync();
             foreach (var item in allSubInCategory)
             {
-                var products = await _context.Products.Where(a => a.SubcategoryId == item.SubcategoryId && a.Size == size).Include(a => a.Promotion).Include(a => a.ShippingDetail).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).Include(q => q.StoreProducts).ToListAsync();
+                var products = await _context.Products.Where(a => a.SubcategoryId == item.SubcategoryId && a.Size == size).Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).Include(q => q.StoreProducts).ToListAsync();
 
                 if (products != null)
                 {
@@ -414,7 +414,7 @@ namespace J6.Controllers
         public async Task<ActionResult> GetallproductInBrand(int id)
         {//id is brand id
 
-            var products = await _context.Products.Where(a => a.BrandId == id).Include(a => a.Promotion).Include(a => a.ShippingDetail).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).Include(q => q.Subcategory).ToListAsync();
+            var products = await _context.Products.Where(a => a.BrandId == id).Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).Include(q => q.Subcategory).ToListAsync();
 
             return Ok(products);
 
@@ -434,7 +434,7 @@ namespace J6.Controllers
         public async Task<ActionResult> GetallsubcategoryInBrand(int id)
         {//id is brand id
             List<SubCategory> sub = new List<SubCategory>();
-            var products = await _context.Products.Where(a => a.BrandId == id).Include(a => a.Promotion).Include(a => a.ShippingDetail).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).ToListAsync();
+            var products = await _context.Products.Where(a => a.BrandId == id).Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).ToListAsync();
             foreach (var item in products)
             {
                 var subcategory = await _context.SubCategories.FirstOrDefaultAsync(a => a.SubcategoryId == item.SubcategoryId);
@@ -465,7 +465,7 @@ namespace J6.Controllers
         public async Task<ActionResult> GetallBrandInsubcategory(int id)
         {//id is subcategory id
             List<object> brand = new List<object>();
-            var products = await _context.Products.Where(a => a.SubcategoryId == id).Include(a => a.Promotion).Include(a => a.ShippingDetail).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).ToListAsync();
+            var products = await _context.Products.Where(a => a.SubcategoryId == id).Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).ToListAsync();
             foreach (var item in products)
             {
                 var onebrand = await _context.Brands.FirstOrDefaultAsync(a => a.BrandId == item.BrandId);

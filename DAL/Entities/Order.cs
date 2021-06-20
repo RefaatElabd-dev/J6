@@ -9,18 +9,15 @@ namespace J6.DAL.Entities
 {
     public class Order
     {
-        public Order()
-        {
-            ProdOrders = new HashSet<ProdOrder>();
-        }
+      
         [Key]
         public int Id { get; set; }
-
-        [ForeignKey("Customer")]
         public int CustimerId { get; set; }
-        public int? Rating { get; set; }
-        public OrderStatus Status { get; set; } = OrderStatus.InProgress;
+        public OrderStatus Status = OrderStatus.InProgress;
+        [ForeignKey("CustimerId")]
         public virtual AppUser Customer { get; set; }
+        public double OrderCost { get; set; }
         public virtual ICollection<ProdOrder> ProdOrders { get; set; }
+        public virtual Payment Payment { get; set; }
     }
 }

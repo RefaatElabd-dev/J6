@@ -18,7 +18,7 @@ namespace J6.DAL.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public Address Address { get; set; }
-        public bool IsActive { get; set; }
+        public bool IsActive  = true;
         public ICollection<AppUserRole> userRoles { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
         public virtual ICollection<View> Views { get; set; }
@@ -29,9 +29,6 @@ namespace J6.DAL.Entities
         public virtual SavedBag Bag { get; set; }
         ///////
         public virtual ICollection<Message> Messages { get; set; }
-
-
-
 
     }
 }

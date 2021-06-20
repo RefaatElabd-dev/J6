@@ -75,18 +75,16 @@ namespace J6.BL.Repositry
         public async Task<PageList<ProductDto>> GetProdsAsync(ProductParams productParams)
         {
 
-            //var query = _context.Products
-            //   .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
-            //   .AsNoTracking()
-            //   .AsQueryable();
-
-
-
             var query = _context.Products.AsQueryable();
 
             query = query.Where(x => (productParams.Model == null || x.Model.ToLower()
-            .Contains(productParams.Model.ToLower()))|| (productParams.Size == null || x.Size.ToLower()
-            .Contains(productParams.Size.ToLower()))||(productParams.Color==null||x.Color.ToLower().Contains(productParams.Color)));
+            .Contains(productParams.Model.ToLower()))|| (productParams.Color==null||x.Color.ToLower().Contains(productParams.Color)));
+
+
+            //Anding &&
+            //(productParams.Size == null || x.Size.ToLower()
+            //.Contains(productParams.Size.ToLower())) ||
+
 
 
             return await PageList<ProductDto>.CreateAsync(query.ProjectTo<ProductDto>

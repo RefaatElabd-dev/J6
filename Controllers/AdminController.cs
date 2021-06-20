@@ -7,20 +7,22 @@ using System.Linq;
 using System.Threading.Tasks;
 using J6.Models;
 using J6.BL.Servises;
+using J6.DAL.Entities;
 
 namespace J6.Controllers
 {
     public class AdminController : Controller
     {
-        private readonly RoleManager<IdentityRole> _userManager;
+        private readonly RoleManager<AppRole> _roleManager;
         private readonly IAdminStatisticsService _adminStatistics;
+        private readonly UserManager<AppUser> _userManager;
 
-        public AdminController(RoleManager<IdentityRole> userManager, IAdminStatisticsService adminStatistics)
+        public AdminController(RoleManager<AppRole> roleManager, IAdminStatisticsService adminStatistics, UserManager<AppUser> userManager)
         {
-            _userManager = userManager;
+            _roleManager = roleManager;
             _adminStatistics = adminStatistics;
+            _userManager = userManager;
         }
-
 
         public IActionResult Index()
         {
@@ -31,7 +33,7 @@ namespace J6.Controllers
             ViewData["SolidItemsNumber"] = _adminStatistics.GetSolidItemsNumber();
             ViewData["ViewedProductsNumber"] = _adminStatistics.GetViewedProductsNumber();
             ViewData["SellingRate"] = _adminStatistics.GetrateOfSViewedProducts();
-            var data = _userManager.Roles;
+            var data = _roleManager.Roles;
             return View(data);
         }
 
@@ -46,12 +48,12 @@ namespace J6.Controllers
             if (ModelState.IsValid)
             {
 
-                var role = new IdentityRole()
+                var role = new AppRole()
                 {
                     Name = model.RoleName
                 };
 
-                var result = await _userManager.CreateAsync(role);
+                var result = await _roleManager.CreateAsync(role);
 
                 if (result.Succeeded)
                 {
@@ -72,63 +74,50 @@ namespace J6.Controllers
 
         public async Task<IActionResult> EditRole(string Id)
         {
-            var role =  await _userManager.FindByIdAsync(Id);
+            var role =  await _roleManager.FindByIdAsync(Id);
 
 
             var data = new EditRoleVM()
             {
-                Id = role.Id,
+                Id = role.Id.ToString(),
                 RoleName = role.Name
             };
 
             return View(data);
         }
 
-
-
         [HttpPost]
         public async Task<IActionResult> EditRole(EditRoleVM model)
         {
-
             if (ModelState.IsValid)
             {
-                var role = await _userManager.FindByIdAsync(model.Id);
+                var role = await _roleManager.FindByIdAsync(model.Id);
 
                 role.Name = model.RoleName;
 
-                var result = await _userManager.UpdateAsync(role);
+                var result = await _roleManager.UpdateAsync(role);
 
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index");
                 }
-
-
             }
-
-
-        
 
             return View(model);
         }
-
-
-
         public async Task<IActionResult> DeleteRole(string Id)
         {
-            var role = await _userManager.FindByIdAsync(Id);
+            var role = await _roleManager.FindByIdAsync(Id);
 
 
             var data = new DeleteRole()
             {
-                Id = role.Id,
+                Id = role.Id.ToString(),
                 RoleName = role.Name
             };
 
             return View(data);
         }
-
-
 
         [HttpPost]
         public async Task<IActionResult> DeleteRole(DeleteRole model)
@@ -136,17 +125,15 @@ namespace J6.Controllers
 
             if (ModelState.IsValid)
             {
-                var role = await _userManager.FindByIdAsync(model.Id);
+                var role = await _roleManager.FindByIdAsync(model.Id);
 
 
-                var result = await _userManager.DeleteAsync(role);
+                var result = await _roleManager.DeleteAsync(role);
 
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index");
                 }
-
-
             }
 
             return View(model);
@@ -154,6 +141,14 @@ namespace J6.Controllers
 
         //#######################Admin Statistics###############
 
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllInActiveSellers()
+        {
+            var sellers = await _userManager.GetUsersInRoleAsync("Seller");
+            ICollection<AppUser> notActiveSellers = sellers.Where(S => S.IsActive == false).ToList();
+            return View(notActiveSellers);
+        }
 
 
     }
