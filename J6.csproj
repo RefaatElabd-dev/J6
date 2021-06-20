@@ -65,6 +65,14 @@
     <Folder Include="wwwroot\Files\Photos\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Views\Products\Create.cshtml" />
+    <None Include="Views\Products\Delete.cshtml" />
+    <None Include="Views\Products\Details.cshtml" />
+    <None Include="Views\Products\Edit.cshtml" />
+    <None Include="Views\Products\Index.cshtml" />
+  </ItemGroup>
+
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="tasklist /fi &quot;imagename eq iisexpress.exe&quot; |find &quot;:&quot; &gt; nul&#xD;&#xA;if errorlevel 1 taskkill /f /im &quot;iisexpress.exe&quot;" />
   </Target>

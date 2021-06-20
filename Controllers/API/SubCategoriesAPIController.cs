@@ -143,7 +143,7 @@ namespace J6.Controllers
         public List<SubCategory> getSubcategoryofCategory(int id)
         {//id is category id
 
-            return _context.SubCategories.Where(q => q.CategoryId == id).ToList(); ;
+            return _context.SubCategories.Where(q => q.CategoryId == id).ToList(); 
 
         }
 
@@ -155,7 +155,7 @@ namespace J6.Controllers
         public async Task<ActionResult<IEnumerable<Product>>> getProductsOFSubcategory(int id)
         {
             List<Product> highproducts = new List<Product>();
-            var productss = await _context.Products.Where(q => q.SubcategoryId == id).Include(a => a.Promotion).Include(a => a.ShippingDetail).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(e => e.StoreProducts).Include(y => y.Views).ToListAsync();
+            var productss = await _context.Products.Where(q => q.SubcategoryId == id).Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(y => y.Views).ToListAsync();
 
             for (int i = 0; i < 10; i++)
             {

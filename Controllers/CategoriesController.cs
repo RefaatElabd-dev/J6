@@ -120,7 +120,8 @@ namespace J6.Controllers
                 CategoryName = category.CategoryName,
                 CreatedAt = category.CreatedAt,
                 UpdatedAt = DateTime.Now,
-                CategoryId=category.CategoryId,
+                Content = category.Content,
+                CategoryId =category.CategoryId,
             };
             return View(viewModel);
         }

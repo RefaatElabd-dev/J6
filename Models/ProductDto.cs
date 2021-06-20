@@ -10,11 +10,11 @@ namespace J6.Models
 {
     public class ProductDto
     {
-        public int ProductId { get; set; }
+        public int Id { get; set; }
         public string Price { get; set; }
         public int? SoldQuantities { get; set; }
         public int? Quantity { get; set; }
-        public string Size { get; set; }
+        public Size Size { get; set; }
         public string Color { get; set; }
         public string ProductName { get; set; }
         public string Model { get; set; }
@@ -27,7 +27,6 @@ namespace J6.Models
         public DateTime? UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
         public int? PromotionId { get; set; }
-        //   [JsonIgnore]
         public virtual Promotion Promotion { get; set; }
         public string material { set; get; }
         public string Manufacture { get; set; }
@@ -50,13 +49,10 @@ namespace J6.Models
 
         public SubCategory Subcategory { get; set; }
         public Brand Brand { get; set; }
-        public  ShippingDetail ShippingDetail { get; set; }
         public ICollection<ProdCart> ProdCarts { get; set; }
         public  ICollection<ProdOrder> ProdOrders { get; set; }
     
         public  ICollection<Review> Reviews { get; set; }
-     
-        public  ICollection<StoreProduct> StoreProducts { get; set; }
        
         public  ICollection<View> Views { get; set; }
         //shaban

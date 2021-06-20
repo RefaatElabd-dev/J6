@@ -18,20 +18,17 @@ namespace J6.DAL.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public Address Address { get; set; }
-        public bool IsActive { get; set; }
+        public bool IsActive  = true;
         public ICollection<AppUserRole> userRoles { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
         public virtual ICollection<View> Views { get; set; }
         public ICollection<Promotion> Promotions { get; set; }
         public virtual Cart Cart { get; set; }
         public virtual Order Order { get; set; }
-        public virtual Store Store { get; set; }
         public virtual SavedBag Bag { get; set; }
         ///////
+        public virtual ICollection<Product> Products { get; set; }
         public virtual ICollection<Message> Messages { get; set; }
-
-
-
 
     }
 }

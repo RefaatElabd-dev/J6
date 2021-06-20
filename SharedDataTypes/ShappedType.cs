@@ -2,6 +2,7 @@
 {
     public enum ShappedType
     {
-        OutBoards = 1,  InBoards = 2
+        InBoards = 0,
+        OutBoards = 1
     }
 }
