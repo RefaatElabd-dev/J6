@@ -79,7 +79,7 @@ namespace J6.BL.Servises
                 await _context.ProdOrders.AddAsync(ProductOrder);
                 await _context.SaveChangesAsync();
                 Product product = _context.Products.FirstOrDefault(p => p.Id == item.ProductId);
-                double productCost = product.Price - product.Discount == null ? 0 : double.Parse(product.Discount.ToString());
+                double productCost = product.Price * product.Discount == null ? 1.0 : double.Parse(product.Discount.ToString());
                 CustomerOrder.OrderCost += productCost;
             }
 

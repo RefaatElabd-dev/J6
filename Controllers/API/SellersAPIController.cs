@@ -8,6 +8,7 @@ using J6.DAL.Entities;
 using J6.Models;
 using J6.DAL.Database;
 using Microsoft.EntityFrameworkCore;
+using J6.BL.Servises;
 
 namespace J6.Controllers
 {
@@ -16,15 +17,50 @@ namespace J6.Controllers
     public class SellersAPIController : ControllerBase
     {
         private readonly DbContainer _context;
+        private readonly ITokenServices _tokenService;
         private readonly UserManager<AppUser> userManager;
         private readonly IMapper mapper;
 
-        public SellersAPIController(UserManager<AppUser> userManager, IMapper mapper, DbContainer context)
+        public SellersAPIController(UserManager<AppUser> userManager, IMapper mapper, DbContainer context, ITokenServices tokenService)
         {
             _context = context;
+            _tokenService = tokenService;
             this.userManager = userManager;
             this.mapper = mapper;
         }
+
+
+        [HttpPost("Register")]
+        public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
+        {
+            if (await UserExist(registerDto.Username)) { return BadRequest("User is taken"); }
+
+            AppUser user = new AppUser
+            {
+                UserName = registerDto.Username,
+                FirstName = registerDto.FirstName,
+                LastName = registerDto.LastName,
+                Email = registerDto.Email,
+                PhoneNumber = registerDto.PhoneNumber,
+                IsActive = false
+            };
+            var result = await userManager.CreateAsync(user, registerDto.Password);
+            if (!result.Succeeded) return BadRequest(result.Errors);
+            await userManager.AddToRoleAsync(user, "Seller");
+            return new UserDto
+            {
+                UserName = user.UserName,
+                Token = await _tokenService.CreateToken(user),
+                Email = user.Email,
+                Id = user.Id,
+            };
+        }
+
+        private async Task<bool> UserExist(string username)
+        {
+            return await userManager.Users.AnyAsync(x => x.UserName == username.ToLower());
+        }
+
         //getAllSeller
         //api/Sellers
         [HttpGet]
@@ -91,7 +127,7 @@ namespace J6.Controllers
             var Seller = Sellers.SingleOrDefault(S => S.Id == id);
             if (Seller == null) return NotFound("No Seller Matched");
 
-            var product = await _context.Products.Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(y => y.Views).FirstOrDefaultAsync(q => q.SellerId == Seller.Id);
+            var product = await _context.Products.Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).FirstOrDefaultAsync(q => q.SellerId == Seller.Id);
 
             if (product == null)
             {

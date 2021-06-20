@@ -150,6 +150,14 @@ namespace J6.Controllers
             return View(notActiveSellers);
         }
 
+        [HttpPost]
+        public async Task ApproveSeller(int SellerId)
+        {
+            var seller = await _userManager.FindByIdAsync(SellerId.ToString());
+            seller.IsActive = true;
+            await _userManager.UpdateAsync(seller);
+        }
+
 
     }
 }

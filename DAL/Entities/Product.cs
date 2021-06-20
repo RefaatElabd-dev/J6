@@ -50,8 +50,6 @@ namespace J6.DAL.Entities
         public string Manufacture { get; set; }
         public virtual ICollection<ProdCart> ProdCarts { get; set; }
         public virtual ICollection<ProdOrder> ProdOrders { get; set; }
-
-        public  ICollection<ProductImage> ProductImages { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
        
         public virtual ICollection<View> Views { get; set; }

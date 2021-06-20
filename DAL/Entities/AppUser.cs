@@ -18,7 +18,7 @@ namespace J6.DAL.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public Address Address { get; set; }
-        public bool IsActive  = true;
+        public bool IsActive { get; set; } = true;
         public ICollection<AppUserRole> userRoles { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
         public virtual ICollection<View> Views { get; set; }

@@ -72,21 +72,16 @@ namespace J6.Controllers
         /////edit customer address
         //api/CustomersApi/editaddress/10
 
-        [HttpPut("{id}")]
-        [Route("editaddress/{id}")]
-        public async Task<ActionResult> editaddresscustomer(int id, Address address)
+        [HttpPost]
+        [Route("editaddresscustomer")]
+        public async Task<ActionResult> editaddresscustomer(AddressUpdateDto addressUpdateDto)
         {
             //id is customer id
-            var Cusromers = await userManager.GetUsersInRoleAsync("Customer");
-            var Cusromer = Cusromers.SingleOrDefault(S => S.Id == id);
-            if (Cusromer == null) return NotFound("No customer Matched");
-            Cusromer.Address.City = address.City;
-            Cusromer.Address.Country = address.Country;
-            Cusromer.Address.Street = address.Street;
-            await _context.SaveChangesAsync();
-            return Ok(Cusromer);
+            var User = await userManager.FindByIdAsync(addressUpdateDto.UserId.ToString());
+            if (User == null) return NotFound("No customer Matched");
+            User.Address = new Address(addressUpdateDto.Country, addressUpdateDto.City, addressUpdateDto.Street);
+            await userManager.UpdateAsync(User);
+            return Ok(User);
         }
-
-
     }
 }
