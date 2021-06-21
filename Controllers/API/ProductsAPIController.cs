@@ -14,7 +14,7 @@ using J6.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.AspNetCore.Hosting;
 
 namespace J6.Controllers
 {
@@ -25,28 +25,63 @@ namespace J6.Controllers
         private readonly DbContainer _context;
         private readonly UserManager<AppUser> _userManager;
         private readonly IRandomProducts _products;
+        private readonly IWebHostEnvironment _hostEnvironment;
+
 
 
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
 
 
-        public ProductsAPiController(DbContainer context, UserManager<AppUser> userManager, IRandomProducts products, IProductRepository productRepository, IMapper mapper)
+        public ProductsAPiController(DbContainer context, UserManager<AppUser> userManager, IRandomProducts products, IProductRepository productRepository, IMapper mapper, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
             _userManager = userManager;
             _products = products;
             _productRepository = productRepository;
             _mapper = mapper;
+            this._hostEnvironment = hostEnvironment;
+
         }
 
         // GET: api/Products
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-
-            return await _context.Products.ToListAsync();
-
+            return await _context.Products
+                .Select(x=>new Product() { 
+                Id=x.Id,
+                ProductName=x.ProductName,
+                CreatedAt = x.CreatedAt,
+                UpdatedAt = x.UpdatedAt,
+                Size =x.Size,
+                Color=x.Color,
+                Brand=x.Brand,
+                DeletedAt=x.DeletedAt,
+                Description=x.Description,
+                Discount=x.Discount,
+                Image = "images/" + x.Image,
+                Manufacture=x.Manufacture,
+                Price=x.Price,
+                material=x.material,
+                Model=x.Model,
+                Quantity=x.Quantity,
+                Promotion=x.Promotion,
+                Reviews=x.Reviews,
+                Ship=x.Ship,
+                Views=x.Views,
+                SoldQuantities = x.SoldQuantities,
+                Seller=x.Seller,
+                SellerId=x.SellerId,
+                BrandId=x.BrandId,
+                ProdOrders=x.ProdOrders,
+                ProductsBag=x.ProductsBag,
+                Subcategory=x.Subcategory,
+                SubcategoryId=x.SubcategoryId,
+                PromotionId=x.PromotionId,
+                Rating=x.Rating,
+                ProdCarts=x.ProdCarts,
+                }).ToListAsync();
         }
 
         // GET: api/Products/5
