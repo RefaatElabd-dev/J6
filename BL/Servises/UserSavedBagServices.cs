@@ -27,7 +27,6 @@ namespace J6.BL.Servises
             var products = await _context.Products.Where(p => 
                                 p.ProductsBag.Any(pb => pb.ProductId == p.Id && pb.SaveBagId == BagId))
                                     .Include(p=>p.Promotion)
-                                    .Include(p=>p.ProductImages)
                                     .ToListAsync();
             return products;
         }

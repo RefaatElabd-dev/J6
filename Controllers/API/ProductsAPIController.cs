@@ -55,7 +55,7 @@ namespace J6.Controllers
         {
             // var product = await _context.Products.FindAsync(id);
 
-            var product = await _context.Products.Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(y => y.Views).FirstOrDefaultAsync(q => q.Id == id);
+            var product = await _context.Products.Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).FirstOrDefaultAsync(q => q.Id == id);
 
             if (product == null)
             {
@@ -130,7 +130,7 @@ namespace J6.Controllers
 
         { List<Product> highproducts = new List<Product>();
 
-            var allproduct = await _context.Products.OrderByDescending(p => p.SoldQuantities).Include(a => a.ProductImages).Include(a => a.Promotion).Include(c => c.Reviews).Include(q => q.ProdCarts).Include(p => p.ProdOrders).Take(10).ToListAsync();
+            var allproduct = await _context.Products.OrderByDescending(p => p.SoldQuantities).Include(a => a.Promotion).Include(c => c.Reviews).Include(q => q.ProdCarts).Include(p => p.ProdOrders).Take(10).ToListAsync();
            foreach(var item in allproduct)
             {
                 if(item!=null)
@@ -166,7 +166,7 @@ namespace J6.Controllers
         public async Task<ActionResult<IEnumerable<Product>>> allproducts()
         {
 
-            var allproduct = await _context.Products.OrderByDescending(p => p.CreatedAt).Include(a => a.ProductImages).Include(a => a.Promotion).Include(c => c.Reviews).Include(q => q.ProdCarts).Include(p => p.ProdOrders).ToListAsync();
+            var allproduct = await _context.Products.OrderByDescending(p => p.CreatedAt).Include(a => a.Promotion).Include(c => c.Reviews).Include(q => q.ProdCarts).Include(p => p.ProdOrders).ToListAsync();
 
             return allproduct;
 

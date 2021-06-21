@@ -43,20 +43,11 @@ namespace J6.Models
         [Required]
         public IFormFileCollection GalleryFiles { get; set; }
         public List<GalleryDto> Gallery { get; set; }
-
-
-
-
         public SubCategory Subcategory { get; set; }
         public Brand Brand { get; set; }
         public ICollection<ProdCart> ProdCarts { get; set; }
         public  ICollection<ProdOrder> ProdOrders { get; set; }
-    
         public  ICollection<Review> Reviews { get; set; }
-       
         public  ICollection<View> Views { get; set; }
-        //shaban
-        public ICollection<ProductImage> ProductImages { get; set; }
-
     }
 }

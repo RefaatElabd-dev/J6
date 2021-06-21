@@ -26,7 +26,6 @@ namespace J6.DAL.Database
         public virtual DbSet<ProdCart> ProdCarts { get; set; }
         public virtual DbSet<ProdOrder> ProdOrders { get; set; }
         public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<ProductImage> ProductImages { get; set; }
         public virtual DbSet<Promotion> Promotions { get; set; }
         public virtual DbSet<Review> Reviews { get; set; }
         public virtual DbSet<SubCategory> SubCategories { get; set; }
@@ -42,6 +41,13 @@ namespace J6.DAL.Database
             base.OnModelCreating(builder);
             builder.Entity<AppUser>(entity =>
             {
+                entity.Property(e => e.IsActive)
+                    .HasColumnType("bit")
+                    .HasColumnName("IsActive")
+                    .HasDefaultValue(true)
+                    .ValueGeneratedOnAdd()
+                    .IsFixedLength(true);
+
                 entity.HasMany(ur => ur.userRoles)
                 .WithOne(u => u.user)
                 .HasForeignKey(ur => ur.UserId)
