@@ -4,14 +4,16 @@ using J6.DAL.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace J6.Migrations
 {
     [DbContext(typeof(DbContainer))]
-    partial class DbContainerModelSnapshot : ModelSnapshot
+    [Migration("20210620075059_doublediscount")]
+    partial class doublediscount
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,13 +98,6 @@ namespace J6.Migrations
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true)
-                        .HasColumnName("IsActive")
-                        .IsFixedLength(true);
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
@@ -494,6 +489,26 @@ namespace J6.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("J6.DAL.Entities.ProductImage", b =>
+                {
+                    b.Property<int>("ImId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ImId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductImages");
+                });
+
             modelBuilder.Entity("J6.DAL.Entities.Promotion", b =>
                 {
                     b.Property<int>("PromotionId")
@@ -853,6 +868,17 @@ namespace J6.Migrations
                     b.Navigation("Subcategory");
                 });
 
+            modelBuilder.Entity("J6.DAL.Entities.ProductImage", b =>
+                {
+                    b.HasOne("J6.DAL.Entities.Product", "Product")
+                        .WithMany("ProductImages")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("J6.DAL.Entities.Promotion", b =>
                 {
                     b.HasOne("J6.DAL.Entities.AppUser", "Seller")
@@ -1017,6 +1043,8 @@ namespace J6.Migrations
                     b.Navigation("ProdCarts");
 
                     b.Navigation("ProdOrders");
+
+                    b.Navigation("ProductImages");
 
                     b.Navigation("ProductsBag");
 

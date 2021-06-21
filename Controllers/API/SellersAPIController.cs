@@ -87,7 +87,7 @@ namespace J6.Controllers
         }
         //////////////////////////////////////////////////////////////////////
         //seller add product
-        [HttpPost("{id}")]
+        [HttpPost]
         public async Task<ActionResult> sellerAddProduct(Product prod)
         {
 
@@ -127,7 +127,11 @@ namespace J6.Controllers
             var Seller = Sellers.SingleOrDefault(S => S.Id == id);
             if (Seller == null) return NotFound("No Seller Matched");
 
+<<<<<<< HEAD
+            var product = await _context.Products.Where(q => q.SellerId == Seller.Id).Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(o => o.ProductImages).Include(i => i.Reviews).Include(y => y.Views).ToListAsync();
+=======
             var product = await _context.Products.Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).FirstOrDefaultAsync(q => q.SellerId == Seller.Id);
+>>>>>>> 8ac7d510143f36315edb0d0ac8af81011521869b
 
             if (product == null)
             {
@@ -138,40 +142,60 @@ namespace J6.Controllers
         }
         ////////////////////////////////////////////////////
         // seller edit in his product
-
+        // api/SellersAPI/1/8
         [HttpPut("{id}/{sellerid}")]
         public async Task<IActionResult> PutSellerProduct(int id, Product product, int sellerid)
         {// id is product id
-            if (id != product.Id)
+            if (id != product.Id||sellerid !=product.SellerId)
             {
                 return BadRequest();
             }
-            if (sellerid != product.SellerId)
-            {
-                return BadRequest("not allawed to use to edit this product you aren't the seller");
-            }
 
             _context.Entry(product).State = EntityState.Modified;
-
-            try
-            {
                 await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
+            return NoContent();
+        }
+        ///////////////////////////////////////
+        ///get allseller with their products
+        /// api/SellersAPI/AllsellerAllproducts
+        [HttpGet]
+        [Route("AllsellerAllproducts")]
+        public async Task<ActionResult> GetallSellersandProducts()
+        {
+            List<object> all =new List<object>();
+            var Sellers = await userManager.GetUsersInRoleAsync("Seller");
+            if (Sellers == null) return NotFound("No Seller exist");
+            foreach(var item in Sellers)
             {
-                if (!ProductExists(id))
+                var prod =await _context.Products.Where(a=>a.SellerId==item.Id).ToListAsync();
+                foreach(var i in prod)
                 {
-                    return NotFound();
+                    all.Add(i);
                 }
-                else
-                {
-                    throw;
-                }
+               
             }
 
+            return Ok(all);
+        }
+        ///////////////////////////////////////////////////////////
+        ///edit discount using seller
+        ///  api/SellersAPI/editDiscountByseller
+        [HttpPut("{id}/{sellerid}")]
+        [Route("editDiscountByseller/{id}/{sellerid}")]
+        public async Task<IActionResult> PutByproductdicount(int id,[FromBody] double discount, int sellerid)
+        {// id is product id
+            var product = await _context.Products.FirstOrDefaultAsync(a => a.Id == id && a.SellerId == sellerid);
+            product.Discount=discount;
+            await _context.SaveChangesAsync();
             return NoContent();
         }
 
+
+
+
+
+
+        /////////////////////////////////////////////////////////////
     }
 
 }
