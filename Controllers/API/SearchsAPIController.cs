@@ -24,18 +24,13 @@ namespace J6.Controllers
         [HttpGet("{name}")]
         public async Task<ActionResult> searchbyname(string name)
         {
-<<<<<<< HEAD
-                List<object> all = new List<object>();
-                var products = await _context.Products.Where(e => e.ProductName.Contains(name)).Include(a => a.ProductImages).Include(a => a.Promotion).Include(c => c.Reviews).Include(q => q.ProdCarts).Include(p => p.ProdOrders).ToListAsync();
-                var category = await _context.Categories.Where(e => e.CategoryName.Contains(name)).Include(a => a.SubCategories).ToListAsync();
-                var sub = await _context.SubCategories.Where(e => e.SubcategoryName.Contains(name)).Include(a => a.Category).Include(v => v.Products).ToListAsync();
-                if (products != null)
-                {
-                    foreach (var i in products)
-                    {
-                        all.Add(i);
-                    }
-
+            List<object> all = new List<object>();
+            var products = await _context.Products.Where(e => e.ProductName.Contains(name)).Include(a => a.ProductImages).Include(a => a.Promotion).Include(c => c.Reviews).Include(q => q.ProdCarts).Include(p => p.ProdOrders).ToListAsync();
+           // var category = await _context.Categories.Where(e => e.CategoryName.Contains(name)).Include(a => a.SubCategories).ToListAsync();
+            //var sub = await _context.SubCategories.Where(e => e.SubcategoryName.Contains(name)).Include(a => a.Category).Include(v => v.Products).ToListAsync();
+            if (products != null)
+            {
+                all.Add(products);
 
                 }
                 if (category != null)
@@ -54,15 +49,6 @@ namespace J6.Controllers
                 }
 
                 return Ok(all);
-=======
-            List<object> all = new List<object>();
-            var products = await _context.Products.Where(e => e.ProductName.Contains(name)).Include(a => a.Promotion).Include(c => c.Reviews).Include(q => q.ProdCarts).Include(p => p.ProdOrders).ToListAsync();
-           // var category = await _context.Categories.Where(e => e.CategoryName.Contains(name)).Include(a => a.SubCategories).ToListAsync();
-            //var sub = await _context.SubCategories.Where(e => e.SubcategoryName.Contains(name)).Include(a => a.Category).Include(v => v.Products).ToListAsync();
-            if (products != null)
-            {
-                all.Add(products);
->>>>>>> 8ac7d510143f36315edb0d0ac8af81011521869b
 
             }
 
