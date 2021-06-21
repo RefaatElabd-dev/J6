@@ -4,135 +4,86 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
+<h2>Details for CategoryId @Model.Id</h2>
 
-<div>
-    <h4>Product</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.SoldQuantities)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.SoldQuantities)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Quantity)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Image)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Image)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Color)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Color)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Size)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Size)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ProductName)
-        </dt>
-        <dd>
+<div class="card border-success mb-3 col-md-6 col-12" style="font-size:larger;">
+    <div style="width:50%;">
+        <img src="~/images/@Model.Image"
+             class="card-img-top m-2"
+             asp-append-version="true" />
+    </div>
+    <div class="card-header bg-transparent border-success"> 
+        <h3>
             @Html.DisplayFor(model => model.ProductName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Model)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Model)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Rating)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Rating)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Discount)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Discount)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Ship)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Ship)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.UpdatedAt)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.UpdatedAt)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.DeletedAt)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.DeletedAt)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.material)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.material)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Brand)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Brand.BrandId)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Promotion)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Promotion.PromotionId)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Subcategory)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Subcategory.SubcategoryId)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Manufacture)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Manufacture)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+       </h3>
+    </div>
+    <div class="card-body text-black">
+        <h5 class="card-title">
+            Subcategory :
+            @Html.DisplayFor(model => model.Subcategory.SubcategoryName)
+        </h5>
+    </div>
+    <div class="card-body text-black">
+        <h5 class="card-title">
+            Brand :
+            @Html.DisplayFor(model => model.Brand.BrandName)
+        </h5>
+    </div>
+
+    <div class="card-body" style="height:auto;direction:ltr">
+        <div class="card-text text-left" style="overflow:hidden;text-overflow:ellipsis;height:auto">
+            Description: <br/>  @Html.DisplayFor(model => model.Description)
+        </div>
+        <hr/>
+        <p class="card-text text-left">
+            material: @Html.DisplayFor(model => model.material)
+        </p>
+        <p class="card-text text-left">
+            Model: @Html.DisplayFor(model => model.Model)
+        </p>
+        <p class="card-text text-left">
+            Ship: @Html.DisplayFor(model => model.Ship)
+        </p>
+        <p class="card-text text-left">
+            Color:
+            <span style="color:@Model.Color">
+                @Html.DisplayFor(model => model.Color)
+            </span>
+        </p>
+        <p class="card-text text-left">
+            Size: @Html.DisplayFor(model => model.Size)
+        </p>
+        <p class="card-text text-left">
+            Quantity: @Html.DisplayFor(model => model.Quantity)
+        </p>
+        <p class="card-text text-left">
+            SoldQuantities: @Html.DisplayFor(model => model.SoldQuantities)
+        </p>
+        <p class="card-text text-left">
+            Rating: @Html.DisplayFor(model => model.Rating) <i class="fa fa-star text-warning"></i>
+        </p>
+
+        <p class="card-text text-left">
+            Price: @Html.DisplayFor(model => model.Price) Egp
+        </p>
+        <p class="card-text text-left">
+            Discount:
+            <span class="alert text-danger col-1 p-0">
+                @Html.DisplayFor(model => model.Discount)
+            </span>
+        </p>
+    </div>
+
+    <div class="card-footer bg-transparent border-success">
+        @Html.DisplayNameFor(model => model.CreatedAt)
+        @Html.DisplayFor(model => model.CreatedAt)
+    </div>
+    <div class="card-footer bg-transparent border-success">
+        @Html.DisplayNameFor(model => model.UpdatedAt)
+        @Html.DisplayFor(model => model.UpdatedAt)
+    </div>
+    <div class="card-footer bg-transparent border-success">
+        <a asp-action="Index" class="btn btn-sm btn-primary text-uppercase m-2 mr-4 p-3"><i class="fa fa-arrow-circle-left fa-2x"></i></a>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning m-2 p-3"><i class="fa fa-edit fa-2x"></i></a>
+    </div>
 </div>

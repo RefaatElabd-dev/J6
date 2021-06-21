@@ -28,7 +28,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label asp-for="Image">Upload Photo</label>
-                            <input type="file" asp-for="Image" class="form-control" />
+                            <input type="file" asp-for="Image" accept=".jpg,.png,.gif" class="form-control" />
                             <span asp-validation-for="Image" class="text-danger"></span>
                         </div>
                     </div>

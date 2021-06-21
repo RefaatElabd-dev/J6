@@ -9,7 +9,11 @@
              class="card-img-top m-2"
              asp-append-version="true" />
     </div>
-    <div class="card-header bg-transparent border-success"> @Html.DisplayFor(model => model.BrandName)</div>
+    <div class="card-header bg-transparent border-success"> 
+        <h3>
+            @Html.DisplayFor(model => model.BrandName)
+        </h3>
+    </div>
     <div class="card-footer bg-transparent border-success">
         @Html.DisplayNameFor(model => model.CreatedAt)
         @Html.DisplayFor(model => model.CreatedAt)

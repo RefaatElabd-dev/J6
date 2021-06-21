@@ -99,9 +99,11 @@ namespace J6.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> LogOut()
+
+        [HttpPost]
+        public IActionResult LogOut()
         {
-            await signInManager.SignOutAsync();
+            signInManager.SignOutAsync();
 
             return RedirectToAction("Login");
         }

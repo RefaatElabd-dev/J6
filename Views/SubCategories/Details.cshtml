@@ -12,7 +12,11 @@
              class="card-img-top m-2"
              asp-append-version="true" />
     </div>
-    <div class="card-header bg-transparent border-success"> @Html.DisplayFor(model => model.SubcategoryName)</div>
+    <div class="card-header bg-transparent border-success">
+        <h3>
+            @Html.DisplayFor(model => model.SubcategoryName)
+        </h3>
+    </div>
     <div class="card-body text-black">
         <h5 class="card-title">
             Category :
