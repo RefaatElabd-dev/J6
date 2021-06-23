@@ -13,5 +13,9 @@ namespace J6.BL.Servises
         public Task StoreTransaction(Order order);
         public void HandleAdminStatus(int OrderId, OrderStatus status);
         public Task<ICollection<Order>> getAllOrders();
+
+        //#################New#####################
+        public Task<IEnumerable<Product>> getAllProductsWithOrderIdAsync(int orderId);
+        public Task<IEnumerable<Product>> getAllProductsWithCustomerIdAsync(int custommerId);
     }
 }

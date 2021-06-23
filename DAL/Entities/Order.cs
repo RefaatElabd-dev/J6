@@ -13,7 +13,7 @@ namespace J6.DAL.Entities
         [Key]
         public int Id { get; set; }
         public int CustimerId { get; set; }
-        public OrderStatus Status = OrderStatus.InProgress;
+        public OrderStatus Status { get; set; } = OrderStatus.InProgress;
         [ForeignKey("CustimerId")]
         public virtual AppUser Customer { get; set; }
         public double OrderCost { get; set; }

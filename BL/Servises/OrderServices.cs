@@ -99,5 +99,20 @@ namespace J6.BL.Servises
         {
             return await _context.Orders.ToListAsync();
         }
+
+        public async Task<IEnumerable<Product>> getAllProductsWithCustomerIdAsync(int custommerId)
+        {
+            int orderId = await _context.Orders.Where(O => O.CustimerId == custommerId).Select(O => O.Id).OrderByDescending(I => I).Take(1).FirstOrDefaultAsync();
+            if(orderId != 0)
+                return await getAllProductsWithOrderIdAsync(orderId);
+            return null;
+        }
+
+        public async Task<IEnumerable<Product>> getAllProductsWithOrderIdAsync(int orderId)
+        {
+            IEnumerable<int> ids = await _context.ProdOrders.Where(O => O.OrderId == orderId).Select(O => O.ProductId).ToListAsync();
+            return await _context.Products.Where(P => ids.Contains(P.Id)).ToListAsync();
+        }
+
     }
 }

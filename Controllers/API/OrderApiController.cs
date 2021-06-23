@@ -49,5 +49,27 @@ namespace J6.Controllers.API
         {
             await _orderServices.SwitchCartToOrder(CustomerId);
         }
+
+
+        [HttpGet]
+        [Route("getAllProductsWithOrderId/{orderId}")]
+        public async Task<ActionResult<IEnumerable<Product>>> getAllProductsWithOrderIdAsync(int orderId)
+        {
+            IEnumerable<Product> prodcts =  await _orderServices.getAllProductsWithOrderIdAsync(orderId);
+            return prodcts == null ? NotFound("There are no Products For This User") :
+                                    Ok(prodcts);
+        }
+
+        [HttpGet]
+        [Route("getAllProductsWithCustomerId/{customerId}")]
+        public async Task<ActionResult<IEnumerable<Product>>> getAllProductsWithCustomerIdAsync(int customerId)
+        {
+            IEnumerable<Product> prodcts = await _orderServices.getAllProductsWithCustomerIdAsync(customerId);
+            return prodcts == null ? NotFound("There are no Products For This User") :
+                                    Ok(prodcts);
+        }
+
+        //public Task<IEnumerable<Product>> getAllProductsWithOrderIdAsync(int orderId);
+        //public Task<IEnumerable<Product>> getAllProductsWithCustomerIdAsync(int custommerId);
     }
 }
