@@ -17,37 +17,40 @@
                     <a asp-action="Create" class="btn btn-sm btn-primary text-uppercase p-3"><i class="fas fa-plus-circle fa-2x"></i></a>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
+                    
+                    @*<table class="table table-hover" id="dataTable" width="100%" cellspacing="0">*@
+                        <table class="table table-bordered table-striped text-center table-hover js-basic-example dataTable">
+                    
+                    <thead>
                             <tr>
-                                <th>
+                                <th class="text-center">
                                     @Html.DisplayNameFor(model => model.Image)
-                                </th>
-                                <th>
+                                </th >
+                                <th class="text-center">
                                     @Html.DisplayNameFor(model => model.ProductName)
                                 </th>
-                                <th>
+                                <th class="text-center">
                                     @Html.DisplayNameFor(model => model.Price)
                                 </th>
                                 @*<th>
                                     @Html.DisplayNameFor(model => model.Description)
                                 </th>*@
-                                <th>
+                                <th class="text-center">
                                     @Html.DisplayNameFor(model => model.material)
                                 </th>
                                 <th>
                                     @Html.DisplayNameFor(model => model.Model)
-                                </th>
+                                </th class="text-center">
                                 <th>
                                     @Html.DisplayNameFor(model => model.Subcategory.SubcategoryName)
                                 </th>
-                                <th>
+                                <th class="text-center">
                                     @Html.DisplayNameFor(model => model.Brand.BrandName)
-                                </th>
+                                </th >
                                 <th>
                                     @Html.DisplayNameFor(model => model.Seller.UserName)
                                 </th>
-                                <th>Operations</th>
+                                <th class="text-center">Operations</th>
                             </tr>
                         </thead>
 
@@ -84,9 +87,9 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Seller.UserName)
                                 </td>
-                                <td class="">
-                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info m-2 p-3"><i class="fa fa-info-circle fa-2x"></i></a>
-                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning m-2 p-3"><i class="fa fa-edit fa-2x"></i></a>
+                                <td class="container">
+                                    <a asp-action="Details"  asp-route-id="@item.Id" class="btn btn-info w-1 m-2 p-3"><i class="fa fa-info-circle fa-2x"></i></a>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning w-1 m-2 p-3"><i class="fa fa-edit fa-2x"></i></a>
                                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger m-2 p-3"><i class="fa fa-trash fa-2x"></i></a>
                                 </td>
                             </tr>
@@ -98,3 +101,21 @@
         </div>
     </div>
 </section>
+@section DataTableSection{
+
+    <script>
+        $(function () {
+            $('.js-basic-example').DataTable({
+                responsive: true,
+                paging: true,
+                pageLength: 3,
+                bSort: true,
+                bFilter: true,
+                //bLengthChange: false,
+                //bInfo: false,
+                lengthMenu: [[3, 5, 10, 25, 50, -1], [3, 5, 10, 25, 50, "All"]],
+
+            });
+        });
+    </script>
+}
