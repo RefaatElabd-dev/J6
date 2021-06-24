@@ -1,4 +1,5 @@
 ﻿using J6.DAL.Entities;
+using J6.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,10 @@ namespace J6.BL.Servises
         public Task<List<Product>> GetRandomProductsAsync();
 
         public Task<List<Product>> GetRecomendedProductsAsync(int UserId);
+
+        public Task<Review> AddReviewToProductAsync(ReviewModel reviewModel);
+        public Task<Review> EditReviewAsync(ReviewModel reviewModel);
+        public Task<IEnumerable<Review>> GetAllReviewsOfProductAsync(int productId);
+        public Task<IEnumerable<Review>> GetAllReviewsOfCustomerAsync(int customerId);
     }
 }

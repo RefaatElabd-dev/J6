@@ -14,7 +14,9 @@ namespace J6.DAL.Entities
         [Key, Column(Order = 1)]
         public int ProductId { get; set; }
         public string Comment { get; set; }
-        public string Rating { get; set; }
+        [Range(1.0, 5)]
+        public double Rating { get; set; } = 1.0;
+        public DateTime CreationTime { get; set; }
 
         public AppUser Customer { get; set; }
         public virtual Product Product { get; set; }

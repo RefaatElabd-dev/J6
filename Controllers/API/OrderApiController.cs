@@ -68,8 +68,5 @@ namespace J6.Controllers.API
             return prodcts == null ? NotFound("There are no Products For This User") :
                                     Ok(prodcts);
         }
-
-        //public Task<IEnumerable<Product>> getAllProductsWithOrderIdAsync(int orderId);
-        //public Task<IEnumerable<Product>> getAllProductsWithCustomerIdAsync(int custommerId);
     }
 }

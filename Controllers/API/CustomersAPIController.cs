@@ -1,5 +1,6 @@
 ﻿
 using AutoMapper;
+using J6.BL.Servises;
 using J6.DAL.Database;
 using J6.DAL.Entities;
 using J6.Models;
@@ -21,10 +22,12 @@ namespace J6.Controllers
          private readonly UserManager<AppUser> userManager;
         private readonly IMapper mapper;
         private readonly DbContainer _context;
+        private readonly IUserService _userService;
 
-        public CustomersApiController(UserManager<AppUser> userManager, IMapper mapper, DbContainer context)
+        public CustomersApiController(UserManager<AppUser> userManager, IMapper mapper, DbContainer context, IUserService userService)
         {
             _context = context;
+            _userService = userService;
             this.userManager = userManager;
             this.mapper = mapper;
         }
@@ -68,20 +71,31 @@ namespace J6.Controllers
             if (userr == null) { return NotFound("can't find user"); }
             return Ok(await userManager.ChangePasswordAsync(userr, oldpassword, newpassword));
         }
-        /////////////////////////////////////////////
-        /////edit customer address
-        //api/CustomersApi/editaddress/10
+
+        //###################################Handle Address##########################
 
         [HttpPost]
-        [Route("editaddresscustomer")]
-        public async Task<ActionResult> editaddresscustomer(AddressUpdateDto addressUpdateDto)
+        [Route("AddUserAddress")]
+        //api/CustomersApi/AddUserAddress
+        public async Task<Address> AddUserAddress(int UserId, AddressModel model)
         {
-            //id is customer id
-            var User = await userManager.FindByIdAsync(addressUpdateDto.UserId.ToString());
-            if (User == null) return NotFound("No customer Matched");
-            User.Address = new Address(addressUpdateDto.Country, addressUpdateDto.City, addressUpdateDto.Street);
-            await userManager.UpdateAsync(User);
-            return Ok(User);
+            return await _userService.AddUserAddress(UserId, model);
+        }
+
+        [HttpPut]
+        [Route("EditUserAddress")]
+        //api/CustomersApi/EditUserAddress
+        public async Task<Address> EditUserAddress(int UserId, AddressModel model)
+        {
+            return await _userService.EditUserAddress(UserId, model);
+        }
+
+        [HttpGet]
+        [Route("GetUserAddress/{UserId}")]
+        //api/CustomersApi/GetUserAddress/{UserId}
+        public async Task<Address> GetUserAddress(int UserId)
+        {
+            return await _userService.GetUserAddress(UserId);
         }
     }
 }

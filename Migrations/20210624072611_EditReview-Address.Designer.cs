@@ -4,14 +4,16 @@ using J6.DAL.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace J6.Migrations
 {
     [DbContext(typeof(DbContainer))]
-    partial class DbContainerModelSnapshot : ModelSnapshot
+    [Migration("20210624072611_EditReview-Address")]
+    partial class EditReviewAddress
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,8 +24,10 @@ namespace J6.Migrations
 
             modelBuilder.Entity("J6.DAL.Entities.Address", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
@@ -34,7 +38,7 @@ namespace J6.Migrations
                     b.Property<string>("Street")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("UserId");
+                    b.HasKey("ID");
 
                     b.ToTable("Addresses");
                 });
@@ -76,6 +80,9 @@ namespace J6.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("AddressId")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -136,6 +143,8 @@ namespace J6.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -699,15 +708,13 @@ namespace J6.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("J6.DAL.Entities.Address", b =>
+            modelBuilder.Entity("J6.DAL.Entities.AppUser", b =>
                 {
-                    b.HasOne("J6.DAL.Entities.AppUser", "AppUser")
-                        .WithOne("Address")
-                        .HasForeignKey("J6.DAL.Entities.Address", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("J6.DAL.Entities.Address", "Address")
+                        .WithMany("AppUsers")
+                        .HasForeignKey("AddressId");
 
-                    b.Navigation("AppUser");
+                    b.Navigation("Address");
                 });
 
             modelBuilder.Entity("J6.DAL.Entities.AppUserRole", b =>
@@ -963,6 +970,11 @@ namespace J6.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("J6.DAL.Entities.Address", b =>
+                {
+                    b.Navigation("AppUsers");
+                });
+
             modelBuilder.Entity("J6.DAL.Entities.AppRole", b =>
                 {
                     b.Navigation("userRoles");
@@ -970,8 +982,6 @@ namespace J6.Migrations
 
             modelBuilder.Entity("J6.DAL.Entities.AppUser", b =>
                 {
-                    b.Navigation("Address");
-
                     b.Navigation("Bag");
 
                     b.Navigation("Cart");
