@@ -297,12 +297,50 @@ namespace J6.Controllers
             return Ok(productToReturn);
         }
         #endregion
-
+        //https://localhost:44340/api/Productsapi/2
+        //https://localhost:44340/api/Productsapi/GetProductById/2
         [HttpGet("{id:int}")]
         [Route("GetProductById/{id:int}") ]
         public async Task<ActionResult<ProductDto>> GetProductById(int id)
         {
-            var product = await _productRepository.GetProdByIdAsync(id);
+            // var product = await _productRepository.GetProdByIdAsync(id);
+            var product = await _context.Products
+               .Select(x => new Product()
+               {
+                   Id = x.Id,
+                   ProductName = x.ProductName,
+                   CreatedAt = x.CreatedAt,
+                   UpdatedAt = x.UpdatedAt,
+                   Size = x.Size,
+                   Color = x.Color,
+                   Brand = x.Brand,
+                   DeletedAt = x.DeletedAt,
+                   Description = x.Description,
+                   Discount = x.Discount,
+                   Image = "images/" + x.Image,
+                   Manufacture = x.Manufacture,
+                   Price = x.Price,
+                   material = x.material,
+                   Model = x.Model,
+                   Quantity = x.Quantity,
+                   Promotion = x.Promotion,
+                   Reviews = x.Reviews,
+                   Ship = x.Ship,
+                   Views = x.Views,
+                   SoldQuantities = x.SoldQuantities,
+                   Seller = x.Seller,
+                   SellerId = x.SellerId,
+                   BrandId = x.BrandId,
+                   ProdOrders = x.ProdOrders,
+                   ProductsBag = x.ProductsBag,
+                   Subcategory = x.Subcategory,
+                   SubcategoryId = x.SubcategoryId,
+                   PromotionId = x.PromotionId,
+                   Rating = x.Rating,
+                   ProdCarts = x.ProdCarts,
+               })
+ .FirstOrDefaultAsync(q => q.Id == id);
+
 
             return _mapper.Map<ProductDto>(product);
         }
