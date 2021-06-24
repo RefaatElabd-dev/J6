@@ -1,5 +1,6 @@
 ﻿using J6.DAL.Database;
 using J6.DAL.Entities;
+using J6.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -97,6 +98,47 @@ namespace J6.BL.Servises
             }
 
             return null;
+        }
+
+        public async Task<Review> AddReviewToProductAsync(ReviewModel reviewModel)
+        {
+            IEnumerable<int> CustomerOrders = await _context.Orders.Where(O => O.CustimerId == reviewModel.CustomerId && O.Status == OrderStatus.Done).Select(O => O.Id).ToListAsync();
+            if (CustomerOrders == null) return null;
+            int ProductID = await _context.ProdOrders.Where(PO => CustomerOrders.Contains(PO.OrderId) && PO.ProductId == reviewModel.ProductId)
+                                                            .Select(PO => PO.ProductId).FirstOrDefaultAsync();
+
+            if (ProductID == 0) return null;
+            Review review = new Review()
+            {
+                ProductId = reviewModel.ProductId,
+                CustomerId = reviewModel.CustomerId,
+                Comment = reviewModel.Comment,
+                Rating = reviewModel.Rating
+            };
+            await _context.Reviews.AddAsync(review);
+            await _context.SaveChangesAsync();
+            return await _context.Reviews.OrderByDescending(R => R.CreationTime).FirstOrDefaultAsync();
+        }
+
+        public async Task<Review> EditReviewAsync(ReviewModel reviewModel)
+        {
+            Review review = await _context.Reviews.Where(R => R.ProductId == reviewModel.ProductId && R.CustomerId == reviewModel.CustomerId).FirstOrDefaultAsync();
+            if (review == null) return null;
+            review.Rating = reviewModel.Rating;
+            review.Comment = reviewModel.Comment;
+            _context.Reviews.Update(review);
+            await _context.SaveChangesAsync();
+            return review;
+        }
+
+        public async Task<IEnumerable<Review>> GetAllReviewsOfProductAsync(int productId)
+        {
+            return await _context.Reviews.Where(R => R.ProductId == productId).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Review>> GetAllReviewsOfCustomerAsync(int customerId)
+        {
+            return await _context.Reviews.Where(R => R.CustomerId == customerId).ToListAsync();
         }
     }
 }

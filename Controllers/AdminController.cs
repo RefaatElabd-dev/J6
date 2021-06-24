@@ -24,15 +24,15 @@ namespace J6.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            ViewData["CustomersNumber"] = _adminStatistics.GetCustomersNumber();
-            ViewData["SellersNumber"] = _adminStatistics.GetSellersNumber();
-            ViewData["ProductsNumber"] = _adminStatistics.GetProductsNumber();
-            ViewData["SavedProductsNumber"] = _adminStatistics.GetSavedProductsNumber();
-            ViewData["SolidItemsNumber"] = _adminStatistics.GetSolidItemsNumber();
-            ViewData["ViewedProductsNumber"] = _adminStatistics.GetViewedProductsNumber();
-            ViewData["SellingRate"] = _adminStatistics.GetrateOfSViewedProducts();
+            ViewData["CustomersNumber"] = await _adminStatistics.GetCustomersNumber();
+            ViewData["SellersNumber"] = await _adminStatistics.GetSellersNumber();
+            ViewData["ProductsNumber"] = await _adminStatistics.GetProductsNumber();
+            ViewData["SavedProductsNumber"] = await _adminStatistics.GetSavedProductsNumber();
+            ViewData["SolidItemsNumber"] = await _adminStatistics.GetSolidItemsNumber();
+            ViewData["ViewedProductsNumber"] = await _adminStatistics.GetViewedProductsNumber();
+            ViewData["SellingRate"] =await _adminStatistics.GetrateOfSViewedProducts();
             var data = _roleManager.Roles;
             return View(data);
         }

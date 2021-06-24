@@ -4,14 +4,16 @@ using J6.DAL.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace J6.Migrations
 {
     [DbContext(typeof(DbContainer))]
-    partial class DbContainerModelSnapshot : ModelSnapshot
+    [Migration("20210624074722_Edit-Address1")]
+    partial class EditAddress1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,25 +21,6 @@ namespace J6.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("J6.DAL.Entities.Address", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Street")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("Addresses");
-                });
 
             modelBuilder.Entity("J6.DAL.Entities.AppRole", b =>
                 {
@@ -699,17 +682,6 @@ namespace J6.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("J6.DAL.Entities.Address", b =>
-                {
-                    b.HasOne("J6.DAL.Entities.AppUser", "AppUser")
-                        .WithOne("Address")
-                        .HasForeignKey("J6.DAL.Entities.Address", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
-                });
-
             modelBuilder.Entity("J6.DAL.Entities.AppUserRole", b =>
                 {
                     b.HasOne("J6.DAL.Entities.AppRole", "Role")
@@ -970,8 +942,6 @@ namespace J6.Migrations
 
             modelBuilder.Entity("J6.DAL.Entities.AppUser", b =>
                 {
-                    b.Navigation("Address");
-
                     b.Navigation("Bag");
 
                     b.Navigation("Cart");

@@ -1,6 +1,7 @@
 ﻿using J6.DAL.Database;
 using J6.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,19 +25,23 @@ namespace J6.BL.Servises
             return Customers.Count();
         }
 
-        public int GetProductsNumber()
+        public async Task<int> GetProductsNumber()
         {
-            return _context.Products.Count();
+            var products = await _context.Products.ToListAsync();
+            return products.Count();
         }
 
-        public  double GetrateOfSViewedProducts()
+        public async Task<double> GetrateOfSViewedProducts()
         {
-            return GetSolidItemsNumber()/(double)GetProductsNumber();
+            int PNumbers = await GetProductsNumber();
+            int SPNumbers =await GetSolidItemsNumber();
+            return SPNumbers/(double)PNumbers;
         }
 
-        public int GetSavedProductsNumber()
+        public async Task<int> GetSavedProductsNumber()
         {
-           return _context.ProductsBag.Count();
+            var Bags = await _context.Products.ToListAsync();
+           return Bags.Count();
         }
 
         public async Task<int> GetSellersNumber()
@@ -45,14 +50,16 @@ namespace J6.BL.Servises
             return Sellers.Count();
         }
 
-        public int GetSolidItemsNumber()
+        public async Task<int> GetSolidItemsNumber()
         {
-            return _context.Products.Where(p => p.SoldQuantities >= 0).Count();
+            var SolidProducts = await _context.Products.Where(p => p.SoldQuantities >= 0).ToListAsync();
+            return SolidProducts.Count();
         }
 
-        public int GetViewedProductsNumber()
+        public async Task<int> GetViewedProductsNumber()
         {
-            return _context.Views.Count();
+            var v = await _context.Views.ToListAsync();
+            return v.Count();
         }
     }
 }

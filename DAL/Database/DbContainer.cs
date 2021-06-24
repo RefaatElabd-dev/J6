@@ -193,6 +193,8 @@ namespace J6.DAL.Database
                    .IsRequired();
             });
 
+
+
             builder.Entity<Review>(entity =>
             {
                 entity.HasKey(e => new { e.CustomerId, e.ProductId });
@@ -209,6 +211,11 @@ namespace J6.DAL.Database
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Reviews_Customer");
 
+                entity.Property(e => e.CreationTime)
+                     .HasColumnType("datetime2")
+                     .HasDefaultValueSql("GETDATE()")
+                     .ValueGeneratedOnAdd()
+                     .HasColumnName("CreationTime");
             });
           
 
