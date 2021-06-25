@@ -102,39 +102,44 @@
     <!-- Top Bar -->
 
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-warning " style=" overflow: hidden; position: fixed; top: 0; width: 100%;">
-        <div class="mt-2 col-md-3 col-12">
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #343a40; overflow: hidden; position: fixed; top: 0; width: 100%;">
+        <div class="mt-2 col-md-4  col-12">
             <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand" title="Visit Jumia WebSite" href="http://localhost:3000/" target="_blank"><h1> <b>JUMIA</b> <i class="fa fa-shopping-cart"></i></h1></a>
+            <a class="navbar-brand" style="color: white;" title="Visit Jumia WebSite" href="http://localhost:3000/" target="_blank"><h1> <b>JUMIA</b> <i class="fa fa-shopping-cart"></i></h1></a>
         </div>
 
-        <form class="form-inline my-2 my-lg-0 col-md-6 col-12  mt-2">
+        @*<form class="form-inline my-2 my-lg-0 col-md-6 col-12  mt-2">
             <input class="form-control mr-4 col-10 p-4" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-dark my-2 p-2" type="submit">Search</button>
-        </form>
-        <div class="col-md-2 col-12 p-t-20 p-b-20">
+        </form>*@
+        <div class="col-12 col-md-5 text-center p-2">
+            <h3 class="text-uppercase" style="font-size: 20px; font-weight: 800; color: white;">dashboard admin panel</h3>
+        </div>
+        <div class="col-md-2 col-12 p-2">
             @*@if (User.IsInRole("Admin"))
         {
             <h5 style="font-size:16px;font-weight:600">
-                Admin: Shaban Essam
+                Admin: Mahmoud Khaled
             </h5>
         }
         @if (User.IsInRole("Customer"))
             {
                 <h5 style="font-size:16px;font-weight:600">
-                    Customer: Shaban Essam
+                    Customer: Mahmoud Khaled
                 </h5>
             }*@
-            <h5 style="font-size:16px;font-weight:600">
-                Admin: Shaban Essam
+            <h5 style="font-size: 16px; font-weight: 600; color: white;">
+                Admin: Mahmoud Khaled
             </h5>
 
         </div>
         <div class="col-md-1 col-12">
             <form asp-controller="Account" asp-action="LogOut" method="post">
-                <input type="submit" value="Sign Out" style="width:auto;color:white;" class="btn btn-primary m-3" />
+                @*<input type="submit" value="Sign Out" style="width:auto;color:white;" class="btn btn-primary m-3" />*@
+                <button type="submit" title="Sign Out" style="width:auto;color:white;" class="btn btn-primary m-3"><i class="fa fa-sign-out"></i></button>
+
             </form>
         </div>
 
@@ -434,11 +439,11 @@
                 <li><a href="javascript:void(0);"><i class="material-icons">group</i>Followers</a></li>
                 <li><a href="javascript:void(0);"><i class="material-icons">shopping_cart</i>Sales</a></li>
                 <li><a href="javascript:void(0);"><i class="material-icons">favorite</i>Likes</a></li>
-                <li role="separator" class="divider"></li>
-                            <li>*@
-                                <form asp-controller="Account" asp-action="LogOut" method="post">
-                                    <input type="submit" value="Sign Out" style="width:auto;color:white;" class="btn btn-primary m-3" />
-                                </form>
+                <li role="separator" class="divider"></li>*@
+                            <li class="text-center">
+                            <form asp-controller="Account" asp-action="LogOut" method="post">
+                                <button type="submit" title="Sign Out" style="width:50%;color:white;" class="btn btn-primary m-0 text-center"><i class="fa fa-sign-out"></i></button>
+                            </form>
                             </li>
                         </ul>
                     </div>
@@ -1114,7 +1119,7 @@
 
 
     <!-- Select Plugin Js -->
-    <script src="~/plugins/bootstrap-select/js/bootstrap-select.js"></script>
+    @*<script src="~/plugins/bootstrap-select/js/bootstrap-select.js"></script>*@
     <!-- Slimscroll Plugin Js -->
     <script src="~/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
     <!-- Waves Effect Plugin Js -->
