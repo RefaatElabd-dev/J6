@@ -1,0 +1,72 @@
+﻿@model J6.DAL.Entities.AppUserRole
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<h2>Details for User :  @Model.user.UserName</h2>
+<div class="card border-success mb-3 col-md-6 col-12" style="font-size:larger;">
+    <div class="card-header bg-transparent border-success text-center">
+        <h3 class="mt-2">
+            @Html.DisplayFor(model => model.Role.Name) : @Html.DisplayFor(model => model.user.UserName)
+        </h3>
+    </div>
+    <div class="card-footer bg-transparent border-success" style="font-size:18px">
+        FirstName : @Html.DisplayFor(model => model.user.FirstName)
+    </div>
+    <div class="card-footer bg-transparent border-success" style="font-size:18px">
+        LastName : @Html.DisplayFor(model => model.user.LastName)
+    </div>
+
+    <div class="card-footer bg-transparent border-success" style="font-size:18px">
+        Address :  @Html.DisplayFor(model => model.user.Address)
+    </div>
+    <div class="card-footer bg-transparent border-success" style="font-size:18px">
+        Email :  @Html.DisplayFor(model => model.user.Email)
+    </div>
+    <div class="card-footer bg-transparent border-success" style="font-size:18px">
+        PhoneNumber : +20 @Html.DisplayFor(model => model.user.PhoneNumber)
+    </div>
+    <div class="card-footer bg-transparent border-success">
+        <a asp-action="Index" class="btn btn-sm btn-primary text-uppercase m-2 mr-4 p-3"><i class="fa fa-arrow-circle-left fa-2x"></i></a>
+        <a asp-action="Edit" asp-route-id="@Model.UserId" class="btn btn-warning m-2 p-3"><i class="fa fa-edit fa-2x"></i></a>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @*<h2>Details</h2>
+
+        <div>
+            <h4>AppUserRole</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.user)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.user.Id)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Role)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Role.Id)
+                </dd>
+            </dl>
+        </div>
+        <div>
+            @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+            <a asp-action="Index">Back to List</a>
+        </div>*@
