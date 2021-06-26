@@ -87,13 +87,13 @@ namespace J6.Controllers
 
                 if (result.Succeeded)
                 {
-                    if (await userManager.IsInRoleAsync(user, "Addmin"))
+                    if (await userManager.IsInRoleAsync(user, "Admin"))
                     {
                         return RedirectToAction("Index", "Home", "Admin");
                     }
-                    else if (await userManager.IsInRoleAsync(user, "Selelr"))
+                    else if (await userManager.IsInRoleAsync(user, "Seller"))
                     {
-                        return RedirectToAction("Index", "Home", "Selelr");
+                        return RedirectToAction("Index", "Home", "Seller");
                     }
                     else
                     {

@@ -15,7 +15,6 @@ namespace J6.DAL.Entities
         public double Price { get; set; }
         public int? SoldQuantities { get; set; }
         public int? Quantity { get; set; }
-        
         public string Image { get; set; }
         public string Color { get; set; }
         public Size Size { get; set; }
@@ -25,7 +24,7 @@ namespace J6.DAL.Entities
         [Range(0.0, 0.99)]
         public double? Discount { get; set; }
         public string Description { get; set; }
-        public ShappedType Ship { get; set; }
+        public ShappedType Ship { get; set; } = ShappedType.InBoards;
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
