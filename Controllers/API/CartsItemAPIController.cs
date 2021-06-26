@@ -124,25 +124,39 @@ namespace J6.Controllers.API
         //////////////////////////////////////////////////////////////
         [HttpGet("{cartListID}")]
         [Route("priceofcart/{cartListID}")]
-        public double GetShoppingCartTotalPrice(int cartListID)
+        public async Task<ActionResult> GetShoppingCartTotalPrice(int cartListID)
         {//id is cart id
 
-            double totalPrice = 0;
-            var CartItems = _context.ProdCarts.Where(a => a.CartId == cartListID).ToList();
+            double? totalPrice = 0;
+            var CartItems =await _context.ProdCarts.Where(a => a.CartId == cartListID).ToArrayAsync();
 
             foreach (var item in CartItems)
             {
-                var productsincart = _context.Products.FirstOrDefault(a => a.Id == item.ProductId);
-                for (int i = 0; i < item.quantity; i++)
-                {
-                    totalPrice += productsincart.Price;
+                var productsincart =await _context.Products.FirstOrDefaultAsync(a => a.Id == item.ProductId);
+                var element = await _context.ProdCarts.FirstOrDefaultAsync(a => a.ProductId == productsincart.Id);
+                
+                    for (int i = 0; i < element.quantity; i++)
+                { 
+                    if (productsincart.Discount != null)
+                    {
+                        totalPrice +=( 1 -productsincart.Discount )* productsincart.Price;
+                    }
+                    else
+                    {
+                            totalPrice += productsincart.Price;
+
+                    }
                 }
+
+               
+              
 
             }
 
-            return totalPrice;
+            return Ok(totalPrice);
         }
-        //////////////////////////////////////////////////////////
+
+        ////////////////////////////////////////////////////////////
         // to get  cart for specific customer
         [HttpGet("{id}")]
         [Route("getcartforCustomer/{id}")]
