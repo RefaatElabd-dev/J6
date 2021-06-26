@@ -87,7 +87,19 @@ namespace J6.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    if (await userManager.IsInRoleAsync(user, "Addmin"))
+                    {
+                        return RedirectToAction("Index", "Home", "Admin");
+                    }
+                    else if (await userManager.IsInRoleAsync(user, "Selelr"))
+                    {
+                        return RedirectToAction("Index", "Home", "Selelr");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Invalid UserName Or Password Attempt, Or You Is In Rong Place");
+                    }
+
                 }
                 else
                 {

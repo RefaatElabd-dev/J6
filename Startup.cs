@@ -26,6 +26,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using J6.Interfaces;
 using J6.BL.Repositry;
 using J6.Hubs;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace J6
 {
@@ -82,16 +84,33 @@ namespace J6
 
             services.AddCors();
 
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin", "Moderator"));
-            });
+            
 
             services.AddControllersWithViews()
                     //.AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                     //.AddDataAnnotationsLocalization()
                     .AddNewtonsoftJson(x => 
                     x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+            //services.AddMvc(options =>
+            //{
+            //    var policy = new AuthorizationPolicyBuilder()
+            //                    .RequireAuthenticatedUser()
+            //                    .Build();
+            //    options.Filters.Add(new AuthorizeFilter(policy));
+            //});
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdminRole",
+                    policy => policy.RequireRole("Admin", "Moderator"));
+
+                options.AddPolicy("DeleteRolePolicy",
+                    policy => policy.RequireClaim("Delete Role"));
+
+                options.AddPolicy("EditRolePolicy",
+                    policy => policy.RequireClaim("Edit Role"));
+            });
 
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 
