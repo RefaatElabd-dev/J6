@@ -6,7 +6,49 @@
 }
 
 
-<!DOCTYPE html>
+<div class="col-md-6 mx-auto py-4 font-16">
+    <div class="card">
+        <div class="card-header bg-warning text-uppercase">
+            <h2>Create New Role</h2>
+        </div>
+
+
+        <div class="card-body text-white" style="background-color:darkslateblue">
+            <form enctype="multipart/form-data"  asp-action="CreateRole" method="POST">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label asp-for="RoleName" class="control-label"></label>
+                            <input asp-for="RoleName" class="form-control form-control-lg"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Add" class="btn btn-success text-uppercase mt-4 p-2" />
+                </div>
+            </form>
+            <a asp-action="Index" class="btn btn-sm btn-primary text-uppercase p-3"><i class="fa fa-arrow-circle-left fa-2x"></i></a>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>
 <html>
 
 
@@ -38,16 +80,16 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div>-->
 
     <!-- Jquery Core Js -->
-    <script src="~/plugins/jquery/jquery.min.js"></script>
+    <!--<script src="~/plugins/jquery/jquery.min.js"></script>-->
 
 
     <!-- Validation Plugin Js -->
-    <script src="~/plugins/jquery-validation/jquery.validate.js"></script>
+    <!--<script src="~/plugins/jquery-validation/jquery.validate.js"></script>
     <script src="~/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 
 </body>
 
-</html>
+</html>-->
