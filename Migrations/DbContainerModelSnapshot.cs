@@ -22,10 +22,8 @@ namespace J6.Migrations
 
             modelBuilder.Entity("J6.DAL.Entities.Address", b =>
                 {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
@@ -36,7 +34,7 @@ namespace J6.Migrations
                     b.Property<string>("Street")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.HasKey("UserId");
 
                     b.ToTable("Addresses");
                 });
@@ -78,9 +76,6 @@ namespace J6.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("AddressID")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -141,8 +136,6 @@ namespace J6.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AddressID");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -326,6 +319,9 @@ namespace J6.Migrations
 
                     b.Property<double>("OrderCost")
                         .HasColumnType("float");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -528,8 +524,14 @@ namespace J6.Migrations
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Rating")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("CreationTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<double>("Rating")
+                        .HasColumnType("float");
 
                     b.HasKey("CustomerId", "ProductId");
 
@@ -697,13 +699,15 @@ namespace J6.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("J6.DAL.Entities.AppUser", b =>
+            modelBuilder.Entity("J6.DAL.Entities.Address", b =>
                 {
-                    b.HasOne("J6.DAL.Entities.Address", "Address")
-                        .WithMany("AppUsers")
-                        .HasForeignKey("AddressID");
+                    b.HasOne("J6.DAL.Entities.AppUser", "AppUser")
+                        .WithOne("Address")
+                        .HasForeignKey("J6.DAL.Entities.Address", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Address");
+                    b.Navigation("AppUser");
                 });
 
             modelBuilder.Entity("J6.DAL.Entities.AppUserRole", b =>
@@ -959,11 +963,6 @@ namespace J6.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("J6.DAL.Entities.Address", b =>
-                {
-                    b.Navigation("AppUsers");
-                });
-
             modelBuilder.Entity("J6.DAL.Entities.AppRole", b =>
                 {
                     b.Navigation("userRoles");
@@ -971,6 +970,8 @@ namespace J6.Migrations
 
             modelBuilder.Entity("J6.DAL.Entities.AppUser", b =>
                 {
+                    b.Navigation("Address");
+
                     b.Navigation("Bag");
 
                     b.Navigation("Cart");

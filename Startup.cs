@@ -94,6 +94,7 @@ namespace J6
                     x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
+
             //D.I.
             services.AddTransient<IRandomProducts, ProductServices>();
 
@@ -101,9 +102,11 @@ namespace J6
 
             services.AddTransient<IUserSavedBagServices, UserSavedBagServices>();
 
-            services.AddTransient<IAdminStatisticsService, AdminStatisticsService>();
+            services.AddScoped<IAdminStatisticsService, AdminStatisticsService>();
 
             services.AddTransient<IOrderServices, OrderServices>();
+
+            services.AddTransient<IUserService, UserService>();
 
         }
 

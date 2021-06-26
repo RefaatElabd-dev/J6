@@ -3,9 +3,6 @@
     ViewBag.Title = "Home";
 }
 
-
-
-
 <body>
     <div class="block-header">
         <h2>DASHBOARD</h2>
@@ -14,7 +11,7 @@
     <!-- Widgets -->
     <div class="row clearfix">
 
-
+        @*Product*@
         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <a asp-controller="Products" asp-action="Index">
                 <div class="info-box bg-pink hover-expand-effect">
@@ -30,7 +27,7 @@
                 </div>
             </a>
         </div>
-
+        @*Category*@
         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <a asp-controller="Categories" asp-action="Index">
 
@@ -43,8 +40,9 @@
                         <div class="number count-to" data-from="0" data-to="257" data-speed="1000" data-fresh-interval="20"></div>
                     </div>
                 </div>
-             </a>
+            </a>
         </div>
+        @*SubCategories*@
         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <a asp-controller="SubCategories" asp-action="Index">
 
@@ -57,9 +55,9 @@
                         <div class="number count-to" data-from="0" data-to="243" data-speed="1000" data-fresh-interval="20"></div>
                     </div>
                 </div>
-                </a>
+            </a>
         </div>
-
+        @*Brands*@
         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <a asp-controller="Brands" asp-action="Index">
 
@@ -72,9 +70,143 @@
                         <div class="number count-to" data-from="0" data-to="1225" data-speed="1000" data-fresh-interval="20"></div>
                     </div>
                 </div>
-                </a>
-</div>
+            </a>
+        </div>
+
     </div>
+    <div class="row clearfix m-b-0 p-4 pt-5 text-center">
+        @* Number Of Products *@
+        <div class="info-box col-md-6 col-12 p-0" style="height: 200px; background-color: floralwhite">
+            <div class="icon m-0 p-0" style="width:30%">
+                <i class="fa fa-boxes-alt" style="margin:50px auto;color:black;"></i>
+            </div>
+            <div class="content text-center" style="margin:10px auto">
+                <div class="text text-center">
+                    <h2>
+                        Number Of Products
+                    </h2>
+                </div>
+                <div class="number text-center btn p-5" style="margin:30px auto;cursor:auto;">
+                    @ViewData["ProductsNumber"]
+                </div>
+            </div>
+        </div>
+        @* Number Of Solid Products *@
+        <div class="info-box col-md-6 col-12 p-0" style="height: 200px; background-color: lightblue">
+            <div class="icon m-0 p-0" style="width:30%">
+                <i class="fa fa-truck" style="margin: 50px auto; color: black;"></i>
+            </div>
+            <div class="content text-center" style="margin: 10px auto">
+                <div class="text text-center">
+                    <h2>
+                        Number Of Solid Products
+                    </h2>
+                </div>
+                <div class="number text-center btn p-5" style="margin:30px auto;cursor:auto;">
+                    @ViewData["SolidItemsNumber"]
+                </div>
+            </div>
+        </div>
+        @* Number Of Saved Products *@
+        <div class="info-box col-md-6 col-12 p-0" style="height: 200px; background-color: lightblue">
+            <div class="icon m-0 p-0" style="width:30%">
+                <i class="fa fa-heart" style="margin: 50px auto; color: orangered;"></i>
+            </div>
+            <div class="content text-center" style="margin:10px auto">
+                <div class="text text-center">
+                    <h2>
+                        Number Of Saved Products
+                    </h2>
+                </div>
+                <div class="number text-center btn p-5" style="margin:30px auto;cursor:auto;">
+                    @ViewData["SavedProductsNumber"]
+                </div>
+            </div>
+        </div>
+        @* Number Of Viewed Products *@
+        <div class="info-box col-md-6 col-12 p-0" style="height: 200px; background-color: floralwhite;">
+            <div class="icon m-0 p-0" style="width:30%">
+                <i class="fa fa-check" style="margin: 50px auto; color: green;"></i>
+            </div>
+            <div class="content text-center" style="margin: 10px auto">
+                <div class="text text-center">
+                    <h2>
+                        Number Of Viewed Products
+                    </h2>
+                </div>
+                <div class="number text-center btn p-5" style="margin:30px auto;cursor:auto;">
+                    @ViewData["ViewedProductsNumber"]
+                </div>
+            </div>
+        </div>
+        @*Number Of Custimers *@
+        <div class="info-box col-md-6 col-12 p-0" style="height: 200px; background-color: floralwhite">
+            <div class="icon m-0 p-0" style="width:30%">
+                <i class="fa fa-id-card" style="margin: 50px auto; color: blue;"></i>
+            </div>
+            <div class="content text-center" style="margin:10px auto">
+                <div class="text text-center">
+                    <h2>
+                        Number Of Custimers
+                    </h2>
+                </div>
+                <div class="number text-center btn p-5" style="margin:30px auto;cursor:auto;">
+                    @ViewData["CustomersNumber"]
+                </div>
+            </div>
+        </div>
+        @*Number Of Sellers *@
+        <div class="info-box col-md-6 col-12 p-0" style="height: 200px; background-color: lightblue">
+            <div class="icon m-0 p-0" style="width:30%">
+                <i class="fa fa-user-check" style="margin: 50px auto; color: black;"></i>
+            </div>
+            <div class="content text-center" style="margin:10px auto">
+                <div class="text text-center">
+                    <h2>
+                        Number Of Sellers
+                    </h2>
+                </div>
+                <div class="number text-center btn p-5" style="margin:30px auto;cursor:auto;">
+                    @ViewData["SellersNumber"]
+                </div>
+            </div>
+        </div>
+        @*Selling Rate *@
+        <div class="info-box col-md-6 col-12 p-0" style="height: 200px; background-color: lightblue">
+            <div class="icon m-0 p-0" style="width:30%">
+                <i class="fa fa-star" style="margin: 50px auto; color: gold;"></i>
+            </div>
+            <div class="content text-center" style="margin: 10px auto">
+                <div class="text text-center">
+                    <h2>
+                        Selling Rate
+                    </h2>
+                </div>
+                <div class="number text-center btn p-5" style="margin:30px auto;cursor:auto;">
+                    @ViewData["SellingRate"]
+                </div>
+            </div>
+        </div>
+
+        @*Number Of Orders *@
+        <div class="info-box col-md-6 col-12 p-0" style="height: 200px; background-color: floralwhite">
+            <div class="icon m-0 p-0" style="width:30%">
+                <i class="fa fa-shipping-fast" style="margin: 50px auto; color: black;"></i>
+            </div>
+            <div class="content text-center" style="margin: 10px auto">
+                <div class="text text-center">
+                    <h2>
+                        Number Of Orders Done
+                    </h2>
+                </div>
+                <div class="number text-center btn p-5" style="margin:30px auto;cursor:auto;">
+                    100
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- #END# Widgets -->
     <!-- CPU Usage -->
     <!--<div class="row clearfix">

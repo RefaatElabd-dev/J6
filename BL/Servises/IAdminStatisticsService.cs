@@ -8,11 +8,11 @@ namespace J6.BL.Servises
     public interface IAdminStatisticsService
     {
         public Task<int> GetCustomersNumber();
-        public int GetViewedProductsNumber();
-        public int GetSavedProductsNumber();
-        public double GetrateOfSViewedProducts();
+        public Task<int> GetViewedProductsNumber();
+        public Task<int> GetSavedProductsNumber();
+        public Task<double> GetrateOfSViewedProducts();
         public Task<int> GetSellersNumber();
-        public int GetSolidItemsNumber();
-        public int GetProductsNumber();
+        public Task<int> GetSolidItemsNumber();
+        public Task<int> GetProductsNumber();
     }
 }

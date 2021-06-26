@@ -233,7 +233,6 @@ namespace J6.Controllers
 
         [HttpPost]
         [Route("SetView")]
-
         public async Task<IActionResult> SetView([FromBody] CustomerProductDto input)
         {
             await _products.AssignToViewsAsync(input.UserId, input.ProductId);
@@ -274,6 +273,38 @@ namespace J6.Controllers
             return Ok(await _products.GetViewsByDateAsync(UserId));
         }
 
+        [HttpPost]
+        [Route("AddReviewToProduct")]
+        // api/ProductsAPi/AddReviewToProduct   body{CustomerId,ProductId,Comment, Rating} note(Rating between 1.0 and 5.0)
+        public async Task<ActionResult<Review>> AddReviewToProductAsync(ReviewModel reviewModel)
+        {
+            Review review = await _products.AddReviewToProductAsync(reviewModel);
+            return review == null ? BadRequest("MAke Sure First That You bought this Product") : Ok(review);
+        }
+        [HttpPut]
+        [Route("EditReview")]
+        // api/ProductsAPi/EditReview   body{CustomerId,ProductId,Comment, Rating} note(Rating between 1.0 and 5.0)
+        public async Task<ActionResult<Review>> EditReviewAsync(ReviewModel reviewModel)
+        {
+            Review review = await _products.EditReviewAsync(reviewModel);
+            return review == null ? BadRequest("MAke Sure First That You bought this Product") : Ok(review);
+        }
+
+        [HttpGet]
+        [Route("GetAllReviewsOfProduct/{productId}")]
+        // api/ProductsAPi/GetAllReviewsOfProduct/{productId}
+        public async Task<ActionResult<IEnumerable<Review>>> GetAllReviewsOfProductAsync(int productId)
+        {
+            return Ok(await _products.GetAllReviewsOfProductAsync(productId));
+        }
+
+        [HttpGet]
+        [Route("GetAllReviewsOfCustomer/{customerId}")]
+        // api/ProductsAPi/GetAllReviewsOfCustomer/{customerId}
+        public async Task<ActionResult<IEnumerable<Review>>> GetAllReviewsOfCustomerAsync(int customerId)
+        {
+            return Ok(await _products.GetAllReviewsOfCustomerAsync(customerId));
+        }
 
         //----------------------------------------------------------------------------------------
 
@@ -297,12 +328,50 @@ namespace J6.Controllers
             return Ok(productToReturn);
         }
         #endregion
-
+        //https://localhost:44340/api/Productsapi/2
+        //https://localhost:44340/api/Productsapi/GetProductById/2
         [HttpGet("{id:int}")]
         [Route("GetProductById/{id:int}") ]
         public async Task<ActionResult<ProductDto>> GetProductById(int id)
         {
-            var product = await _productRepository.GetProdByIdAsync(id);
+            // var product = await _productRepository.GetProdByIdAsync(id);
+            var product = await _context.Products
+               .Select(x => new Product()
+               {
+                   Id = x.Id,
+                   ProductName = x.ProductName,
+                   CreatedAt = x.CreatedAt,
+                   UpdatedAt = x.UpdatedAt,
+                   Size = x.Size,
+                   Color = x.Color,
+                   Brand = x.Brand,
+                   DeletedAt = x.DeletedAt,
+                   Description = x.Description,
+                   Discount = x.Discount,
+                   Image = "images/" + x.Image,
+                   Manufacture = x.Manufacture,
+                   Price = x.Price,
+                   material = x.material,
+                   Model = x.Model,
+                   Quantity = x.Quantity,
+                   Promotion = x.Promotion,
+                   Reviews = x.Reviews,
+                   Ship = x.Ship,
+                   Views = x.Views,
+                   SoldQuantities = x.SoldQuantities,
+                   Seller = x.Seller,
+                   SellerId = x.SellerId,
+                   BrandId = x.BrandId,
+                   ProdOrders = x.ProdOrders,
+                   ProductsBag = x.ProductsBag,
+                   Subcategory = x.Subcategory,
+                   SubcategoryId = x.SubcategoryId,
+                   PromotionId = x.PromotionId,
+                   Rating = x.Rating,
+                   ProdCarts = x.ProdCarts,
+               })
+ .FirstOrDefaultAsync(q => q.Id == id);
+
 
             return _mapper.Map<ProductDto>(product);
         }

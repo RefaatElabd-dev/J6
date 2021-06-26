@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity;
-@model IQueryable<IdentityRole>
+@model IQueryable<J6.DAL.Entities.AppRole>
 
 
 @{
@@ -9,11 +9,54 @@
 
 
 
+<section class="mt-2 container">
+
+    <div class="container mt-4">
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h2 class="text-center text-uppercase">List of Roles</h2>
+            </div>
+            <div class="card-body">
+                <div class="mb-2">
+                    <a asp-action="CreateRole" class="btn btn-sm btn-primary text-uppercase p-3"><i class="fas fa-plus-circle fa-2x"></i></a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered text-center table-hover js-basic-example dataTable" style="display:block;width:800px">
+
+                        <thead>
+                            <tr style="width:100%">
+                                <th class="text-center" style="width:200px">
+                                    Role
+                                </th>
+                                <th class="text-center" style="width:400px">Operations</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td class="" style="width:400px">
+                                <a asp-action="EditRole" asp-route-id="@item.Id" class="btn btn-warning m-2 p-3"><i class="fa fa-edit fa-2x"></i></a>
+                                <a asp-action="DeleteRole" asp-route-id="@item.Id" class="btn btn-danger m-2 p-3"><i class="fa fa-trash fa-2x"></i></a>
+                                </td>
+                            </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 
 
-
-<a asp-controller="Admin" asp-action="CreateRole" class="btn btn-primary">Add Role</a>
+@*<a asp-controller="Admin" asp-action="CreateRole" class="btn btn-primary">Add Role</a>
 
 
 <div class="container-fluid">
@@ -70,7 +113,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>*@
 
 
 
@@ -87,12 +130,12 @@
             $('.js-basic-example').DataTable({
                 responsive: true,
                 paging: true,
-                pageLength: 3,
+                pageLength: 5,
                 bSort: true,
                 bFilter: true,
                 //bLengthChange: false,
                 //bInfo: false,
-                lengthMenu: [[3, 5, 10, 25, 50, -1], [3, 5, 10, 25, 50, "All"]],
+                lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
 
             });
         });

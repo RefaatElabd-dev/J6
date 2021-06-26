@@ -62,7 +62,7 @@
                         <div class="form-group">
                             <label asp-for="Size" class="control-label"></label>
                             @*<select asp-for="Size" class="form-control"></select>*@
-                             <select asp-for="Size" asp-items="Html.GetEnumSelectList<Size>()"></select>
+                             <select asp-for="Size" class="form-control" asp-items="Html.GetEnumSelectList<Size>()"></select>
 
                             <span asp-validation-for="Size" class="text-danger"></span>
                         </div>
@@ -112,7 +112,7 @@
                         <div class="form-group">
                             <label asp-for="Ship" class="control-label"></label>
                             @*<select asp-for="Ship" class="form-control"></select>*@
-                             <select asp-for="Ship"  asp-items="Html.GetEnumSelectList<ShappedType>()"></select>
+                             <select asp-for="Ship" class="form-control" asp-items="Html.GetEnumSelectList<ShappedType>()"></select>
 
                             <span asp-validation-for="Ship" class="text-danger"></span>
                         </div>
