@@ -1,7 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity;
 
+
 @inject SignInManager<J6.DAL.Entities.AppUser> signInManager
- 
+
 
 
 @{
@@ -102,39 +103,56 @@
     <!-- Top Bar -->
 
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-warning " style=" overflow: hidden; position: fixed; top: 0; width: 100%;">
-        <div class="mt-2 col-md-3 col-12">
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #343a40; overflow: hidden; position: fixed; top: 0; width: 100%;">
+        <div class="mt-2 col-md-4  col-12">
             <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand" title="Visit Jumia WebSite" href="http://localhost:3000/" target="_blank"><h1> <b>JUMIA</b> <i class="fa fa-shopping-cart"></i></h1></a>
+            <a class="navbar-brand" style="color: white;" title="Visit Jumia WebSite" href="http://localhost:3000/" target="_blank"><h1> <b>JUMIA</b> <i class="fa fa-shopping-cart"></i></h1></a>
         </div>
 
-        <form class="form-inline my-2 my-lg-0 col-md-6 col-12  mt-2">
-            <input class="form-control mr-4 col-10 p-4" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-dark my-2 p-2" type="submit">Search</button>
-        </form>
-        <div class="col-md-2 col-12 p-t-20 p-b-20">
-            @*@if (User.IsInRole("Admin"))
-        {
-            <h5 style="font-size:16px;font-weight:600">
-                Admin: Shaban Essam
-            </h5>
-        }
-        @if (User.IsInRole("Customer"))
+        @*<form class="form-inline my-2 my-lg-0 col-md-6 col-12  mt-2">
+                <input class="form-control mr-4 col-10 p-4" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-dark my-2 p-2" type="submit">Search</button>
+            </form>*@
+        <div class="col-12 col-md-5 text-center p-2">
+            <h3 class="text-uppercase" style="font-size: 20px; font-weight: 800; color: white;">dashboard admin panel</h3>
+        </div>
+        <div class="col-md-2 col-12 p-2">
+            @if (User.IsInRole("Admin"))
             {
                 <h5 style="font-size:16px;font-weight:600">
-                    Customer: Shaban Essam
+                    Admin: Mahmoud Khaled
                 </h5>
-            }*@
-            <h5 style="font-size:16px;font-weight:600">
-                Admin: Shaban Essam
-            </h5>
+            }
+            @if (User.IsInRole("Customer"))
+            {
+                <h5 style="font-size:16px;font-weight:600">
+                    Customer: Mahmoud Khaled
+                </h5>
+            }
+            @if (User.IsInRole("Seller"))
+            {
+                <h5 style="font-size:16px;font-weight:600">
+                    Seller: Mahmoud Khaled
+                </h5>
+            }
+            @if (User.IsInRole("Moderator"))
+            {
+                <h5 style="font-size:16px;font-weight:600">
+                    Moderator: Mahmoud Khaled
+                </h5>
+            }
+            <h5 style="font-size: 16px; font-weight: 600; color: white;">
+                    Admin: Mahmoud Khaled
+                </h5>
 
         </div>
         <div class="col-md-1 col-12">
             <form asp-controller="Account" asp-action="LogOut" method="post">
-                <input type="submit" value="Sign Out" style="width:auto;color:white;" class="btn btn-primary m-3" />
+                @*<input type="submit" value="Sign Out" style="width:auto;color:white;" class="btn btn-primary m-3" />*@
+                <button type="submit" title="Sign Out" style="width:auto;color:white;" class="btn btn-primary m-3"><i class="fa fa-sign-out"></i></button>
+
             </form>
         </div>
 
@@ -143,61 +161,61 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <!-- <li class="nav-item active">
-              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
+                  <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Link</a>
 
-            </li> -->
+                </li> -->
                 @*<li class="nav-item dropdown ">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        login
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <div style="text-align: center;">
-                            <a class="btn btn-warning  btn-lg" href="/login.html">Login</a>
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            login
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <div style="text-align: center;">
+                                <a class="btn btn-warning  btn-lg" href="/login.html">Login</a>
+                            </div>
+
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item " href="/register.html" style="color: rgb(233, 179, 31);">Create An Account</a>
+
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item " href="#" style="color: rgb(233, 179, 31);"> <i class="fad fa-user" style="color: black;"></i>&nbsp; Account</a>
+
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item " href="#" style="color: rgb(233, 179, 31);"> <i class="far fa-shopping-cart" style="color: black;"></i>  &nbsp; Social Orders</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item " href="#" style="color: rgb(233, 179, 31);"> <i class="fal fa-heart" style="color:black;"></i>   &nbsp; Saved Items</a>
                         </div>
 
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item " href="/register.html" style="color: rgb(233, 179, 31);">Create An Account</a>
-
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item " href="#" style="color: rgb(233, 179, 31);"> <i class="fad fa-user" style="color: black;"></i>&nbsp; Account</a>
-
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item " href="#" style="color: rgb(233, 179, 31);"> <i class="far fa-shopping-cart" style="color: black;"></i>  &nbsp; Social Orders</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item " href="#" style="color: rgb(233, 179, 31);"> <i class="fal fa-heart" style="color:black;"></i>   &nbsp; Saved Items</a>
-                    </div>
 
 
+                    </li>
 
-                </li>
 
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="far fa-question-circle"></i>
+                            help
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#" style="color: rgb(233, 179, 31);">Help Center</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#" style="color: rgb(233, 179, 31);">Place & track Order</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#" style="color: rgb(233, 179, 31);">Order Cancelling</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#" style="color: rgb(233, 179, 31);">Returns and Refunds</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#" style="color: rgb(233, 179, 31);">Payment and Account</a>
+                        </div>
+                    </li>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="far fa-question-circle"></i>
-                        help
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#" style="color: rgb(233, 179, 31);">Help Center</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#" style="color: rgb(233, 179, 31);">Place & track Order</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#" style="color: rgb(233, 179, 31);">Order Cancelling</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#" style="color: rgb(233, 179, 31);">Returns and Refunds</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#" style="color: rgb(233, 179, 31);">Payment and Account</a>
-                    </div>
-                </li>
+                    <li class="nav-item">
 
-                <li class="nav-item">
+                        <a class="nav-link" href="#"> <i class="far fa-shopping-cart"></i> &nbsp; cart</a>
 
-                    <a class="nav-link" href="#"> <i class="far fa-shopping-cart"></i> &nbsp; cart</a>
-
-                </li>*@
+                    </li>*@
 
 
             </ul>
@@ -426,18 +444,18 @@
                         <div class="email">@User.Identity.Name</div>
                     }
                     <div class="btn-group user-helper-dropdown">
-                    
+
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                         <ul class="dropdown-menu pull-right">
                             @*<li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="javascript:void(0);"><i class="material-icons">group</i>Followers</a></li>
-                <li><a href="javascript:void(0);"><i class="material-icons">shopping_cart</i>Sales</a></li>
-                <li><a href="javascript:void(0);"><i class="material-icons">favorite</i>Likes</a></li>
-                <li role="separator" class="divider"></li>
-                            <li>*@
+                                <li role="separator" class="divider"></li>
+                                <li><a href="javascript:void(0);"><i class="material-icons">group</i>Followers</a></li>
+                                <li><a href="javascript:void(0);"><i class="material-icons">shopping_cart</i>Sales</a></li>
+                                <li><a href="javascript:void(0);"><i class="material-icons">favorite</i>Likes</a></li>
+                                <li role="separator" class="divider"></li>*@
+                            <li class="text-center">
                                 <form asp-controller="Account" asp-action="LogOut" method="post">
-                                    <input type="submit" value="Sign Out" style="width:auto;color:white;" class="btn btn-primary m-3" />
+                                    <button type="submit" title="Sign Out" style="width:50%;color:white;" class="btn btn-primary m-0 text-center"><i class="fa fa-sign-out"></i></button>
                                 </form>
                             </li>
                         </ul>
@@ -453,6 +471,18 @@
                         <a asp-controller="Home" asp-action="Index">
                             <i class="material-icons">home</i>
                             <span>Home</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a asp-controller="Admin" asp-action="Index">
+                            <i class="fa fa-registered fa-2x"></i>
+                            <span>Rloes</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a asp-controller="AppUserRoles" asp-action="Index">
+                            <i class="fa fa-users fa-2x"></i>
+                            <span>Users</span>
                         </a>
                     </li>
                     <li class="active">
@@ -1114,7 +1144,7 @@
 
 
     <!-- Select Plugin Js -->
-    <script src="~/plugins/bootstrap-select/js/bootstrap-select.js"></script>
+    @*<script src="~/plugins/bootstrap-select/js/bootstrap-select.js"></script>*@
     <!-- Slimscroll Plugin Js -->
     <script src="~/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
     <!-- Waves Effect Plugin Js -->

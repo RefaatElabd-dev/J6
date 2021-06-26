@@ -116,5 +116,134 @@ namespace J6.Controllers
         {
             return _context.Brands.Any(e => e.BrandId == id);
         }
+
+        ///////////////////////////////////////////////////////////////////////////////////
+        // get all color in specific  brand
+        // api/BrandsAPi/allcolorinBRAND/1
+        [HttpGet("{id}")]
+        [Route("allcolorinBRAND/{id}")]
+        public async Task<ActionResult> GetColorsInBrand(int id)
+        {
+            //id is brand id
+            List<string> colors = new List<string>();
+            var brand = await _context.Brands.FirstOrDefaultAsync(a=>a.BrandId==id);
+
+            if (brand == null)
+            {
+                return NotFound();
+            }
+                var products = await _context.Products.Where(a =>a.BrandId==brand.BrandId ).ToListAsync();
+                foreach (var pro in products)
+                {
+                    if (!colors.Contains(pro.Color))
+                    {
+                        if (pro.Color != null)
+                        {
+                            colors.Add(pro.Color);
+                        }
+                    }
+                
+            }
+
+
+            return Ok(colors);
+        }
+        ///////////////////////////////////////////////
+        //all price in specific brand
+        //  api/BrandsAPi/AllPriceinBRAND/1
+        [HttpGet("{id}")]
+        [Route("AllPriceinBRAND/{id}")]
+        public async Task<IActionResult> getallpriceinBRAND(int id)
+        {
+            //id is brand id
+
+            List<object> prices = new List<object>();
+            var brand = await _context.Brands.FirstOrDefaultAsync(a => a.BrandId == id);
+
+            if (brand == null)
+            {
+                return NotFound();
+            }
+            var products = await _context.Products.Where(a => a.BrandId == brand.BrandId).ToListAsync();
+            foreach (var pro in products)
+            {
+                if (!prices.Contains(pro.Price))
+                {
+                    if (pro.Price != 0)
+                    {
+                        prices.Add(pro.Price);
+                    }
+                }
+
+            }
+
+
+            return Ok(prices);
+        }
+        //////////////////////////////////////////////////////////////////////
+        //all discount in specific brand
+        //  api/BrandsAPi/allBRANDdiscount/1
+        [HttpGet("{id}")]
+
+        [Route("allBRANDdiscount/{id}")]
+        public async Task<IActionResult> getalldiscountinBRAND(int id)
+        {
+            //id is category id
+            List<object> discount = new List<object>();
+            var brand = await _context.Brands.FirstOrDefaultAsync(a => a.BrandId == id);
+
+            if (brand == null)
+            {
+                return NotFound();
+            }
+            var products = await _context.Products.Where(a => a.BrandId == brand.BrandId).ToListAsync();
+
+            foreach (var pro in products)
+                {
+                    if (!discount.Contains(pro.Discount))
+                    {
+                        if (pro.Discount != null)
+                        {
+                            discount.Add(pro.Discount);
+                        }
+                    }
+                }
+            
+            return Ok(discount);
+        }
+        //////////////////////////////////////////////////////////////////////
+        //all rating in category
+        //  api/BrandsAPi/allBRANDrating/1
+        [HttpGet("{id}")]
+
+        [Route("allBRANDrating/{id}")]
+        public async Task<IActionResult> getallratinginBRAND(int id)
+        {
+            //id is category id
+            List<object> rating = new List<object>();
+            var brand = await _context.Brands.FirstOrDefaultAsync(a => a.BrandId == id);
+
+            if (brand == null)
+            {
+                return NotFound();
+            }
+            var products = await _context.Products.Where(a => a.BrandId == brand.BrandId).ToListAsync();
+
+            foreach (var pro in products)
+                {
+                    if (!rating.Contains(pro.Rating))
+                    {
+                        if (pro.Rating != null)
+                        {
+                            rating.Add(pro.Rating);
+                        }
+                    }
+                }
+            
+            return Ok(rating);
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////
+
     }
 }

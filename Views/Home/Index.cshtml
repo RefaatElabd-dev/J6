@@ -4,9 +4,6 @@
     ViewBag.Title = "Home";
 }
 
-
-
-
 <body>
     <div class="block-header">
         <h2>DASHBOARD</h2>
@@ -91,7 +88,7 @@
                     </h2>
                 </div>
                 <div class="number text-center btn p-5" style="margin:30px auto;cursor:auto;">
-                    100
+                    @ViewData["ProductsNumber"]
                 </div>
             </div>
         </div>
@@ -107,7 +104,7 @@
                     </h2>
                 </div>
                 <div class="number text-center btn p-5" style="margin:30px auto;cursor:auto;">
-                    100
+                    @ViewData["SolidItemsNumber"]
                 </div>
             </div>
         </div>
@@ -123,7 +120,7 @@
                     </h2>
                 </div>
                 <div class="number text-center btn p-5" style="margin:30px auto;cursor:auto;">
-                    100
+                    @ViewData["SavedProductsNumber"]
                 </div>
             </div>
         </div>
@@ -139,7 +136,7 @@
                     </h2>
                 </div>
                 <div class="number text-center btn p-5" style="margin:30px auto;cursor:auto;">
-                    100
+                    @ViewData["ViewedProductsNumber"]
                 </div>
             </div>
         </div>
@@ -155,7 +152,7 @@
                     </h2>
                 </div>
                 <div class="number text-center btn p-5" style="margin:30px auto;cursor:auto;">
-                    100
+                    @ViewData["CustomersNumber"]
                 </div>
             </div>
         </div>
@@ -171,7 +168,7 @@
                     </h2>
                 </div>
                 <div class="number text-center btn p-5" style="margin:30px auto;cursor:auto;">
-                    100
+                    @ViewData["SellersNumber"]
                 </div>
             </div>
         </div>
@@ -187,7 +184,7 @@
                     </h2>
                 </div>
                 <div class="number text-center btn p-5" style="margin:30px auto;cursor:auto;">
-                    100
+                    @ViewData["SellingRate"]
                 </div>
             </div>
         </div>
@@ -209,8 +206,8 @@
             </div>
         </div>
     </div>
-   
-    
+
+
     <!-- #END# Widgets -->
     <!-- CPU Usage -->
     <!--<div class="row clearfix">
