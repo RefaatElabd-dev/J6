@@ -75,16 +75,16 @@ namespace J6.Controllers
         //###################################Handle Address##########################
 
         [HttpPost]
-        [Route("AddUserAddress")]
-        //api/CustomersApi/AddUserAddress
+        [Route("AddUserAddress/{UserId}")]
+        //api/CustomersApi/AddUserAddress/{UserId}
         public async Task<Address> AddUserAddress(int UserId, AddressModel model)
         {
             return await _userService.AddUserAddress(UserId, model);
         }
 
         [HttpPut]
-        [Route("EditUserAddress")]
-        //api/CustomersApi/EditUserAddress
+        [Route("EditUserAddress/{UserId}")]
+        //api/CustomersApi/EditUserAddress/{UserId}
         public async Task<Address> EditUserAddress(int UserId, AddressModel model)
         {
             return await _userService.EditUserAddress(UserId, model);
