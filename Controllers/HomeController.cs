@@ -13,16 +13,6 @@ namespace J6.Controllers
 {
     public class HomeController : Controller
     {
-<<<<<<< HEAD
-        public IActionResult Index(string role)
-        {
-            
-            return View(role);
-=======
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
 
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IAdminStatisticsService _adminStatistics;
@@ -35,7 +25,7 @@ namespace J6.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string role)
         {
             ViewData["CustomersNumber"] = await _adminStatistics.GetCustomersNumber();
             ViewData["SellersNumber"] = await _adminStatistics.GetSellersNumber();
@@ -44,9 +34,7 @@ namespace J6.Controllers
             ViewData["SolidItemsNumber"] = await _adminStatistics.GetSolidItemsNumber();
             ViewData["ViewedProductsNumber"] = await _adminStatistics.GetViewedProductsNumber();
             ViewData["SellingRate"] = await _adminStatistics.GetrateOfSViewedProducts();
-            var data = _roleManager.Roles;
-            return View(data);
->>>>>>> 7a32740fa54f1528f3c66eef100340d4211c0486
+            return View(role);
         }
 
 
