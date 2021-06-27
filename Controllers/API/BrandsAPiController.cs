@@ -23,7 +23,7 @@ namespace J6.Controllers
             this._hostEnvironment = hostEnvironment;
 
         }
-
+        //https://localhost:44340/api/Brandsapi
         // GET: api/Brands
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Brand>>> GetBrands()
@@ -40,8 +40,11 @@ namespace J6.Controllers
 
         }
 
+
+  //https://localhost:44340/api/Brandsapi/3
+
         // GET: api/Brands/5
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<Brand>> GetBrand(int id)
         {
             var brand = await _context.Brands.FindAsync(id);
@@ -118,7 +121,7 @@ namespace J6.Controllers
         }
 
         ///////////////////////////////////////////////////////////////////////////////////
-        // get all color in specific  brand
+        //get all color in specific  brand
         // api/BrandsAPi/allcolorinBRAND/1
         [HttpGet("{id}")]
         [Route("allcolorinBRAND/{id}")]
