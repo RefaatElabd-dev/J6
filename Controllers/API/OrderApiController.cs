@@ -23,7 +23,7 @@ namespace J6.Controllers.API
         }
 
         [HttpPost]
-        [Route("approveOrder")]
+        [Route("approveOrder/{CustomerId}")]
         public async Task approveOrder(int CustomerId)
         {
             await _orderServices.approveOrder(CustomerId);
