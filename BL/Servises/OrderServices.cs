@@ -20,7 +20,7 @@ namespace J6.BL.Servises
         public async Task approveOrder(int CustomerId)
         {
             //Delete OrderProducts
-            Order order = _context.Orders.Where(O => O.CustimerId == CustomerId).OrderByDescending(O => O.Id).Take(1).First();
+            Order order = await _context.Orders.Where(O => O.CustimerId == CustomerId).OrderByDescending(O => O.Id).Take(1).FirstAsync();
             ICollection<ProdOrder> OrderProducts = await _context.ProdOrders.Where(p => p.OrderId == order.Id).ToListAsync();
             
             foreach (var item in OrderProducts)
