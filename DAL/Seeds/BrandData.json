@@ -1,22 +1,88 @@
 [
   {
-    "BrandName": "Adidas",
-    "Image": "eea59fc6-9a68-427c-826f-9ec76956477a_3bs7C.png"
+    "BrandName": "Addidas",
+    "Image": "addidas.png"
   },
   {
-    "BrandName": "Stars",
-    "Image": "eea59fc6-9a68-427c-826f-9ec76956477a_3bs7C.png"
+    "BrandName": "Starbucks",
+    "Image": "starbucks.png"
   },
   {
-    "BrandName": "Cottonile",
-    "Image": "eea59fc6-9a68-427c-826f-9ec76956477a_3bs7C.png"
+    "BrandName": "H&M",
+    "Image": "H&M.png"
   },
   {
-    "BrandName": "Dice",
-    "Image": "eea59fc6-9a68-427c-826f-9ec76956477a_3bs7C.png"
+    "BrandName": "Apple",
+    "Image": "png-clipart-apple-logo-apple-heart-logo.png"
   },
   {
-    "BrandName": "Johaina",
-    "Image": "eea59fc6-9a68-427c-826f-9ec76956477a_3bs7C.png"
+    "BrandName": "Amazon",
+    "Image": "amazon.png"
+  },
+  {
+    "BrandName": "Google",
+    "Image": "google.jpg"
+  },
+  {
+    "BrandName": "Samsung",
+    "Image": "samsung.jpg"
+  },
+  {
+    "BrandName": "Coca-Cola",
+    "Image": "coka.png"
+  },
+  {
+    "BrandName": "Toyota",
+    "Image": "Toyota.jpg"
+  },
+  {
+    "BrandName": "Mercedes",
+    "Image": "Mercedes.jpg"
+  },
+  {
+    "BrandName": "McDonald's",
+    "Image": "McDonald.png"
+  },
+  {
+    "BrandName": "Disney",
+    "Image": "Disney.png"
+  },
+  {
+    "BrandName": "NIKE",
+    "Image": "nike.png"
+  },
+  {
+    "BrandName": "Cisco",
+    "Image": "Cisco.jpg"
+  },
+  {
+    "BrandName": "Tesla",
+    "Image": "tesla.jpg"
+  },
+  {
+    "BrandName": "Intel",
+    "Image": "intel.png"
+  },
+  {
+    "BrandName": "Pepsi",
+    "Image": "Pepsi.jpg"
+  },
+  {
+    "BrandName": "Nescafe",
+    "Image": "Nescafe.jpg"
+  },
+  {
+    "BrandName": "Zara",
+    "Image": "Zara.jpg"
+  },
+  {
+    "BrandName": "Nestle",
+    "Image": "Nestle.jpg"
+  },
+  {
+    "BrandName": "GUCCI",
+    "Image": "GUCCI.jpg"
   }
+  
+
 ]

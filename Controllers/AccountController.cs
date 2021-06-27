@@ -93,7 +93,7 @@ namespace J6.Controllers
                     }
                     else if (await userManager.IsInRoleAsync(user, "Seller"))
                     {
-                        return RedirectToAction("Index", "Home", "Seller");
+                        return RedirectToAction("GetSellerProduct", "Seller", new { id = user.Id }, "Seller");
                     }
                     else
                     {

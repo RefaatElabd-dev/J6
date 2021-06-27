@@ -12,10 +12,10 @@
              class="card-img-top m-2"
              asp-append-version="true" />
     </div>
-    <div class="card-header bg-transparent border-success"> 
+    <div class="card-header bg-transparent border-success">
         <h3>
             @Html.DisplayFor(model => model.ProductName)
-       </h3>
+        </h3>
     </div>
     <div class="card-body text-black">
         <h5 class="card-title">
@@ -32,9 +32,9 @@
 
     <div class="card-body" style="height:auto;direction:ltr">
         <div class="card-text text-left" style="overflow:hidden;text-overflow:ellipsis;height:auto">
-            Description: <br/>  @Html.DisplayFor(model => model.Description)
+            Description: <br />  @Html.DisplayFor(model => model.Description)
         </div>
-        <hr/>
+        <hr />
         <p class="card-text text-left">
             material: @Html.DisplayFor(model => model.material)
         </p>
@@ -82,8 +82,12 @@
         @Html.DisplayNameFor(model => model.UpdatedAt)
         @Html.DisplayFor(model => model.UpdatedAt)
     </div>
+
     <div class="card-footer bg-transparent border-success">
-        <a asp-action="Index" class="btn btn-sm btn-primary text-uppercase m-2 mr-4 p-3"><i class="fa fa-arrow-circle-left fa-2x"></i></a>
-        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning m-2 p-3"><i class="fa fa-edit fa-2x"></i></a>
+        UserName Owner : @Html.DisplayFor(model => model.SellerId)
     </div>
-</div>
+        <div class="card-footer bg-transparent border-success">
+            <a asp-action="Index" class="btn btn-sm btn-primary text-uppercase m-2 mr-4 p-3"><i class="fa fa-arrow-circle-left fa-2x"></i></a>
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning m-2 p-3"><i class="fa fa-edit fa-2x"></i></a>
+        </div>
+    </div>

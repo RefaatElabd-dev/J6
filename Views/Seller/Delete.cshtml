@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Delete";
+    Layout = "~/Views/Layout/SellerLayout.cshtml";
+
 }
 
 <h2>Delete</h2>
@@ -88,6 +90,6 @@
             <input type="hidden" asp-for="Id" />
             <input type="submit" value="Delete" class="btn btn-danger m-2 p-3" />
         </form>
-        <a asp-action="Index" class="btn btn-sm btn-primary text-uppercase m-2 mr-4 p-3"><i class="fa fa-arrow-circle-left fa-2x"></i></a>
+        <a asp-controller="Seller" asp-action="GetSellerProduct" class="btn btn-sm btn-primary text-uppercase m-2 mr-4 p-3"><i class="fa fa-arrow-circle-left fa-2x"></i></a>
     </div>
 </div>
