@@ -45,7 +45,7 @@ namespace J6.Controllers
         }
 
         // GET: api/SubCategories/5
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<SubCategory>> GetSubCategory(int id)
         {
             var subCategory = await _context.SubCategories.FindAsync(id);
