@@ -42,7 +42,7 @@ namespace J6.Controllers
         }
 
         // GET: api/Categories/5
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         [Route("category/{id}")]
         public async Task<ActionResult<Category>> GetCategory(int id)
         {
