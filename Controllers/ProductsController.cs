@@ -30,8 +30,10 @@ namespace J6.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            var dbContainer = _context.Products.Include(p => p.Brand).Include(p => p.Promotion).Include(p => p.Subcategory);
-            return View(await dbContainer.ToListAsync());
+            //var dbContainer = _context.Products.Include(p => p.Brand).Include(p => p.Promotion).Include(p => p.Subcategory);
+            var product = await _context.Products.Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).Include(y => y.Subcategory).Include(y => y.Brand).Include(y => y.Subcategory.Category).ToListAsync();
+
+            return View(product);
         }
 
         // GET: Products/Details/5
@@ -61,6 +63,8 @@ namespace J6.Controllers
             ViewData["BrandId"] = new SelectList(_context.Brands, "BrandId", "BrandName");
             ViewData["PromotionId"] = new SelectList(_context.Promotions, "PromotionId", "PromotionId");
             ViewData["SubcategoryId"] = new SelectList(_context.SubCategories, "SubcategoryId", "SubcategoryName");
+            ViewData["SellerId"] = new SelectList(_context.Users, "Id", "UserName");
+
             //ViewData["Size"] = new SelectList();
 
             return View();
@@ -106,6 +110,8 @@ namespace J6.Controllers
             ViewData["BrandId"] = new SelectList(_context.Brands, "BrandId", "BrandName");
             ViewData["PromotionId"] = new SelectList(_context.Promotions, "PromotionId", "PromotionId", promodel.PromotionId);
             ViewData["SubcategoryId"] = new SelectList(_context.SubCategories, "SubcategoryId", "SubcategoryName");
+            ViewData["SellerId"] = new SelectList(_context.Users, "Id", "UserName");
+
             return View();
         }
 
@@ -172,6 +178,7 @@ namespace J6.Controllers
             ViewData["BrandId"] = new SelectList(_context.Brands, "BrandId", "BrandName");
             ViewData["PromotionId"] = new SelectList(_context.Promotions, "PromotionId", "PromotionId", product.PromotionId);
             ViewData["SubcategoryId"] = new SelectList(_context.SubCategories, "SubcategoryId", "SubcategoryName");
+
 
             return View(viewModel);
             //return View(product);

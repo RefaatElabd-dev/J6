@@ -31,7 +31,7 @@ namespace J6.DAL.ViewModels
         public DateTime? DeletedAt { get; set; }
         public string material { set; get; }
 
-        public int? SellerId { get; set; }
+        public int SellerId { get; set; }
         [ForeignKey("SellerId")]
         public virtual AppUser Seller { get; set; }
 

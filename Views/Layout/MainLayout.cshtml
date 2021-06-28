@@ -118,31 +118,31 @@
         <div class="col-md-2 col-12 p-2">
             @if (User.IsInRole("Admin"))
             {
-                <h5 style="font-size:16px;font-weight:600">
-                    Admin: @User.Identity.Name
-                </h5>
+            <h5 style="font-size: 16px; font-weight: 600; color: white;">
+                Admin : @User.Identity.Name
+            </h5>
             }
-            @if (User.IsInRole("Customer"))
+            @*@if (User.IsInRole("Customer"))
             {
                 <h5 style="font-size:16px;font-weight:600">
                     Customer: Mahmoud Khaled
                 </h5>
-            }
+            }*@
             @if (User.IsInRole("Seller"))
             {
-                <h5 style="font-size:16px;font-weight:600">
-                    Seller: Mahmoud Khaled
-                </h5>
+        <h5 style="font-size: 16px; font-weight: 600; color: white;">
+            Seller : @User.Identity.Name
+        </h5>
             }
             @if (User.IsInRole("Moderator"))
             {
-                <h5 style="font-size:16px;font-weight:600">
-                    Moderator: Mahmoud Khaled
-                </h5>
+        <h5 style="font-size: 16px; font-weight: 600; color: white;">
+            Moderator : @User.Identity.Name
+        </h5>
             }
-            <h5 style="font-size: 16px; font-weight: 600; color: white;">
+            @*<h5 style="font-size: 16px; font-weight: 600; color: white;">
                     Admin: @User.Identity.Name
-                </h5>
+            </h5>*@
 
         </div>
         <div class="col-md-1 col-12">
@@ -435,11 +435,7 @@
                     <img src="~/images/user.png" width="48" height="48" alt="User" />
                 </div>
                 <div class="info-container">
-                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shaban Essam</div>
-                    @if (signInManager.IsSignedIn(User))
-                    {
-                        <div class="email">@User.Identity.Name</div>
-                    }
+                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@User.Identity.Name</div>
                     <div class="btn-group user-helper-dropdown">
 
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
@@ -464,48 +460,60 @@
             <div class="menu">
                 <ul class="list">
                     <li class="header">MAIN NAVIGATION</li>
-                    <li class="active">
-                        <a asp-controller="Home" asp-action="Index">
-                            <i class="material-icons">home</i>
-                            <span>Home</span>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a asp-controller="Admin" asp-action="Index">
-                            <i class="fa fa-registered fa-2x"></i>
-                            <span>Rloes</span>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a asp-controller="AppUserRoles" asp-action="Index">
-                            <i class="fa fa-users fa-2x"></i>
-                            <span>Users</span>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a asp-controller="Brands" asp-action="Index">
-                            <i class="fa fa-gifts fa-2x"></i>
-                            <span>Brands</span>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a asp-controller="Categories" asp-action="Index">
-                            <i class="fa fa-gifts fa-2x"></i>
-                            <span>Categories</span>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a asp-controller="SubCategories" asp-action="Index">
-                            <i class="fa fa-gifts fa-2x"></i>
-                            <span>SubCategories</span>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a asp-controller="Products" asp-action="Index">
-                            <i class="fa fa-gifts fa-2x"></i>
-                            <span>Products</span>
-                        </a>
-                    </li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="active">
+                            <a asp-controller="Home" asp-action="Index">
+                                <i class="material-icons">home</i>
+                                <span>Home</span>
+                            </a>
+                        </li>
+                        <li class="active">
+                            <a asp-controller="Admin" asp-action="Index">
+                                <i class="fa fa-registered fa-2x"></i>
+                                <span>Rloes</span>
+                            </a>
+                        </li>
+                        <li class="active">
+                            <a asp-controller="AppUserRoles" asp-action="Index">
+                                <i class="fa fa-users fa-2x"></i>
+                                <span>Users</span>
+                            </a>
+                        </li>
+                        <li class="active">
+                            <a asp-controller="Brands" asp-action="Index">
+                                <i class="fa fa-gifts fa-2x"></i>
+                                <span>Brands</span>
+                            </a>
+                        </li>
+                        <li class="active">
+                            <a asp-controller="Categories" asp-action="Index">
+                                <i class="fa fa-gifts fa-2x"></i>
+                                <span>Categories</span>
+                            </a>
+                        </li>
+                        <li class="active">
+                            <a asp-controller="SubCategories" asp-action="Index">
+                                <i class="fa fa-gifts fa-2x"></i>
+                                <span>SubCategories</span>
+                            </a>
+                        </li>
+                        <li class="active">
+                            <a asp-controller="Products" asp-action="Index">
+                                <i class="fa fa-gifts fa-2x"></i>
+                                <span>Products</span>
+                            </a>
+                        </li>
+}
+                    else
+                    {
+                        <li class="active">
+                            <a asp-controller="Seller" asp-action="GetSellerProduct" asp-route-id="@User.Identity.Name">
+                                <i class="fa fa-gifts fa-2x"></i>
+                                <span>Products</span>
+                            </a>
+                        </li>
+                    }
                     @*<li>
             <a href="pages/typography.html">
                 <i class="material-icons">text_fields</i>

@@ -1,6 +1,7 @@
 ﻿@model J6.DAL.ViewModels.ProductsEditViewModel
 @using J6
 @{
+    Layout = "~/Views/Layout/MainLayout.cshtml";
     ViewData["Title"] = "Edit";
 }
 
@@ -157,6 +158,14 @@
                             <span asp-validation-for="SubcategoryId" class="text-danger"></span>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="SellerId" class="control-label"></label>
+                            <input asp-for="SellerId" class="form-control" readonly value="@Model.SellerId" />
+                            @*<select asp-for="Seller.UserName" class="form-control" asp-items="Seller.UserName"></select>*@
+                            <span asp-validation-for="SellerId" class="text-danger"></span>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
@@ -166,7 +175,7 @@
                     </div>
                 </div>
             </form>
-            <a asp-controller="Seller" asp-action="GetSellerProduct" class="btn btn-sm btn-primary text-uppercase m-2 mr-4 p-3"><i class="fa fa-arrow-circle-left fa-2x"></i></a>
+            <a asp-controller="Seller" asp-action="GetSellerProduct" asp-route-id="@Model.SellerId" class="btn btn-sm btn-primary text-uppercase m-2 mr-4 p-3"><i class="fa fa-arrow-circle-left fa-2x"></i></a>
         </div>
     </div>
 </div>
