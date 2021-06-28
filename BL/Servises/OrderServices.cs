@@ -36,8 +36,23 @@ namespace J6.BL.Servises
             await StoreTransaction(order);
         }
 
-        public void HandleAdminStatus(int OrderId, OrderStatus status)
+        public void HandleAdminStatus(int OrderId, int statusNumber)
         {
+            OrderStatus status = OrderStatus.InProgress;
+            switch (statusNumber)
+            {
+                case 0:
+                    status = OrderStatus.InProgress;
+                    break;
+                case 1:
+                    status = OrderStatus.InDelivery;
+                    break;
+                case 2:
+                    status = OrderStatus.Done;
+                    break;
+                default:
+                    break;
+            }
             Order order = _context.Orders.FirstOrDefault(O => O.Id == OrderId);
             order.Status = status;
             _context.Orders.Update(order);

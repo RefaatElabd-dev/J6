@@ -12,7 +12,7 @@ namespace J6.BL.Servises
         public Task SwitchCartToOrder(int CustomerId);
         public Task approveOrder(int CustomerId);
         public Task StoreTransaction(Order order);
-        public void HandleAdminStatus(int OrderId, OrderStatus status);
+        public void HandleAdminStatus(int OrderId, int statusNumber);
         public Task<ICollection<Order>> getAllOrders();
 
         //#################New#####################
