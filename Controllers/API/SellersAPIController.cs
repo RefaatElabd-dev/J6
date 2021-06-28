@@ -74,7 +74,7 @@ namespace J6.Controllers
 
         //getUserById
         //api/Sellers/1
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<SellerDto>> GetSellerById(int id)
         {
             var Sellers = await userManager.GetUsersInRoleAsync("Seller");

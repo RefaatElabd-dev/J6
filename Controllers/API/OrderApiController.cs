@@ -38,10 +38,10 @@ namespace J6.Controllers.API
         }
 
         [HttpPost]
-        [Route("HandleAdminStatus")]
-        public void HandleAdminStatus(int OrderId, OrderStatus status)
+        [Route("HandleAdminStatus/{OrderId}")]
+        public void HandleAdminStatus(int OrderId, [FromBody]int statusNumber)
         {
-            _orderServices.HandleAdminStatus(OrderId, status);
+            _orderServices.HandleAdminStatus(OrderId, statusNumber);
         }
 
         [HttpGet]

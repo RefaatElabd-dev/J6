@@ -1,19 +1,17 @@
 ﻿using J6.BL.Servises;
 using J6.DAL.Entities;
 using J6.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace J6.Controllers
+namespace J6.Controllers.API
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class UserBagApiController : ControllerBase
+    public class UserBagApiController : Controller
     {
         private readonly IUserSavedBagServices _userSavedBag;
 
@@ -38,7 +36,7 @@ namespace J6.Controllers
         }
 
         [HttpDelete("DeleteSavedItem/{UserId}")]
-        public async Task<ActionResult> DeleteSavedItem(int UserId,int ProductId)
+        public async Task<ActionResult> DeleteSavedItem(int UserId, int ProductId)
         {
             return await _userSavedBag.DeleteSavedItemAsync(UserId, ProductId) ?
                                                 NoContent() : BadRequest("Check User and Product ");
