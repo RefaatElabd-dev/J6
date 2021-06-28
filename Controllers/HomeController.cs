@@ -24,8 +24,8 @@ namespace J6.Controllers
             _adminStatistics = adminStatistics;
             _userManager = userManager;
         }
-
-        public async Task<IActionResult> Index(string role)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Index()
         {
             ViewData["CustomersNumber"] = await _adminStatistics.GetCustomersNumber();
             ViewData["SellersNumber"] = await _adminStatistics.GetSellersNumber();
@@ -34,7 +34,7 @@ namespace J6.Controllers
             ViewData["SolidItemsNumber"] = await _adminStatistics.GetSolidItemsNumber();
             ViewData["ViewedProductsNumber"] = await _adminStatistics.GetViewedProductsNumber();
             ViewData["SellingRate"] = await _adminStatistics.GetrateOfSViewedProducts();
-            return View(role);
+            return View();
         }
 
 

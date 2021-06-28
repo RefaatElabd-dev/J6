@@ -1,5 +1,6 @@
 ﻿using J6.DAL.Database;
 using J6.DAL.Entities;
+using J6.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -20,7 +21,7 @@ namespace J6.BL.Servises
         public async Task approveOrder(int CustomerId)
         {
             //Delete OrderProducts
-            Order order = _context.Orders.Where(O => O.CustimerId == CustomerId).OrderByDescending(O => O.Id).Take(1).First();
+            Order order = await _context.Orders.Where(O => O.CustimerId == CustomerId).OrderByDescending(O => O.Id).Take(1).FirstAsync();
             ICollection<ProdOrder> OrderProducts = await _context.ProdOrders.Where(p => p.OrderId == order.Id).ToListAsync();
             
             foreach (var item in OrderProducts)
@@ -114,5 +115,44 @@ namespace J6.BL.Servises
             return await _context.Products.Where(P => ids.Contains(P.Id)).ToListAsync();
         }
 
+        public async Task<IEnumerable<OrderWithProducts>> getAllProductsWithOrdersIdAsync(IEnumerable<int> orderIds)
+        {
+            List<OrderWithProducts> ordersWithProducts = new();
+            foreach (int item in orderIds)
+            {
+                IEnumerable<int> ids = await _context.ProdOrders.Where(O => O.OrderId == item).Select(O => O.ProductId).ToListAsync();
+                IEnumerable<Product>  products = await _context.Products.Where(P => ids.Contains(P.Id)).ToListAsync();
+                OrderWithProducts orderWithProducts = new OrderWithProducts
+                {
+                    OrderId = item,
+                    Products = products
+                };
+                ordersWithProducts.Add(orderWithProducts);
+            }
+            return ordersWithProducts;
+        }
+
+        public async Task<IEnumerable<OrderWithProducts>> getOrderProductsInStatusAsync(int customerId, int statusNumber)
+        {
+            OrderStatus status = OrderStatus.InProgress;
+            switch (statusNumber)
+            {
+                case 0:
+                    status = OrderStatus.InProgress;
+                    break;
+                case 1:
+                    status = OrderStatus.InDelivery;
+                    break;
+                case 2:
+                    status = OrderStatus.Done;
+                    break;
+                default:
+                    break;
+            }
+            IEnumerable<int> orderIds = await _context.Orders.Where(O => O.CustimerId == customerId && ((byte)O.Status) == ((byte)status)).Select(O => O.Id).ToListAsync();
+            if (orderIds != null)
+                return await getAllProductsWithOrdersIdAsync(orderIds);
+            return null;
+        }
     }
 }

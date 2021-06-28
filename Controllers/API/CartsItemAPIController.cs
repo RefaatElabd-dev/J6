@@ -166,6 +166,18 @@ namespace J6.Controllers.API
 
             return shoppingCart;
         }
+
+        //api/CartsItemAPi/DeleteCartProductsForCustomer/{id}
+        [HttpDelete("{id}")]
+        [Route("DeleteCartProductsForCustomer/{id}")]
+        public async Task<ActionResult> DeleteCartProductsForCustomer(int id)
+        {// customer id
+            int CartId = await _context.Carts.Where(l => l.CustimerId == id).Select(C=>C.Id).FirstOrDefaultAsync();
+            List<ProdCart> productsInCart = await _context.ProdCarts.Where(P => P.CartId == CartId).ToListAsync();
+            _context.ProdCarts.RemoveRange(productsInCart);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
         ////////////////////////////////////////////////////////////////////////
         //edit in cart edit quantity
         [HttpPut("{prodId}/{cartid}")]

@@ -1,6 +1,7 @@
 ﻿using J6.BL.Servises;
 using J6.DAL.Database;
 using J6.DAL.Entities;
+using J6.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace J6.Controllers.API
         }
 
         [HttpPost]
-        [Route("approveOrder")]
+        [Route("approveOrder/{CustomerId}")]
         public async Task approveOrder(int CustomerId)
         {
             await _orderServices.approveOrder(CustomerId);
@@ -66,6 +67,15 @@ namespace J6.Controllers.API
         {
             IEnumerable<Product> prodcts = await _orderServices.getAllProductsWithCustomerIdAsync(customerId);
             return prodcts == null ? NotFound("There are no Products For This User") :
+                                    Ok(prodcts);
+        }
+
+        [HttpGet]
+        [Route("getOrderProductsInStatus/{customerId}/{statusNumber}")]
+        public async Task<ActionResult<IEnumerable<OrderWithProducts>>> getOrderProductsInStatusAsync(int customerId, int statusNumber )
+        {
+            IEnumerable<OrderWithProducts> prodcts = await _orderServices.getOrderProductsInStatusAsync(customerId, statusNumber);
+            return prodcts == null ? NotFound("There are no Orders For This User") :
                                     Ok(prodcts);
         }
     }

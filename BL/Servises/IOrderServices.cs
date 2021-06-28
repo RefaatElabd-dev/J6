@@ -1,4 +1,5 @@
 ﻿using J6.DAL.Entities;
+using J6.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +18,6 @@ namespace J6.BL.Servises
         //#################New#####################
         public Task<IEnumerable<Product>> getAllProductsWithOrderIdAsync(int orderId);
         public Task<IEnumerable<Product>> getAllProductsWithCustomerIdAsync(int custommerId);
+        public Task<IEnumerable<OrderWithProducts>> getOrderProductsInStatusAsync(int customerId, int statusNumber);
     }
 }
