@@ -2,6 +2,7 @@
 using J6.BL.Servises;
 using J6.DAL.Database;
 using J6.DAL.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +34,7 @@ namespace J6.Controllers
         //{
         //    return View();
         //}
+        [Authorize(Roles ="Seller")]
         public async Task<IActionResult> GetSellerProduct(int id)
         {
             //seller id

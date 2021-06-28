@@ -1,104 +1,108 @@
-﻿@model IEnumerable<J6.DAL.Entities.Product>
+﻿@using Microsoft.AspNetCore.Identity;
+@using J6.DAL.Entities;
+@inject SignInManager<AppUser> signInManager
 
-    @{
+@model IEnumerable<J6.DAL.Entities.Product>
+
+@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Layout/SellerLayout.cshtml";
-    }
+}
 
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h2 class="text-center text-uppercase">List of Products</h2>
-                </div>
-                <div class="card-body">
-                    <div class="mb-2">
-                        @*<a asp-controller="Seller" asp-action="sellerAddProduct" class="btn btn-sm btn-primary text-uppercase p-3"><i class="fas fa-plus-circle fa-2x"></i></a>*@
-                        <a asp-controller="Products" asp-action="Create" class="btn btn-sm btn-primary text-uppercase p-3"><i class="fas fa-plus-circle fa-2x"></i></a>
-                    </div>
-                    <div class="table-responsive">
-                            <table class="table table-bordered table-striped text-center table-hover js-basic-example dataTable">
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h2 class="text-center text-uppercase">List of Products</h2>
+    </div>
+    <div class="card-body">
+        <div class="mb-2">
+            @*<a asp-controller="Seller" asp-action="sellerAddProduct" class="btn btn-sm btn-primary text-uppercase p-3"><i class="fas fa-plus-circle fa-2x"></i></a>*@
+            <a asp-controller="Products" asp-action="Create" class="btn btn-sm btn-primary text-uppercase p-3"><i class="fas fa-plus-circle fa-2x"></i></a>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped text-center table-hover js-basic-example dataTable">
 
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">
-                                            @Html.DisplayNameFor(model => model.Image)
-                                        </th>
-                                        <th class="text-center">
-                                            @Html.DisplayNameFor(model => model.ProductName)
-                                        </th>
-                                        <th class="text-center">
-                                            @Html.DisplayNameFor(model => model.Price)
-                                        </th>
-                                        <th class="text-center">
-                                            @Html.DisplayNameFor(model => model.material)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Model)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Subcategory.SubcategoryName)
-                                        </th>
-                                        <th class="text-center">
-                                            @Html.DisplayNameFor(model => model.Brand.BrandName)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Seller.UserName)
-                                        </th>
-                                        <th class="text-center">Operations</th>
-                                    </tr>
-                                </thead>
+                <thead>
+                    <tr>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.Image)
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.ProductName)
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.Price)
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.material)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Model)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Subcategory.SubcategoryName)
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.Brand.BrandName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Seller.UserName)
+                        </th>
+                        <th class="text-center">Operations</th>
+                    </tr>
+                </thead>
 
-                                <tbody>
+                <tbody>
 
-                                    @foreach (var item in Model)
-                                    {
-                                    <tr>
-                                        <td>
-                                            <img width="80" height="80" src="~/images/@item.Image"
-                                                 class="rounded-circle" alt="">
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ProductName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Price)
-                                        </td>
-                                        @*
-                                        <td style="min-width: 100px; max-width: 300px; overflow: hidden; text-overflow: ellipsis;">
-                                            @Html.DisplayFor(momodelItemdel => item.Description)
-                                        </td>*@
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.material)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Model)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Subcategory.SubcategoryName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Brand.BrandName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Seller.UserName)
-                                        </td>
-                                        <td class="container">
-                                            @*<a asp-controller="Seller" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info w-1 m-2 p-3"><i class="fa fa-info-circle fa-2x"></i></a>
-                                            <a asp-controller="Seller" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning w-1 m-2 p-3"><i class="fa fa-edit fa-2x"></i></a>
-                                            <a asp-controller="Seller" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger m-2 p-3"><i class="fa fa-trash fa-2x"></i></a>*@
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <img width="80" height="80" src="~/images/@item.Image"
+                                     class="rounded-circle" alt="">
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ProductName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Price)
+                            </td>
+                            @*
+                                <td style="min-width: 100px; max-width: 300px; overflow: hidden; text-overflow: ellipsis;">
+                                    @Html.DisplayFor(momodelItemdel => item.Description)
+                                </td>*@
+                            <td>
+                                @Html.DisplayFor(modelItem => item.material)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Model)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Subcategory.SubcategoryName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Brand.BrandName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Seller.UserName)
+                            </td>
+                            <td class="container">
+                                @*<a asp-controller="Seller" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info w-1 m-2 p-3"><i class="fa fa-info-circle fa-2x"></i></a>
+                                    <a asp-controller="Seller" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning w-1 m-2 p-3"><i class="fa fa-edit fa-2x"></i></a>
+                                    <a asp-controller="Seller" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger m-2 p-3"><i class="fa fa-trash fa-2x"></i></a>*@
 
-                                            <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info w-1 m-2 p-3"><i class="fa fa-info-circle fa-2x"></i></a>
-                                            <a asp-controller="Products" asp-action="PutSellerProduct" asp-route-id="@item.Id" class="btn btn-warning w-1 m-2 p-3"><i class="fa fa-edit fa-2x"></i></a>
-                                            <a asp-controller="Products" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger m-2 p-3"><i class="fa fa-trash fa-2x"></i></a>
+                                <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info w-1 m-2 p-3"><i class="fa fa-info-circle fa-2x"></i></a>
+                                <a asp-controller="Products" asp-action="PutSellerProduct" asp-route-id="@item.Id" class="btn btn-warning w-1 m-2 p-3"><i class="fa fa-edit fa-2x"></i></a>
+                                <a asp-controller="Products" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger m-2 p-3"><i class="fa fa-trash fa-2x"></i></a>
 
-                                        </td>
-                                    </tr>
-                                    }
-                                </tbody>
-                            </table>
-                    </div>
-                </div>
-            </div>
-    @section DataTableSection{
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section DataTableSection{
 
     <script>
         $(function () {
@@ -115,4 +119,4 @@
             });
         });
     </script>
-    }
+}

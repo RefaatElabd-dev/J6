@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity;
-@model string
+@using J6.DAL.Entities;
+@inject SignInManager<AppUser> signInManager
 @{
     ViewBag.Title = "Home";
 }
@@ -11,7 +12,7 @@
 
     <!-- Widgets -->
     <div class="row clearfix">
-        
+
         @*Product*@
         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <a asp-controller="Products" asp-action="Index">

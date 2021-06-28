@@ -80,16 +80,13 @@ namespace J6.Controllers
                 var user = await userManager.Users.SingleOrDefaultAsync(u => u.Email == model.Email.ToLower());
                 if (user == null) return Unauthorized("This UserName is not Exist");
 
-                //var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RemomberMe, false);
-
-                var result = await signInManager.CheckPasswordSignInAsync(user, model.Password, false);
-
-
+                var result = await signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RemomberMe, false);
+                 
                 if (result.Succeeded)
                 {
                     if (await userManager.IsInRoleAsync(user, "Admin"))
                     {
-                        return RedirectToAction("Index", "Home", "Admin");
+                        return RedirectToAction("Index", "Home");
                     }
                     else if (await userManager.IsInRoleAsync(user, "Seller"))
                     {
@@ -97,9 +94,8 @@ namespace J6.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("", "Invalid UserName Or Password Attempt, Or You Is In Rong Place");
+                        ModelState.AddModelError("", "Invalid UserName Or Password Attempt, Or You Is In Wrong Place");
                     }
-
                 }
                 else
                 {

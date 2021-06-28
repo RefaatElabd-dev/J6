@@ -1,10 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity;
+@using J6.DAL.Entities;
 
-
-@inject SignInManager<J6.DAL.Entities.AppUser> signInManager
-
-
-
+@inject SignInManager<AppUser> signInManager
 @{
     var Culture = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
 }
@@ -122,7 +119,7 @@
             @if (User.IsInRole("Admin"))
             {
                 <h5 style="font-size:16px;font-weight:600">
-                    Admin: Mahmoud Khaled
+                    Admin: @User.Identity.Name
                 </h5>
             }
             @if (User.IsInRole("Customer"))
@@ -144,7 +141,7 @@
                 </h5>
             }
             <h5 style="font-size: 16px; font-weight: 600; color: white;">
-                    Admin: Mahmoud Khaled
+                    Admin: @User.Identity.Name
                 </h5>
 
         </div>
