@@ -14,5 +14,7 @@ namespace J6.BL.Servises
         public Task<int> GetSellersNumber();
         public Task<int> GetSolidItemsNumber();
         public Task<int> GetProductsNumber();
+        public Task<int> GetNumberOfSolidProductsAsync();
+        public Task<int> GetNumberOfOrdersInStatusAsync(int statusNumber);
     }
 }

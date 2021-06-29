@@ -29,7 +29,6 @@ namespace J6.BL.Servises
                 Product product = _context.Products.FirstOrDefault(p => p.Id == item.ProductId);
                 product.SoldQuantities += item.quantity == 0 ? 1 : item.quantity;
                 _context.Products.Update(product);
-                _context.ProdOrders.Remove(item);
                 await _context.SaveChangesAsync();
             }
             //AddPaymentTransaction
@@ -95,7 +94,9 @@ namespace J6.BL.Servises
                 await _context.ProdOrders.AddAsync(ProductOrder);
                 await _context.SaveChangesAsync();
                 Product product = _context.Products.FirstOrDefault(p => p.Id == item.ProductId);
-                double productCost = product.Price * product.Discount == null ? 1.0 : double.Parse(product.Discount.ToString());
+                double productCost = product.Price * 
+                                    ((product.Discount == 0.0) ? 1.0 : product.Discount) *
+                                    ((item.quantity == 0) ? 1 : item.quantity);
                 CustomerOrder.OrderCost += productCost;
             }
 

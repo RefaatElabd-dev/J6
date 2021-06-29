@@ -258,11 +258,11 @@ namespace J6.Controllers
 
             foreach (var item in products)
             {
-                if (item.Discount != null)
+                if (item.Discount != 0)
                 {
                     if (!discount.Contains(item.Discount))
                     {
-                        if (item.Discount != null)
+                        if (item.Discount != 0)
                         {
                             discount.Add(item.Discount);
                         }
@@ -297,11 +297,11 @@ namespace J6.Controllers
 
             foreach (var item in products)
             {
-                if (item.Rating != null)
+                if (item.Rating != 0)
                 {
                     if (!rating.Contains(item.Rating))
                     {
-                        if (item.Rating != null)
+                        if (item.Rating != 0)
                         {
                             rating.Add(item.Rating);
                         }

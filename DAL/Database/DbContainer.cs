@@ -67,14 +67,6 @@ namespace J6.DAL.Database
                 entity.Property(e => e.OrderDate)
                     .HasColumnType("date")
                     .HasColumnName("orderDate");
-
-                entity.Property(e => e.Paymentid)
-                    .HasMaxLength(50)
-                    .HasColumnName("paymentid");
-
-                entity.Property(e => e.ShippingDate)
-                    .HasColumnType("date")
-                    .HasColumnName("shippingDate");
             });
 
             builder.Entity<Category>(entity =>
@@ -129,6 +121,11 @@ namespace J6.DAL.Database
 
                 entity.Property(e => e.ProductId).HasColumnName("productId");
 
+                entity.Property(e => e.quantity)
+                       .HasColumnType("int")
+                       .HasDefaultValue(1)
+                       .ValueGeneratedOnAdd();
+
                 entity.HasOne(d => d.Cart)
                     .WithMany(p => p.ProdCarts)
                     .HasForeignKey(d => d.CartId)
@@ -152,6 +149,11 @@ namespace J6.DAL.Database
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_prod_order_Orders");
 
+                entity.Property(e => e.quantity)
+                       .HasColumnType("int")
+                       .HasDefaultValue(1)
+                       .ValueGeneratedOnAdd();
+
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.ProdOrders)
                     .HasForeignKey(d => d.OrderId)
@@ -167,6 +169,16 @@ namespace J6.DAL.Database
                        .HasDefaultValueSql("GETDATE()")
                        .ValueGeneratedOnAdd()
                        .HasColumnName("createdAt");
+
+                entity.Property(e => e.Rating)
+                       .HasColumnType("float")
+                       .HasDefaultValue(3.8)
+                       .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.Discount)
+                       .HasColumnType("float")
+                       .HasDefaultValue(0)
+                       .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.Ship)
                     .HasMaxLength(50)

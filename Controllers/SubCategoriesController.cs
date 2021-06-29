@@ -18,13 +18,11 @@ namespace J6.Controllers
     {
         private readonly DbContainer _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public SubCategoriesController(DbContainer context, IWebHostEnvironment hostEnvironment, IHostingEnvironment hostingEnvironment)
+        public SubCategoriesController(DbContainer context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
             _webHostEnvironment = hostEnvironment;
-            _hostingEnvironment = hostingEnvironment;
 
         }
 
@@ -156,7 +154,7 @@ namespace J6.Controllers
                 {
                     if (model.Image != null)
                     {
-                        string filepath = Path.Combine(_hostingEnvironment.WebRootPath, "images", model.Image.ToString());
+                        string filepath = Path.Combine(_webHostEnvironment.WebRootPath, "images", model.Image.ToString());
                         System.IO.File.Delete(filepath);
                     }
                     subCategory.Image = UploadedFile(model);

@@ -17,13 +17,11 @@ namespace J6.Controllers
     public class CategoriesController : Controller
     {
         private readonly DbContainer _context;
-        private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IWebHostEnvironment webHostEnvironment;
-        public CategoriesController(DbContainer context, IWebHostEnvironment hostEnvironment, IHostingEnvironment hostingEnvironment)
+        public CategoriesController(DbContainer context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
             webHostEnvironment = hostEnvironment;
-            _hostingEnvironment = hostingEnvironment;
 
         }
 
@@ -150,7 +148,7 @@ namespace J6.Controllers
                 {
                     if (model.Image != null)
                     {
-                        string filepath = Path.Combine(_hostingEnvironment.WebRootPath, "images", model.Image.ToString());
+                        string filepath = Path.Combine(webHostEnvironment.WebRootPath, "images", model.Image.ToString());
                         System.IO.File.Delete(filepath);
                     }
                     category.Image = UploadedFile(model);

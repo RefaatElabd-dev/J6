@@ -20,5 +20,7 @@ namespace J6.BL.Servises
         public Task<Review> EditReviewAsync(ReviewModel reviewModel);
         public Task<IEnumerable<Review>> GetAllReviewsOfProductAsync(int productId);
         public Task<IEnumerable<Review>> GetAllReviewsOfCustomerAsync(int customerId);
+        public Task<double> GetProductRatingAsync(int productId);
+        public Task<double> EditProductRatingAsync(int productId);
     }
 }

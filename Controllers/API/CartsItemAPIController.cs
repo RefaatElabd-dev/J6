@@ -122,36 +122,22 @@ namespace J6.Controllers.API
         }
 
         //////////////////////////////////////////////////////////////
+        //api/CartsItemAPI/priceOfcart/{cartId}
         [HttpGet("{cartListID}")]
-        [Route("priceofcart/{cartListID}")]
-        public async Task<ActionResult> GetShoppingCartTotalPrice(int cartListID)
-        {//id is cart id
-
-            double? totalPrice = 0;
-            var CartItems =await _context.ProdCarts.Where(a => a.CartId == cartListID).ToArrayAsync();
-
-            foreach (var item in CartItems)
+        [Route("priceOfcart/{cartId}")]
+        public async Task<ActionResult> GetShoppingCartTotalPrice(int cartId)
+        {
+            double totalPrice = 0;
+            ICollection<ProdCart> cartProducts = await _context.ProdCarts.Where(C => C.CartId == cartId).ToListAsync();
+            foreach (var item in cartProducts)
             {
-                var productsincart =await _context.Products.FirstOrDefaultAsync(a => a.Id == item.ProductId);
-                var element = await _context.ProdCarts.FirstOrDefaultAsync(a => a.ProductId == productsincart.Id);
-                
-                    for (int i = 0; i < element.quantity; i++)
-                { 
-                    if (productsincart.Discount != null)
-                    {
-                        totalPrice +=( 1 -productsincart.Discount )* productsincart.Price;
-                    }
-                    else
-                    {
-                            totalPrice += productsincart.Price;
-
-                    }
-                }
-
-               
-              
-
+                Product product = _context.Products.FirstOrDefault(p => p.Id == item.ProductId);
+                double productCost = product.Price *
+                                    ((product.Discount == 0.0) ? 1.0 : product.Discount) *
+                                    ((item.quantity == 0) ? 1 : item.quantity);
+                totalPrice += productCost;
             }
+            totalPrice = ((int)(totalPrice * 100)) / 100.0;
 
             return Ok(totalPrice);
         }

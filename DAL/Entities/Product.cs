@@ -20,9 +20,10 @@ namespace J6.DAL.Entities
         public Size Size { get; set; }
         public string ProductName { get; set; }
         public string Model { get; set; }
-        public double? Rating { get; set; }
+        [Range(1.0, 5.0)]
+        public double Rating { get; set; } = 3.8;
         [Range(0.0, 0.99)]
-        public double? Discount { get; set; }
+        public double Discount { get; set; } = 0;
         public string Description { get; set; }
         public ShappedType Ship { get; set; } = ShappedType.InBoards;
         public DateTime? CreatedAt { get; set; }

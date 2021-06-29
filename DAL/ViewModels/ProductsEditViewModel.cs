@@ -22,8 +22,8 @@ namespace J6.DAL.ViewModels
         public Size Size { get; set; }
         public string ProductName { get; set; }
         public string Model { get; set; }
-        public double? Rating { get; set; }
-        public double? Discount { get; set; }
+        public double Rating { get; set; }
+        public double Discount { get; set; }
         public string Description { get; set; }
         public ShappedType Ship { get; set; }
         public DateTime? CreatedAt { get; set; }

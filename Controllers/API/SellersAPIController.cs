@@ -41,11 +41,12 @@ namespace J6.Controllers
                 FirstName = registerDto.FirstName,
                 LastName = registerDto.LastName,
                 Email = registerDto.Email,
-                PhoneNumber = registerDto.PhoneNumber,
-                IsActive = false
+                PhoneNumber = registerDto.PhoneNumber
             };
             var result = await userManager.CreateAsync(user, registerDto.Password);
             if (!result.Succeeded) return BadRequest(result.Errors);
+            user.IsActive = false;
+            await userManager.UpdateAsync(user);
             await userManager.AddToRoleAsync(user, "Seller");
             return new UserDto
             {

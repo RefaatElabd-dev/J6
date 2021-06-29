@@ -18,13 +18,11 @@ namespace J6.Controllers
     {
         private readonly DbContainer _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public ProductsController(DbContainer context, IWebHostEnvironment hostEnvironment, IHostingEnvironment hostingEnvironment)
+        public ProductsController(DbContainer context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
             _webHostEnvironment = hostEnvironment;
-            _hostingEnvironment = hostingEnvironment;
         }
 
         // GET: Products
@@ -220,7 +218,7 @@ namespace J6.Controllers
                 {
                     if (promodel.Image != null)
                     {
-                        string filepath = Path.Combine(_hostingEnvironment.WebRootPath, "images", promodel.Image.ToString());
+                        string filepath = Path.Combine(_webHostEnvironment.WebRootPath, "images", promodel.Image.ToString());
                         System.IO.File.Delete(filepath);
                     }
                     product.Image = UploadedFile(promodel);

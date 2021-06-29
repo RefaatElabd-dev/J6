@@ -4,14 +4,16 @@ using J6.DAL.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace J6.Migrations
 {
     [DbContext(typeof(DbContainer))]
-    partial class DbContainerModelSnapshot : ModelSnapshot
+    [Migration("20210629112241_SmallFixes")]
+    partial class SmallFixes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -367,9 +369,7 @@ namespace J6.Migrations
                         .HasColumnName("productId");
 
                     b.Property<int>("quantity")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(1);
+                        .HasColumnType("int");
 
                     b.HasKey("CartId", "ProductId");
 
@@ -385,9 +385,7 @@ namespace J6.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("quantity")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(1);
+                        .HasColumnType("int");
 
                     b.HasKey("OrderId", "ProductId");
 
@@ -420,9 +418,7 @@ namespace J6.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Discount")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("float")
-                        .HasDefaultValue(0.0);
+                        .HasColumnType("float");
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
@@ -446,9 +442,7 @@ namespace J6.Migrations
                         .HasColumnType("int");
 
                     b.Property<double>("Rating")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("float")
-                        .HasDefaultValue(3.7999999999999998);
+                        .HasColumnType("float");
 
                     b.Property<int?>("SellerId")
                         .HasColumnType("int");

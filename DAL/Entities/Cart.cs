@@ -16,9 +16,7 @@ namespace J6.DAL.Entities
        
         [Key]
         public int Id { get; set; }
-        public string Paymentid { get; set; }
         public DateTime? OrderDate { get; set; }
-        public DateTime? ShippingDate { get; set; }
         public int? Cost { get; set; }
         public int CustimerId { get; set; }
         public virtual ICollection<ProdCart> ProdCarts { get; set; }

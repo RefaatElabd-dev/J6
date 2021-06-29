@@ -306,6 +306,38 @@ namespace J6.Controllers
             return Ok(await _products.GetAllReviewsOfCustomerAsync(customerId));
         }
 
+        [HttpPut]
+        [Route("EditProductRating/{productId}")]
+        // api/ProductsAPi/EditProductRating/{productId}
+        public async Task<ActionResult<double>> EditProductRatingAsync(int productId)
+        {
+            try
+            {
+                double ProductRate = await _products.EditProductRatingAsync(productId);
+                return Ok(ProductRate);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetProductRating/{productId}")]
+        // api/ProductsAPi/GetProductRating/{productId}
+        public async Task<ActionResult<double>> GetProductRatingAsync(int productId)
+        {
+            try
+            {
+                double ProductRate = await _products.GetProductRatingAsync(productId);
+                return Ok(ProductRate);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         //----------------------------------------------------------------------------------------
 
 
@@ -379,12 +411,10 @@ namespace J6.Controllers
         // GET: api/Products/mouse
         [HttpGet("{productname}")]
         [Route("GetProductByName/{id:int}") ]
-
         public async Task<ActionResult<ProductDto>> GetProductByName(string productname)
         {
             var product = await _productRepository.GetProdByNameAsync(productname);
             return _mapper.Map<ProductDto>(product);
-
         }
 
     }

@@ -1,6 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Identity;
 @using J6.DAL.Entities;
 @inject SignInManager<AppUser> signInManager
+@inject UserManager<AppUser> userManager
+@{ 
+    AppUser CurrentUser = await userManager.FindByNameAsync(User.Identity.Name);
+}
 @{
     ViewBag.Title = "Home";
 }
@@ -12,7 +16,22 @@
 
     <!-- Widgets -->
     <div class="row clearfix">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a asp-controller="Products" asp-action="Index">
+                <div class="info-box bg-pink hover-expand-effect">
+                    <div class="icon">
+                        <i class="fa fa-gifts"></i>
+                    </div>
 
+                    <div class="content">
+                        <div class="text">Product</div>
+                        <div class="text">@CurrentUser.Id</div>
+                        <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20"></div>
+                    </div>
+
+                </div>
+            </a>
+        </div>
         @*Product*@
         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <a asp-controller="Products" asp-action="Index">
