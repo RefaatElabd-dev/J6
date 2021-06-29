@@ -48,7 +48,7 @@
                                     @Html.DisplayNameFor(model => model.Brand.BrandName)
                                 </th >
                                 <th>
-                                    @Html.DisplayNameFor(model => model.Seller.UserName)
+                                    @Html.DisplayNameFor(model => model.SellerId)
                                 </th>
                                 <th class="text-center">Operations</th>
                             </tr>
@@ -85,7 +85,7 @@
                                     @Html.DisplayFor(modelItem => item.Brand.BrandName)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Seller.UserName)
+                                    @Html.DisplayFor(modelItem => item.SellerId)
                                 </td>
                                 <td class="container">
                                     <a asp-action="Details"  asp-route-id="@item.Id" class="btn btn-info w-1 m-2 p-3"><i class="fa fa-info-circle fa-2x"></i></a>

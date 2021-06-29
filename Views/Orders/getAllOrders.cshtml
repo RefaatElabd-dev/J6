@@ -1,0 +1,105 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using J6.DAL.Entities;
+@inject SignInManager<AppUser> signInManager
+
+@model IEnumerable<J6.DAL.Entities.Order>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Layout/MainLayout.cshtml";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h2 class="text-center text-uppercase">List of Products</h2>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered text-center table-hover js-basic-example dataTable"sstyle="width:800px">
+
+                <thead>
+                    <tr style="width:100%">
+                        <th class="text-center" style="width:100px">
+                            @Html.DisplayNameFor(model => model.Id)
+                        </th>
+                        <th class="text-center" style="width: 100px">
+                            @Html.DisplayNameFor(model => model.CustimerId)
+                        </th>
+                        <th class="text-center" style="width: 100px">
+                            @Html.DisplayNameFor(model => model.OrderCost)
+                        </th>
+                        <th style="width: 100px">
+                            @Html.DisplayNameFor(model => model.Status)
+                        </th>
+                        <th style="width: 100px">
+                            All Status
+                        </th>
+                        <th class="text-center" style="width:100px">Handle Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                    <tr style="width:100%;background-color: @(item.Status.ToString() == "InProgress" ? "pink" : (item.Status.ToString() == "InDelivery"?"lightblue":"lightgreen"))">
+                        <td style="width:100px">
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td style="width:100px">
+                            @Html.DisplayFor(modelItem => item.CustimerId)
+                        </td>
+                        <td style="width:100px">
+                            @Html.DisplayFor(modelItem => item.OrderCost)
+                        </td>
+                        <td style="width:100px">
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+                        <td style="width:100px">
+                            @ViewBag.OrderStatus
+                        </td>
+                        <td class="container" style="width:100px">
+                            <form method="get" asp-controller="Orders" asp-action="HandleAdminStatus" asp-route-id="@item.Id">
+                                <input type="submit" value="Change Status" class="btn btn-success m-2 p-3" />
+                            </form>
+                            @*<a asp-controller="Orders" asp-action="HandleAdminStatus" asp-route-id="@item.Id" class="btn btn-success w-1 m-2 p-3"><i class="fa fa-cogs fa-2x"></i></a>*@
+
+                            @*@if (item.Status.ToString() == "InProgress")
+            {
+                @Html.ActionLink("Change To Done", "HandleAdminStatus", "Orders", new { id = item.Id, statusNumber=2 }
+
+                , new { @class = "btn btn-success" })
+            }
+            else
+            {
+                @Html.ActionLink("Change To InProgress", "HandleAdminStatus", "Orders", new { id = item.Id, statusNumber = 0 }
+
+                , new { @class = "btn btn-danger" })
+            }*@
+
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section DataTableSection{
+
+    <script>
+        $(function () {
+            $('.js-basic-example').DataTable({
+                responsive: true,
+                paging: true,
+                pageLength: 3,
+                bSort: true,
+                bFilter: true,
+                //bLengthChange: false,
+                //bInfo: false,
+                lengthMenu: [[3, 5, 10, 25, 50, -1], [3, 5, 10, 25, 50, "All"]],
+
+            });
+        });
+    </script>
+}

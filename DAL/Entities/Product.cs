@@ -31,7 +31,7 @@ namespace J6.DAL.Entities
         public DateTime? DeletedAt { get; set; }
         public string material { set; get; }
 
-        public int? SellerId { get; set; }
+        public int SellerId { get; set; }
         [ForeignKey("SellerId")]
         [JsonIgnore]
         public virtual AppUser Seller { get; set; }
