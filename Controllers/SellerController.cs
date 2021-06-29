@@ -268,12 +268,13 @@ namespace J6.Controllers
         // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id, ProductsEditViewModel promodel,AppUser user)
+        public async Task<IActionResult> DeleteConfirmed(int id,AppUser user)
         {
             var product = await _context.Products.FindAsync(id);
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
-            return RedirectToAction("GetSellerProduct", new { user.Id });
+            AppUser CurrentUser = await userManager.FindByNameAsync(User.Identity.Name);
+            return RedirectToAction("GetSellerProduct", new { CurrentUser.Id });
         }
     }
 }
