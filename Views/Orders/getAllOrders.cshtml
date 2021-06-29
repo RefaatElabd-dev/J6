@@ -19,7 +19,7 @@
 
                 <thead>
                     <tr style="width:100%">
-                        <th class="text-center"  style="width:100px">
+                        <th class="text-center" style="width:100px">
                             @Html.DisplayNameFor(model => model.Id)
                         </th>
                         <th class="text-center" style="width: 100px">
@@ -30,6 +30,9 @@
                         </th>
                         <th style="width: 100px">
                             @Html.DisplayNameFor(model => model.Status)
+                        </th>
+                        <th style="width: 100px">
+                            All Status
                         </th>
                         <th class="text-center" style="width:100px">Handle Status</th>
                     </tr>
@@ -44,7 +47,7 @@
                             @Html.DisplayFor(modelItem => item.Id)
                         </td>
                         <td style="width:100px">
-                        @Html.DisplayFor(modelItem => item.CustimerId)
+                            @Html.DisplayFor(modelItem => item.CustimerId)
                         </td>
                         <td style="width:100px">
                             @Html.DisplayFor(modelItem => item.OrderCost)
@@ -52,24 +55,27 @@
                         <td style="width:100px">
                             @Html.DisplayFor(modelItem => item.Status)
                         </td>
+                        <td style="width:100px">
+                            @ViewBag.OrderStatus
+                        </td>
                         <td class="container" style="width:100px">
-                            @*<form method="post" asp-controller="Orders" asp-action="HandleAdminStatus" asp-route-id="@item.Id" asp-route-statusNumber="2">
+                            <form method="get" asp-controller="Orders" asp-action="HandleAdminStatus" asp-route-id="@item.Id">
                                 <input type="submit" value="Change Status" class="btn btn-success m-2 p-3" />
-                            </form>*@
+                            </form>
                             @*<a asp-controller="Orders" asp-action="HandleAdminStatus" asp-route-id="@item.Id" class="btn btn-success w-1 m-2 p-3"><i class="fa fa-cogs fa-2x"></i></a>*@
 
-                            @if (item.Status.ToString() == "InProgress")
-                            {
-                                @Html.ActionLink("Change To Done", "HandleAdminStatus", "Orders", new { id = item.Id, statusNumber=2 }
+                            @*@if (item.Status.ToString() == "InProgress")
+            {
+                @Html.ActionLink("Change To Done", "HandleAdminStatus", "Orders", new { id = item.Id, statusNumber=2 }
 
-                                , new { @class = "btn btn-success" })
-                            }
-                            else
-                            {
-                                @Html.ActionLink("Change To InProgress", "HandleAdminStatus", "Orders", new { id = item.Id, statusNumber = 0 }
+                , new { @class = "btn btn-success" })
+            }
+            else
+            {
+                @Html.ActionLink("Change To InProgress", "HandleAdminStatus", "Orders", new { id = item.Id, statusNumber = 0 }
 
-                                , new { @class = "btn btn-danger" })
-                            }
+                , new { @class = "btn btn-danger" })
+            }*@
 
                         </td>
                     </tr>
