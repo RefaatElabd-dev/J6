@@ -40,11 +40,6 @@ namespace J6.DAL.ViewModels
         [ForeignKey("Brands")]
         public int? BrandId { get; set; }
         public virtual Brand Brand { get; set; }
-
-        [ForeignKey("Promotion")]
-        public int? PromotionId { get; set; }
-        public virtual Promotion Promotion { get; set; }
-
         [ForeignKey("Subcategory")]
         public int? SubcategoryId { get; set; }
         public virtual SubCategory Subcategory { get; set; }

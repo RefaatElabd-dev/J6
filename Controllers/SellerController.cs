@@ -26,16 +26,14 @@ namespace J6.Controllers
         private readonly UserManager<AppUser> userManager;
         private readonly IMapper mapper;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public SellerController(UserManager<AppUser> userManager, IMapper mapper, DbContainer context, ITokenServices tokenService, IWebHostEnvironment hostEnvironment, IHostingEnvironment hostingEnvironment)
+        public SellerController(UserManager<AppUser> userManager, IMapper mapper, DbContainer context, ITokenServices tokenService, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
             _tokenService = tokenService;
             this.userManager = userManager;
             this.mapper = mapper;
             _webHostEnvironment = hostEnvironment;
-            _hostingEnvironment = hostingEnvironment;
         }
 
         // GET: SellerController
@@ -46,7 +44,7 @@ namespace J6.Controllers
             var Sellers = await userManager.GetUsersInRoleAsync("Seller");
             var Seller = Sellers.SingleOrDefault(S => S.Id == id);
             if (Seller == null) return NotFound("No Seller Matched");
-            var product = await _context.Products.Where(q => q.SellerId == Seller.Id).Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).Include(y=>y.Subcategory).Include(y=>y.Brand).Include(y=>y.Subcategory.Category).ToListAsync();
+            var product = await _context.Products.Where(q => q.SellerId == Seller.Id).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).Include(y=>y.Subcategory).Include(y=>y.Brand).Include(y=>y.Subcategory.Category).ToListAsync();
             if (product == null)
             {
                 return NotFound();
@@ -58,14 +56,13 @@ namespace J6.Controllers
         // GET: SellerController/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
+            if (id == 0)
             {
                 return NotFound();
             }
 
             var product = await _context.Products
                 .Include(p => p.Brand)
-                .Include(p => p.Promotion)
                 .Include(p => p.Subcategory)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
@@ -80,7 +77,6 @@ namespace J6.Controllers
         public ActionResult sellerAddProduct()
         {
             ViewData["BrandId"] = new SelectList(_context.Brands, "BrandId", "BrandName");
-            ViewData["PromotionId"] = new SelectList(_context.Promotions, "PromotionId", "PromotionId");
             ViewData["SubcategoryId"] = new SelectList(_context.SubCategories, "SubcategoryId", "SubcategoryName");
             ViewData["SellerId"] = new SelectList(_context.Users, "Id", "UserName");
 
@@ -107,7 +103,6 @@ namespace J6.Controllers
                     material = promodel.material,
                     SellerId = promodel.SellerId,
                     BrandId = promodel.BrandId,
-                    PromotionId = promodel.PromotionId,
                     SubcategoryId = promodel.SubcategoryId,
                     Manufacture = promodel.Manufacture,
                     CreatedAt = DateTime.Now,
@@ -122,7 +117,6 @@ namespace J6.Controllers
 
             }
             ViewData["BrandId"] = new SelectList(_context.Brands, "BrandId", "BrandName");
-            ViewData["PromotionId"] = new SelectList(_context.Promotions, "PromotionId", "PromotionId", promodel.PromotionId);
             ViewData["SubcategoryId"] = new SelectList(_context.SubCategories, "SubcategoryId", "SubcategoryName");
             ViewData["SellerId"] = new SelectList(_context.Users, "Id", "UserName");
 
@@ -179,7 +173,6 @@ namespace J6.Controllers
                 material = product.material,
                 SellerId = product.SellerId,
                 BrandId = product.BrandId,
-                PromotionId = product.PromotionId,
                 SubcategoryId = product.SubcategoryId,
                 Manufacture = product.Manufacture,
                 CreatedAt = DateTime.Now,
@@ -187,7 +180,6 @@ namespace J6.Controllers
                 Description = product.Description,
             };
             ViewData["BrandId"] = new SelectList(_context.Brands, "BrandId", "BrandName");
-            ViewData["PromotionId"] = new SelectList(_context.Promotions, "PromotionId", "PromotionId", product.PromotionId);
             ViewData["SubcategoryId"] = new SelectList(_context.SubCategories, "SubcategoryId", "SubcategoryName");
 
             return View(viewModel);
@@ -219,7 +211,6 @@ namespace J6.Controllers
                 product.material = promodel.material;
                 product.SellerId = promodel.SellerId;
                 product.BrandId = promodel.BrandId;
-                product.PromotionId = promodel.PromotionId;
                 product.SubcategoryId = promodel.SubcategoryId;
                 product.Manufacture = promodel.Manufacture;
                 product.CreatedAt = DateTime.Now;
@@ -230,7 +221,7 @@ namespace J6.Controllers
                 {
                     if (promodel.Image != null)
                     {
-                        string filepath = Path.Combine(_hostingEnvironment.WebRootPath, "images", promodel.Image.ToString());
+                        string filepath = Path.Combine(_webHostEnvironment.WebRootPath, "images", promodel.Image.ToString());
                         System.IO.File.Delete(filepath);
                     }
                     product.Image = UploadedFile(promodel);
@@ -240,7 +231,6 @@ namespace J6.Controllers
                 return RedirectToAction("GetSellerProduct", new { id = promodel.SellerId });
             }
             ViewData["BrandId"] = new SelectList(_context.Brands, "BrandId", "BrandName");
-            ViewData["PromotionId"] = new SelectList(_context.Promotions, "PromotionId", "PromotionId", promodel.PromotionId);
             ViewData["SubcategoryId"] = new SelectList(_context.SubCategories, "SubcategoryId", "SubcategoryName");
             return View();
         }
@@ -255,7 +245,6 @@ namespace J6.Controllers
 
             var product = await _context.Products
                 .Include(p => p.Brand)
-                .Include(p => p.Promotion)
                 .Include(p => p.Subcategory)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)

@@ -127,7 +127,7 @@ namespace J6.Controllers
             var Sellers = await userManager.GetUsersInRoleAsync("Seller");
             var Seller = Sellers.SingleOrDefault(S => S.Id == id);
             if (Seller == null) return NotFound("No Seller Matched");
-            var product = await _context.Products.Where(q => q.SellerId == Seller.Id).Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).ToListAsync();
+            var product = await _context.Products.Where(q => q.SellerId == Seller.Id).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).ToListAsync();
             if (product == null)
             {
                 return NotFound();

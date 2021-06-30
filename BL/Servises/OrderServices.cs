@@ -72,7 +72,8 @@ namespace J6.BL.Servises
         public async Task SwitchCartToOrder(int CustomerId)
         {
             //Get Customer Cart
-            int CartId = _context.Carts.Where(c => c.CustimerId == CustomerId).Select(c => c.Id).FirstOrDefault();
+            Cart Cart = _context.Carts.Where(c => c.CustimerId == CustomerId).FirstOrDefault();
+            int CartId = Cart.Id;
             if(CartId == 0) throw new Exception("This User Hasn't a cart products yet Pick some products and return again!");
            
             //Get All Customer Cart Products
@@ -93,13 +94,8 @@ namespace J6.BL.Servises
                 };
                 await _context.ProdOrders.AddAsync(ProductOrder);
                 await _context.SaveChangesAsync();
-                Product product = _context.Products.FirstOrDefault(p => p.Id == item.ProductId);
-                double productCost = product.Price * 
-                                    ((product.Discount == 0.0) ? 1.0 : product.Discount) *
-                                    ((item.quantity == 0) ? 1 : item.quantity);
-                CustomerOrder.OrderCost += productCost;
             }
-
+            CustomerOrder.OrderCost = Cart.Cost;
             _context.Orders.Update(CustomerOrder);
             await _context.SaveChangesAsync();
         }

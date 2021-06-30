@@ -155,15 +155,11 @@ namespace J6.Controllers
         public async Task<ActionResult<IEnumerable<Product>>> getProductsOFSubcategory(int id)
         {
             List<Product> highproducts = new List<Product>();
-            var productss = await _context.Products.Where(q => q.SubcategoryId == id).Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).ToListAsync();
+            var productss = await _context.Products.Where(q => q.SubcategoryId == id).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).ToListAsync();
 
             for (int i = 0; i < 10; i++)
             {
-
-
                 highproducts.Add(productss[i]);
-
-
             }
             return highproducts;
         }

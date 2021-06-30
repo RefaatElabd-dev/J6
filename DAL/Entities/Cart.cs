@@ -9,15 +9,10 @@ namespace J6.DAL.Entities
 {
     public class Cart
     {
-        public Cart()
-        {
-            ProdCarts = new HashSet<ProdCart>();
-        }
-       
         [Key]
         public int Id { get; set; }
         public DateTime? OrderDate { get; set; }
-        public int? Cost { get; set; }
+        public double Cost { get; set; }
         public int CustimerId { get; set; }
         public virtual ICollection<ProdCart> ProdCarts { get; set; }
         [ForeignKey("CustimerId")]

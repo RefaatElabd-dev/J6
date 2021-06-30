@@ -71,7 +71,7 @@ namespace J6.BL.Servises
                 return products;
             }
 
-            products = await _context.Products.Where(p => p.Id == ProductId).Include(p => p.Promotion).Take(17).ToListAsync();
+            products = await _context.Products.Where(p => p.Id == ProductId).Take(17).ToListAsync();
 
             if (products.Count() < 17)
             {

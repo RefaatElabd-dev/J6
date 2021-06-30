@@ -31,7 +31,7 @@ namespace J6.DAL.ViewModels
         public DateTime? DeletedAt { get; set; }
         public string material { set; get; }
 
-        public int SellerId { get; set; }
+        public int? SellerId { get; set; }
         [ForeignKey("SellerId")]
         public virtual AppUser Seller { get; set; }
 
@@ -39,10 +39,6 @@ namespace J6.DAL.ViewModels
         [ForeignKey("Brands")]
         public int? BrandId { get; set; }
         public virtual Brand Brand { get; set; }
-
-        [ForeignKey("Promotion")]
-        public int? PromotionId { get; set; }
-        public virtual Promotion Promotion { get; set; }
 
         [ForeignKey("Subcategory")]
         public int? SubcategoryId { get; set; }

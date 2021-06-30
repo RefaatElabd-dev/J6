@@ -123,28 +123,43 @@ namespace J6.Controllers.API
 
         //////////////////////////////////////////////////////////////
         //api/CartsItemAPI/priceOfcart/{cartId}
+
         [HttpGet("{cartListID}")]
-        [Route("priceOfcart/{cartId}")]
-        public async Task<ActionResult> GetShoppingCartTotalPrice(int cartId)
+        [Route("priceofcart/{cartListID}")]
+        public async Task<ActionResult> GetShoppingCartTotalPrice(int cartListID)
         {
             double totalPrice = 0;
-            ICollection<ProdCart> cartProducts = await _context.ProdCarts.Where(C => C.CartId == cartId).ToListAsync();
-            foreach (var item in cartProducts)
+            var CartItems = await _context.ProdCarts.Where(a => a.CartId == cartListID).ToArrayAsync();
+
+            foreach (var item in CartItems)
             {
-                Product product = _context.Products.FirstOrDefault(p => p.Id == item.ProductId);
-                double productCost = product.Price *
-                                    ((product.Discount == 0.0) ? 1.0 : product.Discount) *
-                                    ((item.quantity == 0) ? 1 : item.quantity);
-                totalPrice += productCost;
+                var productsincart = await _context.Products.FirstOrDefaultAsync(a => a.Id == item.ProductId);
+                var element = await _context.ProdCarts.FirstOrDefaultAsync(a => a.ProductId == productsincart.Id);
+
+                for (int i = 0; i < element.quantity; i++)
+                {
+                    if (productsincart.Discount != 0)
+                    {
+                        totalPrice += (1 - productsincart.Discount) * productsincart.Price;
+                    }
+                    else
+                    {
+                        totalPrice += productsincart.Price;
+                    }
+                }
             }
             totalPrice = ((int)(totalPrice * 100)) / 100.0;
 
+            Cart cart = await _context.Carts.FirstOrDefaultAsync(c => c.Id == cartListID);
+            cart.Cost = totalPrice;
+            _context.Carts.Update(cart);
+            await _context.SaveChangesAsync();
             return Ok(totalPrice);
         }
 
-        ////////////////////////////////////////////////////////////
-        // to get  cart for specific customer
-        [HttpGet("{id}")]
+            ////////////////////////////////////////////////////////////
+            // to get  cart for specific customer
+            [HttpGet("{id}")]
         [Route("getcartforCustomer/{id}")]
         public async Task<ActionResult<Cart>> GetShoppingCart(int id)
         {// customer id

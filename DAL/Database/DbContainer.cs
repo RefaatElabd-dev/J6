@@ -26,7 +26,6 @@ namespace J6.DAL.Database
         public virtual DbSet<ProdCart> ProdCarts { get; set; }
         public virtual DbSet<ProdOrder> ProdOrders { get; set; }
         public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<Promotion> Promotions { get; set; }
         public virtual DbSet<Review> Reviews { get; set; }
         public virtual DbSet<SubCategory> SubCategories { get; set; }
         public virtual DbSet<View> Views { get; set; }
@@ -63,7 +62,12 @@ namespace J6.DAL.Database
             builder.Entity<Cart>(entity =>
             {
                 entity.ToTable("cart");
-                entity.Property(e => e.Cost).HasColumnName("cost");
+
+                entity.Property(e => e.Cost)
+                      .HasColumnType("float")
+                      .HasDefaultValue(0.0)
+                      .ValueGeneratedOnAdd();
+
                 entity.Property(e => e.OrderDate)
                     .HasColumnType("date")
                     .HasColumnName("orderDate");
@@ -188,11 +192,6 @@ namespace J6.DAL.Database
                     .HasMaxLength(10)
                     .HasColumnName("size")
                     .IsFixedLength(true);
-
-                entity.HasOne(d => d.Promotion)
-                    .WithMany(p => p.Products)
-                    .HasForeignKey(d => d.PromotionId)
-                    .HasConstraintName("FK_product_Promotions");
 
                 entity.HasOne(d => d.Subcategory)
                     .WithMany(p => p.Products)
