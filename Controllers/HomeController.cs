@@ -30,6 +30,10 @@ namespace J6.Controllers
             ViewData["SolidItemsNumber"] = await _adminStatistics.GetSolidItemsNumber();
             ViewData["ViewedProductsNumber"] = await _adminStatistics.GetViewedProductsNumber();
             ViewData["SellingRate"] = await _adminStatistics.GetrateOfSViewedProducts();
+            ViewData["InProgress"] = await _adminStatistics.GetNumberOfOrdersInStatusAsync(0);
+            ViewData["InDelivery"] = await _adminStatistics.GetNumberOfOrdersInStatusAsync(1);
+            ViewData["Done"] = await _adminStatistics.GetNumberOfOrdersInStatusAsync(2);
+            ViewData["Canceled"] = await _adminStatistics.GetNumberOfOrdersInStatusAsync(3);
             return View();
         }
 

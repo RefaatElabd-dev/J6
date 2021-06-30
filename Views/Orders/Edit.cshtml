@@ -1,64 +1,87 @@
-﻿@{
-    ViewData["Title"] = "HandleAdminStatus";
-}
-
-<h2>HandleAdminStatus</h2>
-
-@model J6.DAL.ViewModels.BranEditViewModel
-
+﻿@model J6.DAL.Entities.Order
+@using J6
 @{
     ViewData["Title"] = "Edit";
-    Layout = "~/Views/Layout/MainLayout.cshtml";
 }
+@*<h2>Edit Order @Model.Id Status For Customer @Model.CustimerId</h2>*@
 
-<h4>Brand @Model.BrandId</h4>
-<hr />
-<div class="col-md-10 mx-auto py-4 font-16">
-    <div class="card">
-        <div class="card-header bg-warning text-uppercase">
-            <h2>Edit Brand</h2>
+<div class="container row m-b-0 mt-3 p-0 text-center" style="">
+    <div class="col-md-9 col-12 mx-auto py-4 font-16">
+        <div class="card  text-center" style="height: 400px; background: url('https://image.freepik.com/free-vector/order-delivery-service-online-background_73174-203.jpg') no-repeat #ddd; background-size: cover; ">
+            <div class="card-header bg-warning text-uppercase">
+                <h2>Edit Order @Model.Id Status For Customer @Model.CustimerId</h2>
+            </div>
+            <div class="card-body text-white" style="">
+                <form enctype="multipart/form-data" asp-action="Edit" method="POST">
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <input asp-for="OrderCost" type="hidden" class="form-control form-control-lg" />
+                    <input asp-for="CustimerId" type="hidden" class="form-control form-control-lg" />
+                    <div class="row">
+                        <div class="col-md-8 offset-md-4">
+                            <div class="form-group text-left">
+                                <label asp-for="Status" class="control-label" style=" color: black; font-weight: 600; font-size: 25px; font-family: cursive;"></label>
+                                <select asp-for="Status" class="form-control form-control-lg" asp-items="Html.GetEnumSelectList<OrderStatus>()"></select>
+                                <span asp-validation-for="Status" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 offset-md-2">
+                            <div class="form-group">
+                                <input type="submit" value="Save" class="btn btn-success text-uppercase mt-4 p-3" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
-
-
-        <div class="card-body text-white" style="background-color: navy">
-            <form enctype="multipart/form-data" asp-action="Edit">
-
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label asp-for="Image">Upload Photo</label>
-                            <input type="file" asp-for="Image" accept=".jpg,.png,.gif" class="form-control" />
-                            <span asp-validation-for="Image" class="text-danger"></span>
-                        </div>
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <input type="hidden" asp-for="BrandId" />
-                        <input type="hidden" asp-for="Image" />
-
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label asp-for="BrandName" class="control-label"></label>
-                            <input asp-for="BrandName" class="form-control" />
-                            <span asp-validation-for="BrandName" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label asp-for="UpdatedAt" class="control-label"></label>
-                            <input asp-for="UpdatedAt" class="form-control" />
-                            <span asp-validation-for="UpdatedAt" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-sm btn-warning text-uppercase mt-4 p-2" />
-                </div>
-            </form>
-            <a asp-action="Index" class="btn btn-sm btn-primary text-uppercase p-3"><i class="fa fa-arrow-circle-left fa-2x"></i></a>
+        <div class="text-left">
+            <a asp-action="Index" class="btn btn-sm btn-primary text-uppercase p-3 mt-1"><i class="fa fa-arrow-circle-left fa-2x"></i></a>
         </div>
     </div>
 </div>
 
+
+
+
+
+
+
+
+<!--<h2>Edit</h2>
+
+<h4>Order</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="CustimerId" class="control-label"></label>
+                <input asp-for="CustimerId" readonly class="form-control form-control-lg" />-->
+@*<select asp-for="CustimerId" class="form-control form-control-lg" asp-items="ViewBag.CustimerId"></select>*@
+<!--<span asp-validation-for="CustimerId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <select asp-for="Status" class="form-control form-control-lg" asp-items="Html.GetEnumSelectList<OrderStatus>()"></select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderCost" hidden class="control-label"></label>
+                <input asp-for="OrderCost" hidden class="form-control form-control-lg" />
+                <span asp-validation-for="OrderCost" hidden class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>-->

@@ -106,21 +106,21 @@
 
 
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #343a40; overflow: hidden; position: fixed; top: 0; width: 100%;">
-        <div class="mt-2 col-md-4  col-12">
-            <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <div class="col-md-4 col-12  text-center">
+            @*<button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
-            </button>
-            <a class="navbar-brand" style="color: white;" title="Visit Jumia WebSite" href="http://localhost:3000/" target="_blank"><h1> <b>JUMIA</b> <i class="fa fa-shopping-cart"></i></h1></a>
+            </button>*@
+            <a class="" style="color: white;" title="Visit Jumia WebSite" href="http://localhost:3000/" target="_blank"><h1> <b>JUMIA</b> <i class="fa fa-shopping-cart"></i></h1></a>
         </div>
 
         @*<form class="form-inline my-2 my-lg-0 col-md-6 col-12  mt-2">
                 <input class="form-control mr-4 col-10 p-4" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-dark my-2 p-2" type="submit">Search</button>
             </form>*@
-        <div class="col-12 col-md-5 text-center p-2">
+        <div class="col-12 col-md-5 text-center">
             <h3 class="text-uppercase" style="font-size: 20px; font-weight: 800; color: white;">dashboard admin panel</h3>
         </div>
-        <div class="col-md-2 col-12 p-2">
+        <div class="col-md-2 col-8 text-center">
             @if (User.IsInRole("Admin"))
             {
                 <h5 style="font-size: 16px; font-weight: 600; color: white;">
@@ -147,7 +147,7 @@
             }
 
         </div>
-        <div class="col-md-1 col-12">
+        <div class="col-1">
             <form asp-controller="Account" asp-action="LogOut" method="post">
                 <button type="submit" title="Sign Out" style="width:auto;color:white;" class="btn btn-primary m-3"><i class="fa fa-sign-out"></i></button>
             </form>
@@ -211,7 +211,7 @@
                             </a>
                         </li>
                         <li class="active">
-                            <a asp-controller="Orders" asp-action="getAllOrders">
+                            <a asp-controller="Orders" asp-action="index">
                                 <i class="fa fa-dolly fa-2x"></i>
                                 <span>Orders</span>
                             </a>

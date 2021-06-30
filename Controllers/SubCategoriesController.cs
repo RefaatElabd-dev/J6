@@ -11,9 +11,11 @@ using J6.DAL.Entities;
 using J6.DAL.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace J6.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class SubCategoriesController : Controller
     {
         private readonly DbContainer _context;

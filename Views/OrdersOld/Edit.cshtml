@@ -1,18 +1,22 @@
-﻿@model J6.DAL.ViewModels.CategoriesEditViewModel
+﻿@{
+    ViewData["Title"] = "HandleAdminStatus";
+}
+
+<h2>HandleAdminStatus</h2>
+
+@model J6.DAL.ViewModels.BranEditViewModel
 
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Layout/MainLayout.cshtml";
 }
 
-<h2>Edit</h2>
-
-<h4>Category @Model.CategoryId</h4>
+<h4>Brand @Model.BrandId</h4>
 <hr />
 <div class="col-md-10 mx-auto py-4 font-16">
     <div class="card">
         <div class="card-header bg-warning text-uppercase">
-            <h2>Edit Category</h2>
+            <h2>Edit Brand</h2>
         </div>
 
 
@@ -24,30 +28,23 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label asp-for="Image">Upload Photo</label>
-                            <input type="file" asp-for="Image" accept="jpg,png,gif" class="form-control form-control-lg" />
+                            <input type="file" asp-for="Image" accept=".jpg,.png,.gif" class="form-control form-control-lg" />
                             <span asp-validation-for="Image" class="text-danger"></span>
                         </div>
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <input type="hidden" asp-for="CategoryId" />
+                        <input type="hidden" asp-for="BrandId" />
                         <input type="hidden" asp-for="Image" />
+
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label asp-for="CategoryName" class="control-label"></label>
-                            <input asp-for="CategoryName" class="form-control form-control-lg" />
-                            <span asp-validation-for="CategoryName" class="text-danger"></span>
+                            <label asp-for="BrandName" class="control-label"></label>
+                            <input asp-for="BrandName" class="form-control form-control-lg" />
+                            <span asp-validation-for="BrandName" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label asp-for="Content" class="control-label"></label>
-                            <input asp-for="Content" class="form-control form-control-lg" />
-                            <span asp-validation-for="Content" class="text-danger"></span>
-                        </div>
-                    </div>
-
                     <div class="col-md-6">
                         <div class="form-group">
                             <label asp-for="UpdatedAt" class="control-label"></label>

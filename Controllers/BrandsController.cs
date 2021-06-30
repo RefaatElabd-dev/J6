@@ -11,9 +11,11 @@ using Microsoft.AspNetCore.Hosting;
 using J6.DAL.ViewModels;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace J6.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class BrandsController : Controller
     {
         private readonly DbContainer _context;

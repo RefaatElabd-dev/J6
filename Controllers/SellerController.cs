@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 
 namespace J6.Controllers
 {
+    [Authorize(Roles = "Seller")]
     public class SellerController : Controller
     {
         private readonly DbContainer _context;

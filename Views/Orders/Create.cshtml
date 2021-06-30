@@ -14,22 +14,22 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="CustimerId" class="control-label"></label>
-                <select asp-for="CustimerId" class ="form-control" asp-items="ViewBag.CustimerId"></select>
+                <select asp-for="CustimerId" class ="form-control form-control-lg" asp-items="ViewBag.CustimerId"></select>
             </div>
        @*     <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
-                <select asp-for="Status" class="form-control"></select>
+                <select asp-for="Status" class="form-control form-control-lg"></select>
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>*@
 
             <div class="form-group">
                             <label asp-for="Status" class="control-label"></label>
-                            <select asp-for="Status" class="form-control" asp-items="Html.GetEnumSelectList<OrderStatus>()"></select>
+                            <select asp-for="Status" class="form-control form-control-lg" asp-items="Html.GetEnumSelectList<OrderStatus>()"></select>
                             <span asp-validation-for="Status" class="text-danger"></span>
                         </div>
             <div class="form-group">
                 <label asp-for="OrderCost" class="control-label"></label>
-                <input asp-for="OrderCost" class="form-control" />
+                <input asp-for="OrderCost" class="form-control form-control-lg" />
                 <span asp-validation-for="OrderCost" class="text-danger"></span>
             </div>
             <div class="form-group">
