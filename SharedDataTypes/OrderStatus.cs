@@ -9,6 +9,7 @@ namespace J6
     {
         InProgress =0 ,
         InDelivery = 1,
-        Done = 2
+        Done = 2,
+        Canceled=3
     }
 }

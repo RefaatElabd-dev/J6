@@ -13,6 +13,6 @@ namespace J6
         XXL = 4,
         XXXL = 5,
         Spesific = 6,
-        Default = XL
+        NotApplicable = XL
     }
 }
