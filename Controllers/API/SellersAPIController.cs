@@ -87,6 +87,7 @@ namespace J6.Controllers
         }
         //////////////////////////////////////////////////////////////////////
         //seller add product
+        // api/SellersAPI
         [HttpPost]
         public async Task<ActionResult> sellerAddProduct(Product prod)
         {
@@ -136,11 +137,13 @@ namespace J6.Controllers
         }
         ////////////////////////////////////////////////////
         // seller edit in his product
-        // api/SellersAPI/1/8
+        // api/SellersAPI/selleredit/1/8
         [HttpPut("{id}/{sellerid}")]
+        [Route("selleredit/{id}/{sellerid}")]
         public async Task<IActionResult> PutSellerProduct(int id, Product product, int sellerid)
         {// id is product id
-            if (id != product.Id||sellerid !=product.SellerId)
+          //  var pro = await _context.Products.FirstOrDefaultAsync(a => a.Id == id);
+            if (id != product.Id || sellerid != product.SellerId)
             {
                 return BadRequest();
             }

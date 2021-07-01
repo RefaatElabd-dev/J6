@@ -10,6 +10,7 @@ namespace J6.Models
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public virtual int Id {get;set;}
         [DataType(DataType.EmailAddress)] public string Email { get; set; }
     }
 }

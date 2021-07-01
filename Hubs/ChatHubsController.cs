@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using J6.DAL.Database;
 using J6.DAL.Entities;
+using J6.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -114,6 +115,31 @@ namespace J6.Hubs
             _context.Messages.Remove(message);
            await _context.SaveChangesAsync();
             return Ok("one are deleted");
+
+
+        }
+        ////////////////////////////////////////////////////////////////////
+        // all seller that specific user call
+        // api/ChatHubs/getallcalledseller
+        [HttpGet("{id}")]
+        [Route("getallcalledseller/{id}")]
+        public async Task<ActionResult> GetAllCallSeller(int id)
+        {
+            //id is user id
+            List<object> allCallseller = new List<object>();
+            var Sellers = await userManager.GetUsersInRoleAsync("Seller");
+            var all= await  _context.Messages.Where(a => a.UserID == id).ToListAsync();
+       
+            foreach (var item in all)
+            {
+                var seller = Sellers.SingleOrDefault(a => a.Id == item.sellerId);
+                if(seller!=null)
+                {
+                    var SellerToRetuen = mapper.Map<SellerDto>(seller);
+                    allCallseller.Add(SellerToRetuen);
+                }
+            }
+            return Ok(allCallseller);
 
 
         }
