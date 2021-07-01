@@ -165,17 +165,13 @@ namespace J6.Controllers
         [Route("~/Subcategoryproducts/{id}")]
         public async Task<ActionResult<IEnumerable<Product>>> getProductsOFSubcategory(int id)
         {
-<<<<<<< HEAD
+
             List<Product> hproducts = new List<Product>();
-            var productss = await _context.Products.Where(q => q.SubcategoryId == id).Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).Take(10).ToListAsync();
-=======
-            List<Product> highproducts = new List<Product>();
-            var productss = await _context.Products.Where(q => q.SubcategoryId == id).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).ToListAsync();
->>>>>>> f6cf89e02ca49dfb096c4a7b58de362a5d6c1527
+            var productss = await _context.Products.Where(q => q.SubcategoryId == id).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).Take(10).ToListAsync();
 
             foreach(var item in productss)
             {
-<<<<<<< HEAD
+
                 if(item !=null)
                 {
                     hproducts.Add(item);
@@ -190,11 +186,7 @@ namespace J6.Controllers
 
             //}
             return hproducts;
-=======
-                highproducts.Add(productss[i]);
-            }
-            return highproducts;
->>>>>>> f6cf89e02ca49dfb096c4a7b58de362a5d6c1527
+
         }
 
         /////////////////////////////////////////////////////////////////////////
