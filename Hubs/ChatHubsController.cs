@@ -44,7 +44,7 @@ namespace J6.Hubs
            
             var currentuser = customers.SingleOrDefault(a => a.Id==id);
 
-            var messages = _context.Messages.Where(a => a.UserID == currentuser.Id&& a.sellerId==sellerid).OrderByDescending(a=>a.When);
+            var messages = _context.Messages.Where(a => a.UserID == currentuser.Id&& a.sellerId==sellerid).OrderBy(a=>a.When);
             return Ok(messages);
 
 
