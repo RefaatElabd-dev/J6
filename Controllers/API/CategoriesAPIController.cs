@@ -165,7 +165,7 @@ namespace J6.Controllers
             foreach (var item in allSubInCategory)
             {
 
-                var products = await _context.Products.Where(a => a.SubcategoryId == item.SubcategoryId && a.Color == color).Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).ToArrayAsync();
+                var products = await _context.Products.Where(a => a.SubcategoryId == item.SubcategoryId && a.Color == color).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).ToArrayAsync();
 
                 if (products != null)
                 {
@@ -208,7 +208,7 @@ namespace J6.Controllers
             var allSubInCategory = await _context.SubCategories.Where(a => a.CategoryId == category.CategoryId).ToListAsync();
             foreach (var item in allSubInCategory)
             {
-                var products = await _context.Products.Where(a => a.SubcategoryId == item.SubcategoryId && a.Price == price).Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).ToListAsync();
+                var products = await _context.Products.Where(a => a.SubcategoryId == item.SubcategoryId && a.Price == price).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).ToListAsync();
 
                 if (products != null)
                 {
@@ -253,7 +253,7 @@ namespace J6.Controllers
             foreach (var item in allSubInCategory)
             {
 
-                var products = await _context.Products.Where(a => a.SubcategoryId == item.SubcategoryId).Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).ToListAsync();
+                var products = await _context.Products.Where(a => a.SubcategoryId == item.SubcategoryId).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).ToListAsync();
 
                 if (products != null)
                 {
@@ -302,7 +302,7 @@ namespace J6.Controllers
             foreach (var item in allSubInCategory)
             {
 
-                var products = await _context.Products.Where(a => a.SubcategoryId == item.SubcategoryId).Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).ToListAsync();
+                var products = await _context.Products.Where(a => a.SubcategoryId == item.SubcategoryId).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).ToListAsync();
 
                 if (products != null)
                 {
@@ -385,7 +385,7 @@ namespace J6.Controllers
             var allSubInCategory = await _context.SubCategories.Where(a => a.CategoryId == category.CategoryId).ToListAsync();
             foreach (var item in allSubInCategory)
             {
-                var products = await _context.Products.Where(a => a.SubcategoryId == item.SubcategoryId && a.Size == size).Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).ToListAsync();
+                var products = await _context.Products.Where(a => a.SubcategoryId == item.SubcategoryId && a.Size == size).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).ToListAsync();
 
                 if (products != null)
                 {
@@ -414,7 +414,7 @@ namespace J6.Controllers
         public async Task<ActionResult> GetallproductInBrand(int id)
         {//id is brand id
 
-            var products = await _context.Products.Where(a => a.BrandId == id).Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).Include(q => q.Subcategory).ToListAsync();
+            var products = await _context.Products.Where(a => a.BrandId == id).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).Include(q => q.Subcategory).ToListAsync();
 
             return Ok(products);
 
@@ -434,7 +434,7 @@ namespace J6.Controllers
         public async Task<ActionResult> GetallsubcategoryInBrand(int id)
         {//id is brand id
             List<SubCategory> sub = new List<SubCategory>();
-            var products = await _context.Products.Where(a => a.BrandId == id).Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).ToListAsync();
+            var products = await _context.Products.Where(a => a.BrandId == id).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).ToListAsync();
             foreach (var item in products)
             {
                 var subcategory = await _context.SubCategories.FirstOrDefaultAsync(a => a.SubcategoryId == item.SubcategoryId);
@@ -465,7 +465,7 @@ namespace J6.Controllers
         public async Task<ActionResult> GetallBrandInsubcategory(int id)
         {//id is subcategory id
             List<object> brand = new List<object>();
-            var products = await _context.Products.Where(a => a.SubcategoryId == id).Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).ToListAsync();
+            var products = await _context.Products.Where(a => a.SubcategoryId == id).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).ToListAsync();
             foreach (var item in products)
             {
                 var onebrand = await _context.Brands.FirstOrDefaultAsync(a => a.BrandId == item.BrandId);
@@ -620,7 +620,7 @@ namespace J6.Controllers
                 {
                     if (!discount.Contains(pro.Discount))
                     {
-                        if (pro.Discount != null)
+                        if (pro.Discount != 0)
                         {
                             discount.Add(pro.Discount);
                         }
@@ -657,7 +657,7 @@ namespace J6.Controllers
                 {
                     if (!rating.Contains(pro.Rating))
                     {
-                        if (pro.Rating != null)
+                        if (pro.Rating != 0)
                         {
                             rating.Add(pro.Rating);
                         }

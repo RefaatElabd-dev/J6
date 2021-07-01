@@ -71,7 +71,7 @@ namespace J6.BL.Servises
                 return products;
             }
 
-            products = await _context.Products.Where(p => p.Id == ProductId).Include(p => p.Promotion).Take(17).ToListAsync();
+            products = await _context.Products.Where(p => p.Id == ProductId).Take(17).ToListAsync();
 
             if (products.Count() < 17)
             {
@@ -117,6 +117,7 @@ namespace J6.BL.Servises
             };
             await _context.Reviews.AddAsync(review);
             await _context.SaveChangesAsync();
+            await EditProductRatingAsync(reviewModel.ProductId);
             return await _context.Reviews.OrderByDescending(R => R.CreationTime).FirstOrDefaultAsync();
         }
 
@@ -128,6 +129,7 @@ namespace J6.BL.Servises
             review.Comment = reviewModel.Comment;
             _context.Reviews.Update(review);
             await _context.SaveChangesAsync();
+            await EditProductRatingAsync(reviewModel.ProductId);
             return review;
         }
 
@@ -139,6 +141,28 @@ namespace J6.BL.Servises
         public async Task<IEnumerable<Review>> GetAllReviewsOfCustomerAsync(int customerId)
         {
             return await _context.Reviews.Where(R => R.CustomerId == customerId).ToListAsync();
+        }
+        public async Task<double> EditProductRatingAsync(int productId)
+        {
+            Product product = await _context.Products.FirstOrDefaultAsync(p => p.Id == productId);
+            IEnumerable<double> ReviewsRating = await _context.Reviews
+                                                              .Where(R => R.ProductId == productId)
+                                                              .Select(R => R.Rating)
+                                                              .ToListAsync();
+            if (ReviewsRating.Count() != 0)
+            {
+                double sum = ReviewsRating.Average();
+                sum = ((int)(sum * 10))/10.0;
+                product.Rating = sum;
+                _context.Products.Update(product);
+                await _context.SaveChangesAsync();
+            }
+            return product.Rating;
+        }
+
+        public async Task<double> GetProductRatingAsync(int productId)
+        {
+            return await EditProductRatingAsync(productId);
         }
     }
 }

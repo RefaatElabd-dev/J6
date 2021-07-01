@@ -19,14 +19,14 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label asp-for="SubcategoryName" class="control-label"></label>
-                            <input asp-for="SubcategoryName" class="form-control" />
+                            <input asp-for="SubcategoryName" class="form-control form-control-lg" />
                             <span asp-validation-for="SubcategoryName" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label asp-for="CategoryId" class="control-label"></label>
-                            <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+                            <select asp-for="CategoryId" class="form-control form-control-lg" asp-items="ViewBag.CategoryId"></select>
                         </div>
                     </div>
                 </div>
@@ -34,14 +34,14 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label asp-for="Content" class="control-label"></label>
-                            <input asp-for="Content" class="form-control" />
+                            <input asp-for="Content" class="form-control form-control-lg" />
                             <span asp-validation-for="Content" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label asp-for="Image">Upload Photo</label>
-                            <input type="file" asp-for="Image" accept=".jpg,.png,.gif" class="form-control" />
+                            <input type="file" asp-for="Image" accept=".jpg,.png,.gif" class="form-control form-control-lg" />
                             <span asp-validation-for="Image" class="text-danger"></span>
                         </div>
                     </div>
@@ -50,7 +50,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label asp-for="CreatedAt" class="control-label"></label>
-                            <input asp-for="CreatedAt" class="form-control" />
+                            <input asp-for="CreatedAt" class="form-control form-control-lg" />
                             <span asp-validation-for="CreatedAt" class="text-danger"></span>
                         </div>
                     </div>

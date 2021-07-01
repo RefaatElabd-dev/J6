@@ -1,6 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Identity;
 @using J6.DAL.Entities;
 @inject SignInManager<AppUser> signInManager
+@inject UserManager<AppUser> userManager
+@{ 
+    AppUser CurrentUser = await userManager.FindByNameAsync(User.Identity.Name);
+}
 @{
     ViewBag.Title = "Home";
 }
@@ -12,7 +16,6 @@
 
     <!-- Widgets -->
     <div class="row clearfix">
-
         @*Product*@
         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <a asp-controller="Products" asp-action="Index">
@@ -190,10 +193,42 @@
             </div>
         </div>
 
-        @*Number Of Orders *@
+        @*Number Of Orders InProgress*@
+        <div class="info-box col-md-6 col-12 p-0" style="height: 200px; background-color: floralwhite">
+            <div class="icon m-0 p-0" style="width:30%">
+                <i class="fa fa-spinner" style="margin: 50px auto; color: darkred;"></i>
+            </div>
+            <div class="content text-center" style="margin: 10px auto">
+                <div class="text text-center">
+                    <h2>
+                        Number Of Orders InProgress
+                    </h2>
+                </div>
+                <div class="number text-center btn p-5" style="margin:30px auto;cursor:auto;">
+                    @ViewData["InProgress"]
+                </div>
+            </div>
+        </div>
+        @*Number Of Orders InDelivery*@
         <div class="info-box col-md-6 col-12 p-0" style="height: 200px; background-color: floralwhite">
             <div class="icon m-0 p-0" style="width:30%">
                 <i class="fa fa-shipping-fast" style="margin: 50px auto; color: black;"></i>
+            </div>
+            <div class="content text-center" style="margin: 10px auto">
+                <div class="text text-center">
+                    <h2>
+                        Number Of Orders InDelivery
+                    </h2>
+                </div>
+                <div class="number text-center btn p-5" style="margin:30px auto;cursor:auto;">
+                    @ViewData["InDelivery"]
+                </div>
+            </div>
+        </div>
+        @*Number Of Orders Done*@
+        <div class="info-box col-md-6 col-12 p-0" style="height: 200px; background-color: lightblue">
+            <div class="icon m-0 p-0" style="width:30%">
+                <i class="fa fa-handshake" style="margin: 50px auto; color: black;"></i>
             </div>
             <div class="content text-center" style="margin: 10px auto">
                 <div class="text text-center">
@@ -202,10 +237,26 @@
                     </h2>
                 </div>
                 <div class="number text-center btn p-5" style="margin:30px auto;cursor:auto;">
-                    100
+                    @ViewData["Done"]
                 </div>
             </div>
         </div>
+        @*Number Of Orders Canceled*@
+        <!--<div class="info-box col-md-6 col-12 p-0" style="height: 200px; background-color: floralwhite">
+            <div class="icon m-0 p-0" style="width:30%">
+                <i class="fa fa-shipping-fast" style="margin: 50px auto; color: black;"></i>
+            </div>
+            <div class="content text-center" style="margin: 10px auto">
+                <div class="text text-center">
+                    <h2>
+                        Number Of Orders Canceled
+                    </h2>
+                </div>
+                <div class="number text-center btn p-5" style="margin:30px auto;cursor:auto;">
+                    @ViewData["Canceled"]
+                </div>
+            </div>
+        </div>-->
     </div>
 
 

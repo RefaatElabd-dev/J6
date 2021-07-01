@@ -26,7 +26,6 @@ namespace J6.DAL.Database
         public virtual DbSet<ProdCart> ProdCarts { get; set; }
         public virtual DbSet<ProdOrder> ProdOrders { get; set; }
         public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<Promotion> Promotions { get; set; }
         public virtual DbSet<Review> Reviews { get; set; }
         public virtual DbSet<SubCategory> SubCategories { get; set; }
         public virtual DbSet<View> Views { get; set; }
@@ -63,18 +62,15 @@ namespace J6.DAL.Database
             builder.Entity<Cart>(entity =>
             {
                 entity.ToTable("cart");
-                entity.Property(e => e.Cost).HasColumnName("cost");
+
+                entity.Property(e => e.Cost)
+                      .HasColumnType("float")
+                      .HasDefaultValue(0.0)
+                      .ValueGeneratedOnAdd();
+
                 entity.Property(e => e.OrderDate)
                     .HasColumnType("date")
                     .HasColumnName("orderDate");
-
-                entity.Property(e => e.Paymentid)
-                    .HasMaxLength(50)
-                    .HasColumnName("paymentid");
-
-                entity.Property(e => e.ShippingDate)
-                    .HasColumnType("date")
-                    .HasColumnName("shippingDate");
             });
 
             builder.Entity<Category>(entity =>
@@ -129,6 +125,11 @@ namespace J6.DAL.Database
 
                 entity.Property(e => e.ProductId).HasColumnName("productId");
 
+                entity.Property(e => e.quantity)
+                       .HasColumnType("int")
+                       .HasDefaultValue(1)
+                       .ValueGeneratedOnAdd();
+
                 entity.HasOne(d => d.Cart)
                     .WithMany(p => p.ProdCarts)
                     .HasForeignKey(d => d.CartId)
@@ -152,6 +153,11 @@ namespace J6.DAL.Database
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_prod_order_Orders");
 
+                entity.Property(e => e.quantity)
+                       .HasColumnType("int")
+                       .HasDefaultValue(1)
+                       .ValueGeneratedOnAdd();
+
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.ProdOrders)
                     .HasForeignKey(d => d.OrderId)
@@ -168,6 +174,16 @@ namespace J6.DAL.Database
                        .ValueGeneratedOnAdd()
                        .HasColumnName("createdAt");
 
+                entity.Property(e => e.Rating)
+                       .HasColumnType("float")
+                       .HasDefaultValue(3.8)
+                       .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.Discount)
+                       .HasColumnType("float")
+                       .HasDefaultValue(0)
+                       .ValueGeneratedOnAdd();
+
                 entity.Property(e => e.Ship)
                     .HasMaxLength(50)
                     .HasColumnName("ship");
@@ -176,11 +192,6 @@ namespace J6.DAL.Database
                     .HasMaxLength(10)
                     .HasColumnName("size")
                     .IsFixedLength(true);
-
-                entity.HasOne(d => d.Promotion)
-                    .WithMany(p => p.Products)
-                    .HasForeignKey(d => d.PromotionId)
-                    .HasConstraintName("FK_product_Promotions");
 
                 entity.HasOne(d => d.Subcategory)
                     .WithMany(p => p.Products)

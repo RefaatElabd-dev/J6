@@ -205,7 +205,7 @@ namespace J6.Controllers
                 {
                     if (!discount.Contains(pro.Discount))
                     {
-                        if (pro.Discount != null)
+                        if (pro.Discount != 0)
                         {
                             discount.Add(pro.Discount);
                         }
@@ -236,7 +236,7 @@ namespace J6.Controllers
                 {
                     if (!rating.Contains(pro.Rating))
                     {
-                        if (pro.Rating != null)
+                        if (pro.Rating != 0)
                         {
                             rating.Add(pro.Rating);
                         }

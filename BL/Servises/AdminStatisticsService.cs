@@ -25,6 +25,34 @@ namespace J6.BL.Servises
             return Customers.Count();
         }
 
+        public async Task<int> GetNumberOfOrdersInStatusAsync(int statusNumber)
+        {
+            OrderStatus status = OrderStatus.InProgress;
+            switch (statusNumber)
+            {
+                case 0:
+                    status = OrderStatus.InProgress;
+                    break;
+                case 1:
+                    status = OrderStatus.InDelivery;
+                    break;
+                case 2:
+                    status = OrderStatus.Done;
+                    break;
+                default:
+                    break;
+            }
+
+            IEnumerable<int> OrdersPerSttus = await _context.Orders.Where(O=>O.Status == status).Select(O=>O.Id).ToListAsync();
+            return OrdersPerSttus.Count();
+        }
+
+        public async Task<int> GetNumberOfSolidProductsAsync()
+        {
+            IEnumerable<int> SolidUnits = await _context.ProdOrders.Select(p => p.quantity).ToListAsync();
+            return SolidUnits.Sum();
+        }
+
         public async Task<int> GetProductsNumber()
         {
             var products = await _context.Products.ToListAsync();
@@ -35,7 +63,9 @@ namespace J6.BL.Servises
         {
             int PNumbers = await GetProductsNumber();
             int SPNumbers =await GetSolidItemsNumber();
-            return SPNumbers/(double)PNumbers;
+            double avg = SPNumbers/(double)PNumbers;
+            avg = ((int)(avg * 10)) / 10.0;
+            return avg;
         }
 
         public async Task<int> GetSavedProductsNumber()

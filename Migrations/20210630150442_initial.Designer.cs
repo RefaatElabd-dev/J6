@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace J6.Migrations
 {
     [DbContext(typeof(DbContainer))]
-    [Migration("20210623104206_addStatus")]
-    partial class addStatus
+    [Migration("20210630150442_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,10 +24,8 @@ namespace J6.Migrations
 
             modelBuilder.Entity("J6.DAL.Entities.Address", b =>
                 {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
@@ -38,7 +36,7 @@ namespace J6.Migrations
                     b.Property<string>("Street")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.HasKey("UserId");
 
                     b.ToTable("Addresses");
                 });
@@ -80,9 +78,6 @@ namespace J6.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("AddressID")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -144,8 +139,6 @@ namespace J6.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressID");
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -203,9 +196,10 @@ namespace J6.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("Cost")
-                        .HasColumnType("int")
-                        .HasColumnName("cost");
+                    b.Property<double>("Cost")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("float")
+                        .HasDefaultValue(0.0);
 
                     b.Property<int>("CustimerId")
                         .HasColumnType("int");
@@ -213,15 +207,6 @@ namespace J6.Migrations
                     b.Property<DateTime?>("OrderDate")
                         .HasColumnType("date")
                         .HasColumnName("orderDate");
-
-                    b.Property<string>("Paymentid")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnName("paymentid");
-
-                    b.Property<DateTime?>("ShippingDate")
-                        .HasColumnType("date")
-                        .HasColumnName("shippingDate");
 
                     b.HasKey("Id");
 
@@ -385,7 +370,9 @@ namespace J6.Migrations
                         .HasColumnName("productId");
 
                     b.Property<int>("quantity")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
 
                     b.HasKey("CartId", "ProductId");
 
@@ -401,7 +388,9 @@ namespace J6.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("quantity")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
 
                     b.HasKey("OrderId", "ProductId");
 
@@ -433,8 +422,10 @@ namespace J6.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("Discount")
-                        .HasColumnType("float");
+                    b.Property<double>("Discount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("float")
+                        .HasDefaultValue(0.0);
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
@@ -451,14 +442,13 @@ namespace J6.Migrations
                     b.Property<string>("ProductName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PromotionId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<double?>("Rating")
-                        .HasColumnType("float");
+                    b.Property<double>("Rating")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("float")
+                        .HasDefaultValue(3.7999999999999998);
 
                     b.Property<int?>("SellerId")
                         .HasColumnType("int");
@@ -490,36 +480,11 @@ namespace J6.Migrations
 
                     b.HasIndex("BrandId");
 
-                    b.HasIndex("PromotionId");
-
                     b.HasIndex("SellerId");
 
                     b.HasIndex("SubcategoryId");
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("J6.DAL.Entities.Promotion", b =>
-                {
-                    b.Property<int>("PromotionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double?>("Discount")
-                        .HasColumnType("float");
-
-                    b.Property<int>("SellerId")
-                        .HasColumnType("int");
-
-                    b.HasKey("PromotionId");
-
-                    b.HasIndex("SellerId");
-
-                    b.ToTable("Promotions");
                 });
 
             modelBuilder.Entity("J6.DAL.Entities.Review", b =>
@@ -533,8 +498,14 @@ namespace J6.Migrations
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Rating")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("CreationTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<double>("Rating")
+                        .HasColumnType("float");
 
                     b.HasKey("CustomerId", "ProductId");
 
@@ -702,13 +673,15 @@ namespace J6.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("J6.DAL.Entities.AppUser", b =>
+            modelBuilder.Entity("J6.DAL.Entities.Address", b =>
                 {
-                    b.HasOne("J6.DAL.Entities.Address", "Address")
-                        .WithMany("AppUsers")
-                        .HasForeignKey("AddressID");
+                    b.HasOne("J6.DAL.Entities.AppUser", "AppUser")
+                        .WithOne("Address")
+                        .HasForeignKey("J6.DAL.Entities.Address", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Address");
+                    b.Navigation("AppUser");
                 });
 
             modelBuilder.Entity("J6.DAL.Entities.AppUserRole", b =>
@@ -835,11 +808,6 @@ namespace J6.Migrations
                         .WithMany("Products")
                         .HasForeignKey("BrandId");
 
-                    b.HasOne("J6.DAL.Entities.Promotion", "Promotion")
-                        .WithMany("Products")
-                        .HasForeignKey("PromotionId")
-                        .HasConstraintName("FK_product_Promotions");
-
                     b.HasOne("J6.DAL.Entities.AppUser", "Seller")
                         .WithMany("Products")
                         .HasForeignKey("SellerId");
@@ -851,22 +819,9 @@ namespace J6.Migrations
 
                     b.Navigation("Brand");
 
-                    b.Navigation("Promotion");
-
                     b.Navigation("Seller");
 
                     b.Navigation("Subcategory");
-                });
-
-            modelBuilder.Entity("J6.DAL.Entities.Promotion", b =>
-                {
-                    b.HasOne("J6.DAL.Entities.AppUser", "Seller")
-                        .WithMany("Promotions")
-                        .HasForeignKey("SellerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Seller");
                 });
 
             modelBuilder.Entity("J6.DAL.Entities.Review", b =>
@@ -964,11 +919,6 @@ namespace J6.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("J6.DAL.Entities.Address", b =>
-                {
-                    b.Navigation("AppUsers");
-                });
-
             modelBuilder.Entity("J6.DAL.Entities.AppRole", b =>
                 {
                     b.Navigation("userRoles");
@@ -976,6 +926,8 @@ namespace J6.Migrations
 
             modelBuilder.Entity("J6.DAL.Entities.AppUser", b =>
                 {
+                    b.Navigation("Address");
+
                     b.Navigation("Bag");
 
                     b.Navigation("Cart");
@@ -985,8 +937,6 @@ namespace J6.Migrations
                     b.Navigation("Order");
 
                     b.Navigation("Products");
-
-                    b.Navigation("Promotions");
 
                     b.Navigation("Reviews");
 
@@ -1028,11 +978,6 @@ namespace J6.Migrations
                     b.Navigation("Reviews");
 
                     b.Navigation("Views");
-                });
-
-            modelBuilder.Entity("J6.DAL.Entities.Promotion", b =>
-                {
-                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("J6.DAL.Entities.SavedBag", b =>

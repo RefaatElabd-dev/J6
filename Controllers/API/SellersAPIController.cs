@@ -41,11 +41,12 @@ namespace J6.Controllers
                 FirstName = registerDto.FirstName,
                 LastName = registerDto.LastName,
                 Email = registerDto.Email,
-                PhoneNumber = registerDto.PhoneNumber,
-                IsActive = false
+                PhoneNumber = registerDto.PhoneNumber
             };
             var result = await userManager.CreateAsync(user, registerDto.Password);
             if (!result.Succeeded) return BadRequest(result.Errors);
+            user.IsActive = false;
+            await userManager.UpdateAsync(user);
             await userManager.AddToRoleAsync(user, "Seller");
             return new UserDto
             {
@@ -127,7 +128,7 @@ namespace J6.Controllers
             var Sellers = await userManager.GetUsersInRoleAsync("Seller");
             var Seller = Sellers.SingleOrDefault(S => S.Id == id);
             if (Seller == null) return NotFound("No Seller Matched");
-            var product = await _context.Products.Where(q => q.SellerId == Seller.Id).Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).ToListAsync();
+            var product = await _context.Products.Where(q => q.SellerId == Seller.Id).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).ToListAsync();
             if (product == null)
             {
                 return NotFound();

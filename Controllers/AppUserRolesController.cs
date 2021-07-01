@@ -7,16 +7,26 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using J6.DAL.Database;
 using J6.DAL.Entities;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using J6.BL.Servises;
 
 namespace J6.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AppUserRolesController : Controller
     {
         private readonly DbContainer _context;
+        private readonly RoleManager<AppRole> _roleManager;
+        private readonly IAdminStatisticsService _adminStatistics;
+        private readonly UserManager<AppUser> _userManager;
 
-        public AppUserRolesController(DbContainer context)
+        public AppUserRolesController(DbContainer context,RoleManager<AppRole> roleManager, IAdminStatisticsService adminStatistics, UserManager<AppUser> userManager)
         {
+            _roleManager = roleManager;
+            _adminStatistics = adminStatistics;
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: AppUserRoles
@@ -53,7 +63,7 @@ namespace J6.Controllers
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName");
             return View();
         }
-
+   
         // POST: AppUserRoles/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -78,6 +88,52 @@ namespace J6.Controllers
             ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Name");
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName");
             return View(appUserRole);
+        }
+
+        // GET: AppUserRoles/ApproveSeller
+        public IActionResult ApproveSeller()
+        {
+            ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Name");
+            ViewData["UserId"] = new SelectList(_context.Users.Where(p => p.IsActive == false), "Id", "UserName");
+            return View();
+        }
+
+        // POST: AppUserRoles/ApproveSeller
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ApproveSeller(int id,AppUser appUser)
+        {
+
+            if (id != appUser.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var seller = await _userManager.FindByIdAsync(id.ToString());
+                    seller.IsActive = true;
+                    await _userManager.UpdateAsync(seller);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!AppUserRoleExists(appUser.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Name");
+            ViewData["UserId"] = new SelectList(_context.Users.Where(p => p.IsActive == false), "Id", "UserName");
+            return View(appUser);
         }
 
         // GET: AppUserRoles/Edit/5

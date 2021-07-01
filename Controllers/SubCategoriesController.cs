@@ -11,20 +11,20 @@ using J6.DAL.Entities;
 using J6.DAL.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace J6.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class SubCategoriesController : Controller
     {
         private readonly DbContainer _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public SubCategoriesController(DbContainer context, IWebHostEnvironment hostEnvironment, IHostingEnvironment hostingEnvironment)
+        public SubCategoriesController(DbContainer context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
             _webHostEnvironment = hostEnvironment;
-            _hostingEnvironment = hostingEnvironment;
 
         }
 
@@ -156,7 +156,7 @@ namespace J6.Controllers
                 {
                     if (model.Image != null)
                     {
-                        string filepath = Path.Combine(_hostingEnvironment.WebRootPath, "images", model.Image.ToString());
+                        string filepath = Path.Combine(_webHostEnvironment.WebRootPath, "images", model.Image.ToString());
                         System.IO.File.Delete(filepath);
                     }
                     subCategory.Image = UploadedFile(model);

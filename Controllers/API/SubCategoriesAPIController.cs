@@ -165,11 +165,17 @@ namespace J6.Controllers
         [Route("~/Subcategoryproducts/{id}")]
         public async Task<ActionResult<IEnumerable<Product>>> getProductsOFSubcategory(int id)
         {
+<<<<<<< HEAD
             List<Product> hproducts = new List<Product>();
             var productss = await _context.Products.Where(q => q.SubcategoryId == id).Include(a => a.Promotion).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).Take(10).ToListAsync();
+=======
+            List<Product> highproducts = new List<Product>();
+            var productss = await _context.Products.Where(q => q.SubcategoryId == id).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).ToListAsync();
+>>>>>>> f6cf89e02ca49dfb096c4a7b58de362a5d6c1527
 
             foreach(var item in productss)
             {
+<<<<<<< HEAD
                 if(item !=null)
                 {
                     hproducts.Add(item);
@@ -184,6 +190,11 @@ namespace J6.Controllers
 
             //}
             return hproducts;
+=======
+                highproducts.Add(productss[i]);
+            }
+            return highproducts;
+>>>>>>> f6cf89e02ca49dfb096c4a7b58de362a5d6c1527
         }
 
         /////////////////////////////////////////////////////////////////////////
@@ -276,11 +287,11 @@ namespace J6.Controllers
 
             foreach (var item in products)
             {
-                if (item.Discount != null)
+                if (item.Discount != 0)
                 {
                     if (!discount.Contains(item.Discount))
                     {
-                        if (item.Discount != null)
+                        if (item.Discount != 0)
                         {
                             discount.Add(item.Discount);
                         }
@@ -315,11 +326,11 @@ namespace J6.Controllers
 
             foreach (var item in products)
             {
-                if (item.Rating != null)
+                if (item.Rating != 0)
                 {
                     if (!rating.Contains(item.Rating))
                     {
-                        if (item.Rating != null)
+                        if (item.Rating != 0)
                         {
                             rating.Add(item.Rating);
                         }

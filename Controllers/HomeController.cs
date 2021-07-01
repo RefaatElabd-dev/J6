@@ -3,10 +3,6 @@ using J6.DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace J6.Controllers
@@ -34,6 +30,10 @@ namespace J6.Controllers
             ViewData["SolidItemsNumber"] = await _adminStatistics.GetSolidItemsNumber();
             ViewData["ViewedProductsNumber"] = await _adminStatistics.GetViewedProductsNumber();
             ViewData["SellingRate"] = await _adminStatistics.GetrateOfSViewedProducts();
+            ViewData["InProgress"] = await _adminStatistics.GetNumberOfOrdersInStatusAsync(0);
+            ViewData["InDelivery"] = await _adminStatistics.GetNumberOfOrdersInStatusAsync(1);
+            ViewData["Done"] = await _adminStatistics.GetNumberOfOrdersInStatusAsync(2);
+            ViewData["Canceled"] = await _adminStatistics.GetNumberOfOrdersInStatusAsync(3);
             return View();
         }
 

@@ -11,6 +11,7 @@ using J6.DAL.Entities;
 
 namespace J6.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly RoleManager<AppRole> _roleManager;
@@ -57,7 +58,7 @@ namespace J6.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("CreateRole");
+                    return RedirectToAction("index");
                 }
                 else
                 {

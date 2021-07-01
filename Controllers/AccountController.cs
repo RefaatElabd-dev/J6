@@ -79,18 +79,27 @@ namespace J6.Controllers
             {
                 var user = await userManager.Users.SingleOrDefaultAsync(u => u.Email == model.Email.ToLower());
                 if (user == null) return Unauthorized("This UserName is not Exist");
+                
 
                 var result = await signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RemomberMe, false);
                  
                 if (result.Succeeded)
                 {
+
                     if (await userManager.IsInRoleAsync(user, "Admin"))
                     {
                         return RedirectToAction("Index", "Home");
                     }
                     else if (await userManager.IsInRoleAsync(user, "Seller"))
                     {
-                        return RedirectToAction("GetSellerProduct", "Seller", new { id = user.Id }, "Seller");
+                        if (!user.IsActive)
+                        {
+                            ModelState.AddModelError("", "You are Blocked OR Not Submitted Yet");
+                        }
+                        else
+                        {
+                            return RedirectToAction("GetSellerProduct", "Seller", new { id = user.Id }, "Seller");
+                        }
                     }
                     else
                     {

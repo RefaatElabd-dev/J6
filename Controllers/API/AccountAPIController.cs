@@ -60,7 +60,7 @@ namespace J6.Controllers
         {
             var user = await userManager.Users.SingleOrDefaultAsync(u => u.UserName == LoginDto.UserName.ToLower());
             if (user == null) return Unauthorized("This UserName is not Exist");
-
+            if (!user.IsActive) return BadRequest("You are Blocked OR Not Submitted Yet");
             var result = await signInManager.CheckPasswordSignInAsync(user, LoginDto.Password, false);
             if (!result.Succeeded) return Unauthorized("Invalid Password");
             return new UserDto
@@ -69,7 +69,6 @@ namespace J6.Controllers
                 Token = await tokenService.CreateToken(user),
                 Email = user.Email,
                 Id=user.Id
-   
             };
         }
     }

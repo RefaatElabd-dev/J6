@@ -18,7 +18,6 @@
                 </div>
                 <div class="table-responsive">
                     
-                    @*<table class="table table-hover" id="dataTable" width="100%" cellspacing="0">*@
                         <table class="table table-bordered table-striped text-center table-hover js-basic-example dataTable">
                     
                     <thead>
@@ -32,17 +31,8 @@
                                 <th class="text-center">
                                     @Html.DisplayNameFor(model => model.Price)
                                 </th>
-                                @*<th>
-                                    @Html.DisplayNameFor(model => model.Description)
-                                </th>*@
                                 <th class="text-center">
                                     @Html.DisplayNameFor(model => model.material)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Model)
-                                </th class="text-center">
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Subcategory.SubcategoryName)
                                 </th>
                                 <th class="text-center">
                                     @Html.DisplayNameFor(model => model.Brand.BrandName)
@@ -61,7 +51,7 @@
                             <tr>
                                 <td>
                                     <img width="80" height="80" src="~/images/@item.Image"
-                                         class="rounded-circle" alt="">
+                                         class="rounded" alt="">
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.ProductName)
@@ -74,12 +64,6 @@
                                 </td>*@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.material)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Model)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Subcategory.SubcategoryName)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Brand.BrandName)
@@ -108,7 +92,7 @@
             $('.js-basic-example').DataTable({
                 responsive: true,
                 paging: true,
-                pageLength: 3,
+                pageLength: 10,
                 bSort: true,
                 bFilter: true,
                 //bLengthChange: false,

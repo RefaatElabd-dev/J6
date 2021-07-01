@@ -16,10 +16,9 @@
     <div class="card-body">
         <div class="mb-2">
             <a asp-controller="Seller" asp-action="sellerAddProduct" class="btn btn-sm btn-primary text-uppercase p-3"><i class="fas fa-plus-circle fa-2x"></i></a>
-            @*<a asp-controller="Products" asp-action="Create" class="btn btn-sm btn-primary text-uppercase p-3"><i class="fas fa-plus-circle fa-2x"></i></a>*@
         </div>
         <div class="table-responsive">
-            <table class="table table-bordered table-striped text-center table-hover js-basic-example dataTable">
+            <table class="table table-bordered text-center table-hover js-basic-example dataTable" style="width:800px" >
 
                 <thead>
                     <tr>
@@ -35,12 +34,12 @@
                         <th class="text-center">
                             @Html.DisplayNameFor(model => model.material)
                         </th>
-                        <th>
+                        @*<th>
                             @Html.DisplayNameFor(model => model.Model)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Subcategory.SubcategoryName)
-                        </th>
+                        </th>*@
                         <th class="text-center">
                             @Html.DisplayNameFor(model => model.Brand.BrandName)
                         </th>
@@ -58,7 +57,7 @@
                         <tr>
                             <td>
                                 <img width="80" height="80" src="~/images/@item.Image"
-                                     class="rounded-circle" alt="">
+                                     class="rounded" alt="">
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.ProductName)
@@ -69,12 +68,12 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.material)
                             </td>
-                            <td>
+                            @*<td>
                                 @Html.DisplayFor(modelItem => item.Model)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Subcategory.SubcategoryName)
-                            </td>
+                            </td>*@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Brand.BrandName)
                             </td>
@@ -82,10 +81,6 @@
                                 @Html.DisplayFor(modelItem => item.Seller.UserName)
                             </td>
                             <td class="container">
-                                @*<a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info w-1 m-2 p-3"><i class="fa fa-info-circle fa-2x"></i></a>
-                                <a asp-controller="Products" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning w-1 m-2 p-3"><i class="fa fa-edit fa-2x"></i></a>
-                                <a asp-controller="Products" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger m-2 p-3"><i class="fa fa-trash fa-2x"></i></a>*@
-
                                 <a asp-controller="Seller" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info w-1 m-2 p-3"><i class="fa fa-info-circle fa-2x"></i></a>
                                 <a asp-controller="Seller" asp-action="PutSellerProduct" asp-route-id="@item.Id" class="btn btn-warning w-1 m-2 p-3"><i class="fa fa-edit fa-2x"></i></a>
                                 <a asp-controller="Seller" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger m-2 p-3"><i class="fa fa-trash fa-2x"></i></a>
@@ -105,7 +100,7 @@
             $('.js-basic-example').DataTable({
                 responsive: true,
                 paging: true,
-                pageLength: 3,
+                pageLength: 10,
                 bSort: true,
                 bFilter: true,
                 //bLengthChange: false,
