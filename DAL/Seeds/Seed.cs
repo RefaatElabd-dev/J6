@@ -23,8 +23,8 @@ namespace J6.DAL.Seeds
             {
                 new AppRole{Name = "Admin"},
                 new AppRole{Name = "Customer"},
-                new AppRole{Name = "Moderator"},
-                new AppRole{Name = "Seller"}
+                new AppRole{Name = "Seller"},
+                new AppRole{Name = "Moderator"}
             };
 
             foreach (var role in roles)
@@ -36,7 +36,7 @@ namespace J6.DAL.Seeds
             {
                 user.UserName = user.UserName.ToLower();
                 await userManager.CreateAsync(user, "P@$$w0rd");
-                await userManager.AddToRolesAsync(user, new[] { "Customer", "Admin" });
+                await userManager.AddToRoleAsync(user, "Customer");
             }
 
             foreach (var seller in sellers)
@@ -48,11 +48,14 @@ namespace J6.DAL.Seeds
 
             AppUser admin = new AppUser
             {
-                UserName = "admin"
+                UserName = "admin",
+                Email = "Admain@J6.com",
+                FirstName = "Abu",
+                LastName = "AlAdamin"
             };
 
             await userManager.CreateAsync(admin, "P@$$w0rd");
-            await userManager.AddToRolesAsync(admin, new[] { "Admin", "Moderator" });
+            await userManager.AddToRoleAsync(admin, "Admin");
             //############################################################################
 
             var CategoriesData = await System.IO.File.ReadAllTextAsync("DAL/Seeds/CategoriesData.json");

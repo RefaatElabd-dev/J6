@@ -123,19 +123,30 @@ namespace J6.Controllers
 
         //getproducts in subcatgory in category
         //api/SubCategories/categoryproduct/1
+        //[HttpGet("{id}")]
+        //[Route("categoryproduct/{id}")]
+
+        //public List<Product> getProductOfSubcategory(int id)
+        //{//id of category
+        //  //  List<Product> products = new List<Product>();
+        //    //getsubcategory of id
+        //  //  var subcategory = _context.SubCategories.FirstOrDefault(q => q.CategoryId == id);
+        //  //  //all product in subcategory
+        //  //var  products = _context.Products.Where((a => a.SubcategoryId == subcategory.SubcategoryId)).ToList();
+
+        //    return products;
+        //}
+        //////////////////////////////////////////////////////////
+        /// all product in sub
+        //api/SubCategories/categoryproduct/1
         [HttpGet("{id}")]
-        [Route("categoryproduct/{id}")]
-
-        public List<Product> getProductOfSubcategory(int id)
-        {//id of category
-            List<Product> products = new List<Product>();
-            //getsubcategory of id
-            var subcategory = _context.SubCategories.FirstOrDefault(q => q.CategoryId == id);
-            //all product in subcategory
-            products = _context.Products.Where((a => a.SubcategoryId == subcategory.SubcategoryId)).ToList();
-
-            return products;
+        [Route("~/CATegoryPRoduct/{id}")]
+        public async Task<ActionResult> getProductOfSubcategory(int id)
+        {//id of subcategory
+            var products = await _context.Products.Where(a => a.SubcategoryId == id).ToListAsync();
+            return Ok(products);
         }
+
         //get all subcategory from category
         //    /categorySubcategory/1
         [HttpGet("{id}")]
@@ -154,14 +165,28 @@ namespace J6.Controllers
         [Route("~/Subcategoryproducts/{id}")]
         public async Task<ActionResult<IEnumerable<Product>>> getProductsOFSubcategory(int id)
         {
-            List<Product> highproducts = new List<Product>();
-            var productss = await _context.Products.Where(q => q.SubcategoryId == id).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).ToListAsync();
 
-            for (int i = 0; i < 10; i++)
+            List<Product> hproducts = new List<Product>();
+            var productss = await _context.Products.Where(q => q.SubcategoryId == id).Include(c => c.ProdCarts).Include(p => p.ProdOrders).Include(i => i.Reviews).Include(y => y.Views).Take(10).ToListAsync();
+
+            foreach(var item in productss)
             {
-                highproducts.Add(productss[i]);
+
+                if(item !=null)
+                {
+                    hproducts.Add(item);
+                }
             }
-            return highproducts;
+            //for (int i = 0; i < 10; i++)
+            //{
+
+
+            //    highproducts.Add(productss[i]);
+
+
+            //}
+            return hproducts;
+
         }
 
         /////////////////////////////////////////////////////////////////////////

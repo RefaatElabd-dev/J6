@@ -1,5 +1,11 @@
-﻿@model J6.DAL.Entities.AppUserRole
+﻿@using Microsoft.AspNetCore.Identity;
+@using J6.DAL.Entities;
+@model J6.DAL.Entities.AppUserRole
 
+@inject UserManager<AppUser> userManager
+@{
+    AppUser CurrentUser = await userManager.FindByIdAsync(Model.UserId.ToString());
+}
 @{
     ViewData["Title"] = "Edit";
 }
@@ -12,8 +18,24 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="UserId" />
-            <input type="hidden" asp-for="RoleId" />
+            @*<input type="hidden" asp-for="UserId" />
+                <input type="hidden" asp-for="RoleId" />*@
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="UserId" class="control-label">@CurrentUser.Id</label><br />
+                        <label asp-for="@CurrentUser.UserName" class="control-label">@CurrentUser.UserName</label><br />
+                        <label asp-for="@CurrentUser.Email" class="control-label">@CurrentUser.Email</label><br />
+                        <input type="hidden" asp-for="UserId" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Role" class="control-label"></label>
+                        <select asp-for="RoleId" class="form-control form-control-lg" asp-items="ViewBag.RoleId"></select>
+                    </div>
+                </div>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using J6.DAL.Database;
 using J6.DAL.Entities;
+using J6.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -43,7 +44,7 @@ namespace J6.Hubs
            
             var currentuser = customers.SingleOrDefault(a => a.Id==id);
 
-            var messages = _context.Messages.Where(a => a.UserID == currentuser.Id&& a.sellerId==sellerid).OrderByDescending(a=>a.When);
+            var messages = _context.Messages.Where(a => a.UserID == currentuser.Id&& a.sellerId==sellerid).OrderBy(a=>a.When);
             return Ok(messages);
 
 
@@ -67,7 +68,7 @@ namespace J6.Hubs
             var sellers = await userManager.GetUsersInRoleAsync("Seller");
             var currentseller = sellers.SingleOrDefault(a => a.Id == mess.sellerId);
             newmessage.UserID = currentuser.Id;
-            newmessage.UserName = currentuser.UserName;
+            newmessage.UserName = mess.UserName;
             newmessage.sellerId = currentseller.Id ;
             newmessage.Text = mess.Text;
 
@@ -114,6 +115,35 @@ namespace J6.Hubs
             _context.Messages.Remove(message);
            await _context.SaveChangesAsync();
             return Ok("one are deleted");
+
+
+        }
+        ////////////////////////////////////////////////////////////////////
+        // all seller that specific user call
+        // api/ChatHubs/getallcalledseller/8
+        [HttpGet("{id}")]
+        [Route("getallcalledseller/{id}")]
+        public async Task<ActionResult> GetAllCallSeller(int id)
+        {
+            //id is user id
+            List<SellerDto> allCallseller = new List<SellerDto>();
+            var Sellers = await userManager.GetUsersInRoleAsync("Seller");
+            var all= await  _context.Messages.Where(a => a.UserID == id).ToListAsync();
+            foreach (var item in all)
+            {
+                var seller = Sellers.SingleOrDefault(a => a.Id == item.sellerId);
+                if(seller!=null)
+                {
+                    var SellerToRetuen = mapper.Map<SellerDto>(seller);
+                    if (!allCallseller.Contains(SellerToRetuen))
+                    {
+                        allCallseller.Add(SellerToRetuen);
+                        
+                    }
+                }
+            }
+       
+            return Ok(allCallseller.GroupBy(a=>a.Id).Select(v=>v.First()).ToList());
 
 
         }

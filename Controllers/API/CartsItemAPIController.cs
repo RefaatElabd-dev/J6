@@ -51,7 +51,7 @@ namespace J6.Controllers.API
             if (ShoppingCard == null)
             { return NotFound("not exsit"); }
             ProdCart item = new ProdCart();
-            item.quantity++;
+           // item.quantity++;
             item.ProductId = product.Id;
             item.CartId = ShoppingCard.Id;
             var additem = await _context.ProdCarts.AddAsync(item);
