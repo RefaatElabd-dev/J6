@@ -8,16 +8,19 @@ using Microsoft.EntityFrameworkCore;
 using J6.DAL.Database;
 using J6.DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
+using J6.BL.Servises;
 
 namespace J6.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class OrdersController : Controller
     {
+        private readonly IOrderServices _orderServices;
         private readonly DbContainer _context;
 
-        public OrdersController(DbContainer context)
+        public OrdersController(DbContainer context, IOrderServices orderServices)
         {
+            _orderServices = orderServices;
             _context = context;
         }
 
@@ -157,6 +160,21 @@ namespace J6.Controllers
         private bool OrderExists(int id)
         {
             return _context.Orders.Any(e => e.Id == id);
+        }
+        
+        
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts(int orderId)   
+        {
+            if (orderId == 0)
+            {
+                return NotFound("There are no Products For This User");
+            }
+            IEnumerable<Product> prodcts = await _orderServices.getAllProductsWithOrderIdAsync(orderId);
+            if (prodcts == null)
+            {
+                return NotFound("There are no Products For This User");
+            }
+            return View(prodcts);
         }
     }
 }
