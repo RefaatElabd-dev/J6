@@ -63,7 +63,7 @@ namespace J6.Controllers
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName");
             return View();
         }
-   
+
         // POST: AppUserRoles/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -144,7 +144,7 @@ namespace J6.Controllers
                 return NotFound();
             }
 
-            var appUserRole = await _context.UserRoles.FindAsync(id);
+            var appUserRole = await _context.UserRoles.FirstOrDefaultAsync(p => p.UserId == id);
             if (appUserRole == null)
             {
                 return NotFound();
@@ -170,8 +170,15 @@ namespace J6.Controllers
             {
                 try
                 {
-                    _context.Update(appUserRole);
-                    await _context.SaveChangesAsync();
+                    AppRole role = await _roleManager.FindByIdAsync(appUserRole.RoleId.ToString());
+                    AppUser user = await _userManager.FindByIdAsync(id.ToString());
+                    var oldRoles = await _userManager.GetRolesAsync(user);
+                    string OldRole = oldRoles.First();
+                    var result = await _userManager.RemoveFromRoleAsync(user, OldRole);
+                    if (result.Succeeded)
+                    {
+                        await _userManager.AddToRoleAsync(user, role.Name);
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -186,6 +193,7 @@ namespace J6.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Id", appUserRole.RoleId);
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", appUserRole.UserId);
             return View(appUserRole);
@@ -216,9 +224,10 @@ namespace J6.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var appUserRole = await _context.UserRoles.FindAsync(id);
-            _context.UserRoles.Remove(appUserRole);
-            await _context.SaveChangesAsync();
+            AppUser user = await _userManager.FindByIdAsync(id.ToString());
+            var oldRoles = await _userManager.GetRolesAsync(user);
+            string OldRole = oldRoles.First();
+            var result = await _userManager.RemoveFromRoleAsync(user, OldRole);
             return RedirectToAction(nameof(Index));
         }
 
