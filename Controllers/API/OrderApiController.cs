@@ -27,7 +27,6 @@ namespace J6.Controllers.API
         [Route("approveOrder/{CustomerId}")]
         public async Task approveOrder(int CustomerId)
         {
-            await _orderServices.SwitchCartToOrder(CustomerId);
             await _orderServices.approveOrder(CustomerId);
         }
 
