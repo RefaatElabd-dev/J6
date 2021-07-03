@@ -112,6 +112,8 @@ namespace J6.Controllers
         //GET: SubCategories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
+
             if (id == null)
             {
                 return NotFound();
@@ -151,6 +153,7 @@ namespace J6.Controllers
                 subCategory.UpdatedAt = DateTime.Now;
                 subCategory.Content = model.Content;
                 subCategory.CategoryId = model.CategoryId;
+                subCategory.Category = model.Category;
 
                 if (model.Image != null)
                 {
