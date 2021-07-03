@@ -52,6 +52,11 @@ namespace J6.BL.Servises
             return false;
         }
 
+        public async Task<bool> IsSaved(int UserId, int ProductId)
+        {
+            IEnumerable<Product> products = await GetSavedProductsAsync(UserId);
+            return products.Select(p => p.Id).Contains(ProductId);
+        }
 
         public async Task SetItemToSavedBagAsync(int UserId, int ProductId)
         {

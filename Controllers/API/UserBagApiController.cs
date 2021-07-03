@@ -35,7 +35,14 @@ namespace J6.Controllers.API
             return Ok(await _userSavedBag.GetSavedProductsAsync(UserId));
         }
 
-        [HttpDelete("DeleteSavedItem/{UserId}")]
+        [HttpGet]
+        [Route("IsSaved/{UserId}/{ProductId}")]
+        public async Task<ActionResult<bool>> IsSaved(int UserId, int ProductId)
+        {
+            return Ok(await _userSavedBag.IsSaved(UserId, ProductId));
+        }
+
+        [HttpDelete("DeleteSavedItem/{UserId}/{ProductId}")]
         public async Task<ActionResult> DeleteSavedItem(int UserId, int ProductId)
         {
             return await _userSavedBag.DeleteSavedItemAsync(UserId, ProductId) ?

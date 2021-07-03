@@ -57,25 +57,6 @@ namespace J6
             options.Password.RequiredUniqueChars = 0;
             }).AddEntityFrameworkStores<DbContainer>();
 
-           // services.AddIdentityCore<AppUser>(options =>
-           // {
-           //     options.Password.RequireNonAlphanumeric = false;
-           //     options.Password.RequireLowercase = false;
-           //     options.Password.RequireNonAlphanumeric = false;
-           //     options.Password.RequireUppercase = false;
-           //     options.Password.RequiredLength = 3;
-           //     options.Password.RequiredUniqueChars = 0;
-           //     //options.Lockout.AllowedForNewUsers = true;
-           //     //options.SignIn.RequireConfirmedAccount = false;
-           //     //options.SignIn.RequireConfirmedEmail = false;
-           //     //options.SignIn.RequireConfirmedPhoneNumber = false;
-           // })
-           //.AddRoles<AppRole>()
-           //.AddRoleManager<RoleManager<AppRole>>()
-           //.AddSignInManager<SignInManager<AppUser>>()
-           //.AddRoleValidator<RoleValidator<AppRole>>()
-           //.AddEntityFrameworkStores<DbContainer>();
-         // .AddTokenProvider<DataProtectorTokenProvider<AppUser>>(TokenOptions.DefaultProvider);
 
             services.AddSignalR();
 

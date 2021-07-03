@@ -11,5 +11,7 @@ namespace J6.BL.Servises
         public Task SetItemToSavedBagAsync(int UserId, int ProductId);
         public Task<ICollection<Product>> GetSavedProductsAsync(int UserId);
         public Task<bool> DeleteSavedItemAsync(int UserId, int ProductId);
+        public Task<bool> IsSaved(int UserId, int ProductId);
+
     }
 }
