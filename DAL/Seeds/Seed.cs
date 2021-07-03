@@ -49,7 +49,7 @@ namespace J6.DAL.Seeds
             AppUser admin = new AppUser
             {
                 UserName = "admin",
-                Email = "Admain@J6.com",
+                Email = "Admin@J6.com",
                 FirstName = "Abu",
                 LastName = "AlAdamin"
             };

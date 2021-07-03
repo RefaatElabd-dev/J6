@@ -134,7 +134,7 @@ namespace J6.Controllers.API
             foreach (var item in CartItems)
             {
                 var productsincart = await _context.Products.FirstOrDefaultAsync(a => a.Id == item.ProductId);
-                var element = await _context.ProdCarts.FirstOrDefaultAsync(a => a.ProductId == productsincart.Id);
+                var element = await _context.ProdCarts.FirstOrDefaultAsync(a => a.ProductId == productsincart.Id && a.CartId == cartListID);
 
                 for (int i = 0; i < element.quantity; i++)
                 {

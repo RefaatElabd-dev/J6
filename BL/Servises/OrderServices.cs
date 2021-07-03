@@ -20,9 +20,36 @@ namespace J6.BL.Servises
         }
         public async Task approveOrder(int CustomerId)
         {
-            //Delete OrderProducts
-            Order order = await _context.Orders.Where(O => O.CustimerId == CustomerId).OrderByDescending(O => O.Id).Take(1).FirstAsync();
-            ICollection<ProdOrder> OrderProducts = await _context.ProdOrders.Where(p => p.OrderId == order.Id).ToListAsync();
+            Cart Cart = _context.Carts.Where(c => c.CustimerId == CustomerId).FirstOrDefault();
+            int CartId = Cart.Id;
+            if (CartId == 0) throw new Exception("This User Hasn't a cart products yet Pick some products and return again!");
+
+            //Get All Customer Cart Products
+            ICollection<ProdCart> cartProducts = await _context.ProdCarts.Where(C => C.CartId == CartId).ToListAsync();
+
+            //Create New order Record
+            Order CustomerOrder = await CreateNewOrderRecord(CustomerId);
+
+            //Store Customer Cart Products To Order table
+            int orderId = CustomerOrder.Id;
+            foreach (var item in cartProducts)
+            {
+                var ProductOrder = new ProdOrder
+                {
+                    OrderId = orderId,
+                    ProductId = item.ProductId,
+                    quantity = item.quantity
+                };
+                await _context.ProdOrders.AddAsync(ProductOrder);
+                await _context.SaveChangesAsync();
+            }
+            CustomerOrder.OrderCost = Cart.Cost;
+            _context.Orders.Update(CustomerOrder);
+            await _context.SaveChangesAsync();
+
+            //Order order = _context.Orders.Where(O => O.CustimerId == CustomerId).FirstOrDefault();//.OrderByDescending(O => O.Id).Take(1).FirstAsync();
+            
+            ICollection<ProdOrder> OrderProducts = await _context.ProdOrders.Where(p => p.OrderId == CustomerOrder.Id).ToListAsync();
             
             foreach (var item in OrderProducts)
             {
@@ -32,7 +59,7 @@ namespace J6.BL.Servises
                 await _context.SaveChangesAsync();
             }
             //AddPaymentTransaction
-            await StoreTransaction(order);
+            await StoreTransaction(CustomerOrder);
         }
 
         public void HandleAdminStatus(int OrderId, int statusNumber)
@@ -103,7 +130,7 @@ namespace J6.BL.Servises
         public async Task<Order> CreateNewOrderRecord(int UserId)
         {
             Order order = new Order { CustimerId = UserId, OrderCost = 0};
-            await _context.Orders.AddAsync(order);
+            _context.Orders.Add(order);
             await _context.SaveChangesAsync();
             return _context.Orders.Where(O=>O.CustimerId == UserId).OrderByDescending(O => O.Id).Take(1).First();
         }
