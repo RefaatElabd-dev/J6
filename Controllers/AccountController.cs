@@ -77,7 +77,7 @@ namespace J6.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await userManager.Users.SingleOrDefaultAsync(u => u.Email == model.Email.ToLower());
+                var user = await userManager.Users.FirstOrDefaultAsync(u => u.Email == model.Email.ToLower());
                 if (user == null) return Unauthorized("This UserName is not Exist");
                 
 
