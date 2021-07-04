@@ -1,12 +1,15 @@
 [
+ 
   {
     "BrandName": "Addidas",
     "Image": "addidas.png"
   },
+
   {
     "BrandName": "Starbucks",
     "Image": "starbucks.png"
   },
+ 
   {
     "BrandName": "H&M",
     "Image": "H&M.png"
@@ -82,7 +85,43 @@
   {
     "BrandName": "GUCCI",
     "Image": "GUCCI.jpg"
+  },
+  {
+    "BrandName": "National",
+    "Image": "National.png"
+  },
+  {
+    "BrandName": "El Hellal",
+    "Image": "helal.png"
+  },
+  {
+    "BrandName": "azeez",
+    "Image": "tulle.jpg"
+  },
+  {
+    "BrandName": "Ice Club",
+    "Image": "iceclub.png"
+
+
+  },
+  {
+    "BrandName": "Nokia",
+    "Image": "Nokia.png"
+  },
+  {
+    "BrandName": "oppo",
+    "Image": "oppo.png"
+  },
+  {
+    "BrandName": "fashion",
+    "Image": "fashion.png"
+  },
+  {
+    "BrandName": " HUAWEI",
+    "Image": "hawawi.png"
   }
-  
+ 
+
+
 
 ]
