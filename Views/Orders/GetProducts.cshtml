@@ -38,10 +38,10 @@
                                 <th class="text-center">
                                     @Html.DisplayNameFor(model => model.Brand.BrandName)
                                 </th >
+                                <th class="text-center">@Html.DisplayNameFor(model => model.SubcategoryId)</th>
                                 <th>
                                     @Html.DisplayNameFor(model => model.SellerId)
                                 </th>
-                                <th class="text-center">Operations</th>
                             </tr>
                         </thead>
 
@@ -61,21 +61,24 @@
                                     @Html.DisplayFor(modelItem => item.Price)
                                 </td>
                                 @*<td style="min-width: 100px; max-width: 300px; overflow: hidden; text-overflow: ellipsis;">
-                                    @Html.DisplayFor(momodelItemdel => item.Description)
-                                </td>*@
+            @Html.DisplayFor(momodelItemdel => item.Description)
+        </td>*@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.material)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Brand.BrandName)
+                                    @Html.DisplayFor(modelItem => item.BrandId)
+                                </td>
+                                <!--<td class="container">
+        <a asp-action="Details"  asp-route-id="@item.Id" class="btn btn-info w-1 m-2 p-3"><i class="fa fa-info-circle fa-2x"></i></a>-->
+                                @*<a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning w-1 m-2 p-3"><i class="fa fa-edit fa-2x"></i></a>
+        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger m-2 p-3"><i class="fa fa-trash fa-2x"></i></a>*@
+                                <!--</td>-->
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SubcategoryId)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.SellerId)
-                                </td>
-                                <td class="container">
-                                    <a asp-action="Details"  asp-route-id="@item.Id" class="btn btn-info w-1 m-2 p-3"><i class="fa fa-info-circle fa-2x"></i></a>
-                                    @*<a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning w-1 m-2 p-3"><i class="fa fa-edit fa-2x"></i></a>
-                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger m-2 p-3"><i class="fa fa-trash fa-2x"></i></a>*@
                                 </td>
                             </tr>
 }
@@ -83,6 +86,9 @@
                     </table>
                 </div>
             </div>
+        </div>
+        <div class="card-footer bg-transparent border-success">
+            <a asp-action="Index" class="btn btn-sm btn-primary text-uppercase m-2 mr-4 p-3"><i class="fa fa-arrow-circle-left fa-2x"></i></a>
         </div>
     </div>
 </section>
